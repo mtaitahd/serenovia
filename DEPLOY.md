@@ -13,6 +13,27 @@ same PHP version in Terminal. Confirm Composer, PDO SQLite, and GD are available
 
 ## First installation
 
+### cPanel without Terminal
+
+For the fixed `public_html` layout, use File Manager to copy
+`serenovia/.env.example` to `serenovia/.env` (enable **Show Hidden Files**).
+Set `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` to your HTTPS
+domain. Leave `APP_KEY=` empty on first install. Keep `DB_CONNECTION=sqlite`.
+Upload the local `database/database.sqlite` to `serenovia/database/` and
+the site's uploaded photos to `public_html/uploads/`. Keep the database
+outside the web root. In **MultiPHP Manager**, select PHP 8.3 for the domain
+if available. The deployment task requires PHP CLI with PDO SQLite and GD,
+plus Composer on the hosting account.
+
+In **Git Version Control → Manage → Pull or Deploy**, click **Update from
+Remote**, then **Deploy HEAD Commit**. The checked-in `.cpanel.yml` runs
+the setup, backs up SQLite before migrations, and copies the public assets.
+It preserves the existing `.env` and uploads. If Bluehost does not allow
+deployment tasks or does not provide Composer/PHP CLI, ask support to
+enable these for the account. Check the deployment log for the exact error.
+
+### Installation with Terminal
+
 In `$HOME/serenovia`, create a new `.env` from `.env.example` and set
 `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` to the actual HTTPS
 domain. Run `composer install --no-dev --prefer-dist --optimize-autoloader`
