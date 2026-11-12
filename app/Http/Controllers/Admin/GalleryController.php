@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\GalleryImage;
+use App\Support\PublicImage;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Throwable;
+
+class GalleryController extends Controller
+{
+    public function index(): View
+    {
+        $images = GalleryImage::orderBy('sort_order')->latest()->paginate(30);
+
+        $images->getCollection()->each(function (GalleryImage $image): void {
+            $sourcePath = $image->source_path ?: PublicImage::sourceFor($image->path);
+            $image->setAttribute('source_bytes', is_file(public_path($sourcePath)) ? filesize(public_path($sourcePath)) : null);
+            $image->setAttribute('display_bytes', is_file(public_path($image->path)) ? filesize(public_path($image->path)) : null);
+        });
+
+        return view('admin.gallery.index', compact('images'));
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'images' => ['required', 'array', 'min:1', 'max:20'],
+            'images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192', 'dimensions:min_width=100,min_height=100,max_width=8000,max_height=8000'],
+            'category' => ['required', 'string', 'max:80'],
+            'quality' => ['nullable', 'integer', 'min:55', 'max:95'],
+        ]);
+
+        $created = [];
+        foreach ($data['images'] as $image) {
+            $label = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $path = PublicImage::store($image, 'gallery', (int) ($data['quality'] ?? PublicImage::DEFAULT_QUALITY));
+            $sourcePath = PublicImage::sourceFor($path);
+            $created[] = GalleryImage::create([
+                'path' => $path,
+                'source_path' => $sourcePath,
+                'original_size' => filesize(public_path($sourcePath)),
+                'optimized_size' => filesize(public_path($path)),
+                'title' => $label,
+                'alt_text' => $label,
+                'category' => $data['category'],
+            ]);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => count($created).' image(s) uploaded and optimized.',
+                'uploaded' => count($created),
+            ]);
+        }
+
+        return back()->with('success', count($created).' image(s) added and optimized.');
+    }
+
+    public function update(Request $request, GalleryImage $image): RedirectResponse
+    {
+        $data = $request->validate([
+            'title' => ['nullable', 'string', 'max:180'],
+            'alt_text' => ['nullable', 'string', 'max:255'],
+            'category' => ['required', 'string', 'max:80'],
+            'sort_order' => ['nullable', 'integer', 'min:0', 'max:10000'],
+        ]);
+        $image->update($data);
+
+        return back()->with('success', 'Gallery image details updated.');
+    }
+
+    public function destroy(GalleryImage $image): RedirectResponse
+    {
+        PublicImage::delete($image->path, $image->source_path);
+        $image->delete();
+
+        return back()->with('success', 'Image removed from the gallery.');
+    }
+
+    public function compress(Request $request, GalleryImage $image): RedirectResponse
+    {
+        $data = $request->validate([
+            'mode' => ['required', 'in:quality,filesize'],
+            'quality_value' => ['required_if:mode,quality', 'nullable', 'integer', 'min:25', 'max:95'],
+            'filesize_value' => ['required_if:mode,filesize', 'nullable', 'integer', 'min:10', 'max:10240'],
+        ]);
+
+        $value = (int) ($data['mode'] === 'quality' ? $data['quality_value'] : $data['filesize_value']);
+        try {
+            $result = PublicImage::compress($image->path, $image->source_path, $data['mode'], $value);
+        } catch (Throwable $exception) {
+            return back()->withErrors(['compression' => $exception->getMessage()])->withInput();
+        }
+
+        $image->update([
+            'path' => $result['path'],
+            'source_path' => $result['source_path'],
+            'original_size' => $result['original_size'],
+            'optimized_size' => $result['optimized_size'],
+        ]);
+
+        $saved = max(0, $result['original_size'] - $result['optimized_size']);
+        $message = $saved > 0
+            ? 'Image optimized: '.number_format($saved / 1024, 1).' KB saved. Its original and colors are preserved.'
+            : 'Image checked: the current display copy is already smaller; the original remains safe.';
+
+        return back()->with('success', $message);
+    }
+}

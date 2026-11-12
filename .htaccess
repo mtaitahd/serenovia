@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /serenova/
+
+    # Keep direct /public URLs working when using Laravel's default document root.
+    RewriteRule ^public(?:/|$) - [L]
+
+    # The project root index handles the clean homepage URL.
+    RewriteRule ^$ - [L]
+    RewriteRule ^index\.php$ - [L]
+
+    # Serve public assets and send application URLs through Laravel's front controller.
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+Options -Indexes

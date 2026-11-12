@@ -1,0 +1,10 @@
+/* Nunito keeps navigation, forms and the admin clear and consistent. */
+:root{--sans:'Nunito',Arial,sans-serif;--serif:'Nunito',Arial,sans-serif}
+html,body,body *,input,button,select,textarea{font-family:'Nunito',Arial,sans-serif!important}
+/* Editorial headings give the public travel website a quieter, premium character. */
+body.premium-type{--serif:'Playfair Display',Georgia,serif}
+.premium-type main :is(h1,h2,h3,blockquote),.premium-type main :is(h1,h2,h3,blockquote) *{font-family:'Playfair Display',Georgia,serif!important}
+.premium-type main :is(h1,h2,h3){font-weight:500;text-wrap:balance}
+.premium-type .hero-content>p{max-width:600px;font-size:16px;line-height:1.85}
+.premium-type .safari-booking h2{font-size:34px;line-height:1.2}
+@media(max-width:680px){.premium-type .hero-content>p{font-size:14px;line-height:1.85}}

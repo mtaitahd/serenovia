@@ -1,0 +1,36 @@
+.brand-logo-image {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border: 0;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+.brand-logo-image::before {
+    display: none;
+}
+
+.footer-full-logo {
+    display: block;
+    width: min(100%, 205px);
+    height: auto;
+    object-fit: contain;
+}
+
+.brand-footer {
+    display: inline-flex;
+    width: fit-content;
+}
+
+@media (max-width: 680px) {
+    .brand-logo-image {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .footer-full-logo {
+        width: min(100%, 175px);
+    }
+}
