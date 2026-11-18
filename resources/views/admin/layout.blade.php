@@ -36,17 +36,21 @@
             <a href="{{ route('admin.settings.edit') }}" data-admin-popup @class(['active' => request()->routeIs('admin.settings.*')])><span>⚙</span> Settings</a>
             <a href="{{ route('admin.sitemap.index') }}" data-admin-popup @class(['active' => request()->routeIs('admin.sitemap.*')])><span>⌗</span> Sitemap</a>
             @php($websiteContentActive = request()->routeIs('admin.website-content.*'))
-            <button class="sidebar-group-toggle" type="button" data-sidebar-toggle="website-content" data-active="{{ $websiteContentActive ? 'true' : 'false' }}" aria-expanded="{{ $websiteContentActive ? 'true' : 'false' }}" aria-controls="sidebar-group-website-content"><span>▤</span><span class="sidebar-group-label">Static Pages</span><i aria-hidden="true">⌄</i></button>
+            <button class="sidebar-group-toggle" type="button" data-sidebar-toggle="website-content" data-active="{{ $websiteContentActive ? 'true' : 'false' }}" aria-expanded="{{ $websiteContentActive ? 'true' : 'false' }}" aria-controls="sidebar-group-website-content"><span>▤</span><span class="sidebar-group-label">Homepage content</span><i aria-hidden="true">⌄</i></button>
             <div class="sidebar-group-links {{ $websiteContentActive ? 'is-open' : '' }}" id="sidebar-group-website-content" data-sidebar-group="website-content" aria-hidden="{{ $websiteContentActive ? 'false' : 'true' }}">
-                <a href="{{ route('admin.website-content.hero-images') }}" data-admin-popup><span>Hero images</span></a>
-                <a href="{{ route('admin.website-content.homepage') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.homepage*')])><span>Homepage Buttons &amp; Captions</span></a>
-                <a href="{{ route('admin.website-content.travellers') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.travellers*')])><span>Traveller Stories</span></a>
-                <a href="{{ route('admin.website-content.subscribe') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.subscribe*')])><span>Subscribe Section</span></a>
-                <a href="{{ route('admin.website-content.footer') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.footer*')])><span>Footer</span></a>
-                <a href="{{ route('admin.website-content.route-points') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.route-points*')])><span>Start &amp; End Points</span></a>
-                <a href="{{ route('admin.website-content.listing-titles') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.listing-titles*')])><span>Listing Titles</span></a>
-                <a href="{{ route('admin.website-content.story-images') }}" data-admin-popup @class(['active' => request()->routeIs('admin.website-content.story-images*')])><span>Our Story Images &amp; Captions</span></a>
+                @foreach(\App\Support\HomepageContent::sections() as $homeSectionKey => $homeSection)
+                    <a href="{{ route('admin.website-content.homepage', ['section' => $homeSectionKey]) }}" @class(['active' => request()->routeIs('admin.website-content.homepage') && request('section', 'hero') === $homeSectionKey])><span>{{ $homeSection['label'] }}</span></a>
+                @endforeach
+                <a href="{{ route('admin.website-content.story-images') }}" data-admin-popup><span>Our Story · photos & captions</span></a>
+                <a href="{{ route('admin.website-content.footer') }}" data-admin-popup><span>Footer text & links</span></a>
             </div>
+            <button class="sidebar-group-toggle" type="button" data-sidebar-toggle="other-pages" aria-expanded="false" aria-controls="sidebar-group-other-pages"><span>▤</span><span class="sidebar-group-label">Other website pages</span><i aria-hidden="true">⌄</i></button>
+            <div class="sidebar-group-links" id="sidebar-group-other-pages" data-sidebar-group="other-pages" aria-hidden="true">
+                <a href="{{ route('admin.website-content.hero-images') }}" data-admin-popup><span>Page cover images</span></a>
+                <a href="{{ route('admin.website-content.listing-titles') }}" data-admin-popup><span>Listing headings & introductions</span></a>
+                <a href="{{ route('admin.website-content.route-points') }}" data-admin-popup><span>Tour start & end locations</span></a>
+            </div>
+
             <div class="sidebar-caption nav-caption">EXPERIENCE</div>
             <a href="{{ route('admin.tours.index') }}" @class(['active' => request()->routeIs('admin.tours.*')])><span>✳</span> Safari packages</a>
             <a href="{{ route('admin.generator.imports') }}" @class(['active' => request()->routeIs('admin.generator.imports', 'admin.generator.review', 'admin.generator.import-preview')])><span>↑</span> Upload &amp; Preview</a>

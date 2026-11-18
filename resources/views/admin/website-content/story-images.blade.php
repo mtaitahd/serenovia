@@ -3,6 +3,7 @@
 @section('content')
 <div class="page-heading"><div><span class="eyebrow">WEBSITE CONTENT / OUR STORY</span><h1>Our Story Images & Captions</h1><p>Select up to 12 photos from the gallery and add the captions shown in the homepage story strip.</p></div></div>
 <form class="admin-form" method="POST" action="{{ route('admin.website-content.story-images.update', request()->boolean('popup') ? ['popup' => 1] : []) }}">@csrf @method('PUT')
+    <div class="field"><label for="our_story_eyebrow">SECTION LABEL</label><input id="our_story_eyebrow" name="our_story_eyebrow" maxlength="100" value="{{ old('our_story_eyebrow', $siteSettings['our_story_eyebrow'] ?? 'OUR STORY') }}"></div>
     <div class="form-grid"><div class="field full"><label for="our_story_title">SECTION TITLE *</label><input id="our_story_title" name="our_story_title" required value="{{ old('our_story_title', $siteSettings['our_story_title'] ?? 'The Serenovia story, in scenes.') }}"></div></div>
     @if($galleryImages->isEmpty())
         <div class="empty-state"><strong>Your photo gallery is empty.</strong>Add images in Photo gallery before choosing story photos.</div>

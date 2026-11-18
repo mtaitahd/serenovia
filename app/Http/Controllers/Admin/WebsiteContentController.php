@@ -42,43 +42,17 @@ class WebsiteContentController extends Controller
 
     private function heroPages(): array
     {
-        return ['home' => 'Homepage', 'safaris' => 'Safari journeys', 'destinations' => 'Destinations', 'accommodations' => 'Places to stay', 'journal' => 'Journal', 'gallery' => 'Gallery', 'contact' => 'Contact / Plan your trip'];
+        return ['safaris' => 'Safari journeys', 'destinations' => 'Destinations', 'accommodations' => 'Places to stay', 'journal' => 'Journal', 'gallery' => 'Gallery', 'contact' => 'Contact / Plan your trip'];
     }
 
-    public function homepage(): View
+    public function homepage(Request $request): View
     {
-        return view('admin.website-content.homepage');
+        return app(HomepageEditorController::class)->edit($request);
     }
 
     public function updateHomepage(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'home_hero_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_primary_button' => ['required', 'string', 'max:100'],
-            'home_secondary_button' => ['required', 'string', 'max:100'],
-            'home_intro_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_intro_title' => ['required', 'string', 'max:255'],
-            'home_intro_copy' => ['nullable', 'string', 'max:1500'],
-            'home_journeys_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_journeys_title' => ['required', 'string', 'max:255'],
-            'home_journeys_copy' => ['nullable', 'string', 'max:1000'],
-            'home_destinations_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_destinations_title' => ['required', 'string', 'max:255'],
-            'home_destinations_copy' => ['nullable', 'string', 'max:1000'],
-            'home_journal_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_journal_title' => ['required', 'string', 'max:255'],
-            'home_journal_copy' => ['nullable', 'string', 'max:1000'],
-            'home_faq_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_faq_title' => ['required', 'string', 'max:255'],
-            'home_faq_copy' => ['nullable', 'string', 'max:1000'],
-            'home_plan_eyebrow' => ['nullable', 'string', 'max:120'],
-            'home_plan_title' => ['required', 'string', 'max:255'],
-            'home_plan_copy' => ['nullable', 'string', 'max:1000'],
-            'home_plan_button' => ['required', 'string', 'max:100'],
-        ]);
-        $this->save($data);
-
-        return back()->with('success', 'Homepage buttons and captions saved.');
+        return app(HomepageEditorController::class)->update($request);
     }
 
     public function travellers(): View
@@ -112,9 +86,9 @@ class WebsiteContentController extends Controller
         return back()->with('success', 'Traveller Stories section saved.');
     }
 
-    public function subscribe(): View
+    public function subscribe(): RedirectResponse
     {
-        return view('admin.website-content.subscribe');
+        return redirect()->route('admin.website-content.homepage', ['section' => 'youtube']);
     }
 
     public function updateSubscribe(Request $request): RedirectResponse
@@ -264,6 +238,7 @@ class WebsiteContentController extends Controller
     {
         $data = $request->validate([
             'our_story_title' => ['required', 'string', 'max:200'],
+            'our_story_eyebrow' => ['nullable', 'string', 'max:120'],
             'story_images' => ['nullable', 'array', 'max:12'],
             'story_images.*' => ['integer', 'exists:gallery_images,id'],
             'story_captions' => ['nullable', 'array'],
@@ -274,6 +249,7 @@ class WebsiteContentController extends Controller
             'caption' => trim((string) ($data['story_captions'][$id] ?? '')),
         ]);
         SiteSetting::updateOrCreate(['key' => 'our_story_title'], ['value' => $data['our_story_title']]);
+        SiteSetting::updateOrCreate(['key' => 'our_story_eyebrow'], ['value' => $data['our_story_eyebrow'] ?? 'OUR STORY']);
         SiteSetting::updateOrCreate(['key' => 'our_story_gallery'], ['value' => $items->toJson()]);
 
         return back()->with('success', 'Our Story images and captions saved.');

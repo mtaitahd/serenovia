@@ -29,19 +29,22 @@ class HomeController extends Controller
 
     public function __invoke(): View
     {
-        $storyItems = json_decode(SiteSetting::get('our_story_gallery', ''), true);
-        $storyItems = collect(is_array($storyItems) ? $storyItems : []);
-        $storyImages = $storyItems->isEmpty()
-            ? collect()
-            : GalleryImage::whereIn('id', $storyItems->pluck('image_id'))->get()->keyBy('id')->pipe(fn ($images) => $storyItems->map(fn ($item) => $images->get($item['image_id']))->filter()->values());
-
+        $settings = collect(config('serenova.settings', []))->merge(SiteSetting::pluck('value', 'key'));
+        $storyItems = collect(json_decode($settings->get('our_story_gallery', '[]'), true) ?: []);
+        $photos = GalleryImage::whereIn('id', $storyItems->pluck('image_id'))->get()->keyBy('id');
+        $storyImages = $storyItems->map(function ($item) use ($photos) {
+            $image = $photos->get($item['image_id']);
+            if ($image) $image->setAttribute('home_caption', $item['caption'] ?? '');
+            return $image;
+        })->filter()->values();
         return view('home', [
-            'destinations' => Destination::where('status', 'published')->orderByDesc('is_featured')->orderBy('sort_order')->take(4)->get(),
-            'featuredTours' => TourPackage::with('destination')->where('status', 'published')->orderByDesc('is_featured')->latest('published_at')->take(3)->get(),
-            'articles' => Article::where('status', 'published')->whereNotNull('published_at')->latest('published_at')->take(6)->get(),
-            'featuredStays' => Accommodation::with('destination')->where('status', 'published')
-                ->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name')->orderBy('id')->take(4)->get(),
-            'faqs' => Faq::where('is_active', true)->orderBy('sort_order')->take(6)->get(),
+            'home' => \App\Support\HomepageContent::values($settings),
+            'destinations' => \App\Support\HomepageContent::records('destinations', $settings),
+            'featuredTours' => \App\Support\HomepageContent::records('journeys', $settings),
+            'safariTours' => \App\Support\HomepageContent::records('safaris', $settings),
+            'articles' => \App\Support\HomepageContent::records('journal', $settings),
+            'featuredStays' => \App\Support\HomepageContent::records('stays', $settings),
+            'faqs' => \App\Support\HomepageContent::records('faq', $settings),
             'storyImages' => $storyImages,
         ]);
     }

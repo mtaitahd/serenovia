@@ -1,4 +1,5 @@
 @php($publicBasePath = preg_replace('#/public$#', '', rtrim(request()->getBasePath(), '/')))
+@php($sharedHome = \App\Support\HomepageContent::values($siteSettings))
 @php($phoneHref = preg_replace('/\D+/', '', $siteSettings['phone'] ?? ''))
 @php($footerLinks = json_decode($siteSettings['footer_explore_links'] ?? '[]', true) ?: [['label' => 'Safari journeys', 'url' => '/safaris'], ['label' => 'Places to stay', 'url' => '/accommodations'], ['label' => 'Destinations', 'url' => '/destinations'], ['label' => 'Travel journal', 'url' => '/journal'], ['label' => 'Photo gallery', 'url' => '/gallery']])
 <!DOCTYPE html>
@@ -37,7 +38,7 @@
         <div class="header-utility">
             <div class="header-utility-inner">
                 <a href="{{ route('about') }}">{{ $siteSettings['brand_name'] }}</a>
-                <a href="{{ route('contact') }}">Contact</a>
+                <a href="{{ route('contact') }}">{{ $sharedHome['nav_contact'] }}</a>
                 <a href="{{ route('tours.index') }}" aria-label="Search safari packages">
                     <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
                 </a>
@@ -45,18 +46,18 @@
         </div>
         <div class="header-main">
         <a class="brand" href="{{ route('home') }}" aria-label="{{ $siteSettings['brand_name'] }} home">
-            <img class="header-original-logo" src="{{ $publicBasePath }}/images/serenovia-logo.png" width="650" height="593" alt="">
+            <img class="header-original-logo" src="{{ asset($sharedHome['site_logo']) }}" width="650" height="593" alt="">
         </a>
         <button class="menu-toggle" aria-label="Toggle navigation" aria-controls="public-menu" aria-expanded="false"><span></span><span></span></button>
         <nav id="public-menu" class="main-nav" aria-label="Main navigation">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('tours.index') }}">Safaris</a>
-            <a href="{{ route('accommodations.index') }}">Stays</a>
-            <a href="{{ route('destinations.index') }}">Destinations</a>
-            <a href="{{ route('travel-guide') }}">Travel Guide</a>
-            <a href="{{ route('gallery.index') }}">Gallery</a>
+            <a href="{{ route('home') }}">{{ $sharedHome['nav_home'] }}</a>
+            <a href="{{ route('tours.index') }}">{{ $sharedHome['nav_safaris'] }}</a>
+            <a href="{{ route('accommodations.index') }}">{{ $sharedHome['nav_stays'] }}</a>
+            <a href="{{ route('destinations.index') }}">{{ $sharedHome['nav_destinations'] }}</a>
+            <a href="{{ route('travel-guide') }}">{{ $sharedHome['nav_guide'] }}</a>
+            <a href="{{ route('gallery.index') }}">{{ $sharedHome['nav_gallery'] }}</a>
             <a href="{{ route('contact') }}" class="nav-cta">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Plan your trip
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>{{ $sharedHome['nav_plan'] }}
             </a>
         </nav>
         </div>
