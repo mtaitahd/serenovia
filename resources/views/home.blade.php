@@ -2,7 +2,7 @@
 @section('title', $siteSettings['brand_name'].' — '.$siteSettings['tagline'])
 @section('description', $home['hero_subtitle'])
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/hero-trip-finder.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/hero-trip-finder.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/home-featured-tours.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('css/home-intro.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/home-social.css') }}">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/home-stays.css') }}?v=2">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/home-hero-video.js') }}" defer></script>
+    <script src="{{ asset('js/home-hero-video.js') }}?v=2" defer></script>
     <script src="{{ asset('js/home-stays.js') }}?v=2" defer></script>
 @endpush
 @section('content')
@@ -19,16 +19,12 @@
         $homeRecordImage = fn ($record) => asset(\App\Support\HomepageContent::image($record));
     @endphp
     <section class="hero hero-with-finder" aria-labelledby="hero-title">
-        <div class="hero-image" style="background-image:url('{{ asset($home['hero_image']) }}')"></div>
-        <div class="hero-shade"></div>
         @if($home['home_hero_video_enabled'] === '1' && $home['home_hero_video'])
-            <video class="home-hero-video" data-src="{{ asset($home['home_hero_video']) }}" poster="{{ asset($home['hero_image']) }}" muted loop playsinline preload="none" aria-hidden="true"></video>
-            <div class="home-hero-video-controls" hidden>
-                <button type="button">Pause video</button>
-                <small>@if($home['home_video_credit'])@if($home['home_video_credit_url'])<a href="{{ $home['home_video_credit_url'] }}">{{ $home['home_video_credit'] }}</a>@else{{ $home['home_video_credit'] }}@endif @endif
-                @if($home['home_video_license']) · @if($home['home_video_license_url'])<a href="{{ $home['home_video_license_url'] }}">{{ $home['home_video_license'] }}</a>@else{{ $home['home_video_license'] }}@endif @endif</small>
-            </div>
+            <video class="home-hero-video" src="{{ asset($home['home_hero_video']) }}" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+        @else
+            <div class="hero-image" style="background-image:url('{{ asset($home['hero_image']) }}')"></div>
         @endif
+        <div class="hero-shade"></div>
         <div class="hero-finder-layout section-wrap">
             <div class="hero-content">
                 <div class="eyebrow light"><span class="eyebrow-line"></span>{{ $home['home_hero_eyebrow'] }}</div>

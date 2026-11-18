@@ -60,26 +60,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
 }
 .page-home .home-hero-video.is-ready { opacity: 1; }
 .page-home .hero-with-finder .hero-shade { z-index: 1; }
 .page-home .hero-with-finder .hero-finder-layout { z-index: 2; }
-.home-hero-video-controls:not([hidden]) {
-    position: absolute;
-    z-index: 3;
-    bottom: 16px;
-    right: clamp(12px, 3vw, 38px);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 4px 8px;
-    border-radius: 5px;
-    background: #14251ee8;
-    color: #fff;
-}
-.home-hero-video-controls button { padding: 7px; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: 12px; }
-.home-hero-video-controls small { font-size: 10px; }
-.home-hero-video-controls a { text-decoration: underline; }
