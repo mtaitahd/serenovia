@@ -1,73 +1,104 @@
-# Serenovia on Bluehost
+# Serenovia database and cPanel deployment
 
-Clone the GitHub repository into `$HOME/serenovia`, outside the web root.
-In cPanel Git Version Control use **Create → Clone a Repository**, or run
-`git clone https://github.com/mtaitahd/serenovia.git "$HOME/serenovia"` from Terminal.
+The application, local environment and test suite use MySQL. MariaDB is supported
+through Laravel's MySQL driver (the local XAMPP server uses MariaDB).
+SQLite is retained only as a migration source and a temporary rollback option.
 
-If Bluehost allows changing this domain's document root, use
-`$HOME/serenovia/public` and skip the split-root instructions below. For the
-primary domain with a fixed `public_html`, use the split-root instructions.
+## Existing live SQLite website: switch without Terminal
 
-In cPanel, select a PHP version compatible with `composer.lock` and use that
-same PHP version in Terminal. Confirm Composer, PDO SQLite, and GD are available.
+Do not replace the active `.env` before transferring the data.
 
-## First installation
+1. In cPanel, create an **empty** MySQL database and a database user.
+   Add the user to this database with **All Privileges**.
+2. In File Manager, enable **Show Hidden Files**. In
+   `/home2/mpmrejmy/serenovia/`, copy the existing live `.env` to
+   `.env.mysql`. Keep the existing APP_KEY and all non-database settings.
+3. In the copy only, set:
 
-### cPanel without Terminal
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_DATABASE=mpmrejmy_Serenovia_db
+   DB_USERNAME=mpmrejmy_Serenovia_user
+   DB_PASSWORD="YOUR_DATABASE_USER_PASSWORD"
+   ```
 
-For the fixed `public_html` layout, use File Manager to copy
-`serenovia/.env.example` to `serenovia/.env` (enable **Show Hidden Files**).
-Set `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` to your HTTPS
-domain. Leave `APP_KEY=` empty on first install. Keep `DB_CONNECTION=sqlite`.
-Upload the local `database/database.sqlite` to `serenovia/database/` and
-the site's uploaded photos to `public_html/uploads/`. Keep the database
-outside the web root. In **MultiPHP Manager**, select PHP 8.3 for the domain
-if available. The deployment task requires PHP CLI with PDO SQLite and GD,
-and outbound HTTPS. If Composer is not installed globally, the task downloads the official installer, verifies its SHA-384 checksum, and installs Composer privately in `storage/app/deploy-tools/`. No Terminal access is needed.
+   Use the actual database host shown by the hosting provider if different.
+   Remove DB_URL if present. Ensure APP_ENV=production and APP_DEBUG=false.
+   Do not upload credentials or environment files to GitHub.
+4. Keep the current live `database/database.sqlite` in place. Do not upload an
+   older local database over it. Pause queue workers or other scheduled writers
+   during the switch if they are configured.
+5. In Git Version Control, **Update from Remote**, then **Deploy HEAD Commit**.
 
-In **Git Version Control → Manage → Pull or Deploy**, click **Update from
-Remote**, then **Deploy HEAD Commit**. The checked-in `.cpanel.yml` runs
-the setup, backs up SQLite before migrations, and copies the public assets.
-It preserves the existing `.env` and uploads. If Bluehost does not allow
-deployment tasks or does not provide PHP CLI/outbound HTTPS, ask support to
-enable these for the account. Check the deployment log for the exact error.
+The task validates the staged environment, briefly puts the website in maintenance
+mode, creates a consistent private SQLite backup, builds the MySQL schema, copies
+the data, compares every imported value and row count, and checks foreign keys.
+Only a completely empty MySQL database is accepted. IDs, password hashes, image
+references, itinerary JSON, settings, enquiries and generator history are preserved.
+The migration ledger is created by running the current application migrations.
 
-### Installation with Terminal
+After verification, the task backs up the old environment, moves `.env.mysql`
+into place as `.env`, and completes deployment. APP_KEY is never rotated during
+the switch. The original SQLite database is retained. All later backups are SQL
+files in `storage/app/backups/`, outside the web root.
 
-In `$HOME/serenovia`, create a new `.env` from `.env.example` and set
-`APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` to the actual HTTPS
-domain. Run `composer install --no-dev --prefer-dist --optimize-autoloader`
-and `php artisan key:generate` once.
+If import fails before the environment switch, the old SQLite website is brought
+back online. MySQL may contain the newly created empty schema because MySQL DDL
+is not transactional; use a **new empty database** for another attempt. Do not
+delete tables from a live database to retry. Inspect the latest cPanel deployment
+log. A later failure after the switch leaves the site in maintenance mode until
+deployment succeeds; retain both database and environment backups for recovery.
 
-To retain the local tours, settings, and admin account, transfer a consistent
-copy of the local SQLite database to `$HOME/serenovia/database/database.sqlite`
-through an authenticated channel, and transfer the matching `public/uploads`
-folder to the domain's document root. The database can contain accounts and
-customer enquiries. Keep it outside the web root and GitHub. If starting
-without local data, create an empty SQLite file instead and set up your admin
-at `/admin/setup` after migration. Run `php artisan migrate --force` in either case.
-Ensure PHP can write to `storage`, `bootstrap/cache`, the SQLite directory,
-and the uploads directory. Verify the home page and `/admin/login`.
+## New MySQL installation
 
-## Fixed public_html document root
+Clone into `$HOME/serenovia`, outside `public_html`. Create the MySQL database and
+user through cPanel, then copy `.env.example` to `.env`. Set the MySQL credentials,
+APP_ENV=production, APP_DEBUG=false, and APP_URL=https://www.serenoviaafrica.com.
+Leave APP_KEY empty only for a genuinely new installation. A fresh deployment
+runs migrations but does not invent or seed tours or admin users.
 
-Run these commands from cPanel Terminal after the clone. The copy excludes the
-original front controller and preserves existing uploads. The PHP files below
-assume the two folders are direct siblings.
+For the fixed public_html deployment layout, this repository and public_html
+must be siblings. The task refuses to overwrite an unrelated index.php or
+WordPress installation. Uploaded photos belong in `public_html/uploads/`;
+they are not replaced by deployment.
+
+## Requirements and later updates
+
+PHP CLI 8.2+ (prefer PHP 8.3) with PDO MySQL, GD and the Composer-required
+extensions must be available to cPanel deployment tasks. PDO SQLite is needed
+only during the one-time transfer. Composer is downloaded from its official
+installer if missing, with SHA-384 verification; outbound HTTPS must be allowed.
+No interactive Terminal or mysqldump executable is required.
+
+For later updates, use **Update from Remote → Deploy HEAD Commit**.
+The task makes a private MySQL SQL backup before migrations. It preserves the
+live environment and uploaded photos. Never overwrite the live database with
+a local copy during routine updates.
+
+SQL backups can be imported into a separate empty MySQL database through
+phpMyAdmin. They contain sensitive site data: keep them outside public_html.
+They cover this application's InnoDB tables; external views, routines or triggers
+are not part of the application schema.
+
+## Local development and tests
+
+Create a local `serenovia` database with utf8mb4, configure `.env`, then run
+`php artisan migrate`. For an existing SQLite installation, create an empty
+MySQL destination and run:
 
 ```sh
-cd "$HOME/serenovia"
-rsync -a --exclude='/index.php' --exclude='/uploads/' public/ "$HOME/public_html/"
-cp deploy/public-html-index.php "$HOME/public_html/index.php"
-cp deploy/public-path.php "$HOME/serenovia/bootstrap/public-path.php"
+php artisan serenovia:import-sqlite /absolute/path/to/database/database.sqlite
 ```
 
-## Subsequent updates
+The command uses the configured MySQL connection and leaves SQLite intact.
+`php artisan serenovia:backup-database` creates a backup without modifying data.
 
-Back up the live database before migrations. In cPanel Git Version Control use
-**Manage → Pull or Deploy → Update from Remote**, or run `git pull --ff-only`
-inside `$HOME/serenovia`. Run Composer install again, then
-`php artisan migrate --force` and `php artisan optimize:clear`. For the
-fixed `public_html` layout, repeat the public file copy above after each pull.
-Never copy a local database, local `.env`, or local uploads over the live
-versions during routine updates.
+Create separate empty databases `serenovia_testing` and
+`serenovia_transfer_testing` for tests. Both are disposable and must never contain
+production data. The test account must have privileges on both. Set test
+credentials in an ignored `.env.testing` if they differ from local development.
+Run `php artisan test`. The suite uses MySQL; the transfer tests use SQLite only
+to exercise the old-data import. Test guards reject an application test database
+whose name does not end in `_testing`.

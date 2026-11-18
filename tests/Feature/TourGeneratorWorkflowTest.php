@@ -24,6 +24,8 @@ final class TourGeneratorWorkflowTest extends TestCase
 
     public function test_an_admin_corrects_and_approves_a_document_then_generates_and_previews_distinct_drafts(): void
     {
+        // Repeated saves in the same second must not depend on MySQL affected-row counts.
+        $this->freezeTime();
         $this->get('/admin/package-generator')->assertRedirect();
         $admin = User::factory()->create(['is_admin' => true]);
         $this->actingAs($admin);

@@ -168,8 +168,9 @@ final class TourGeneratorController extends Controller
         $errors = $import->errors($row);
         DB::transaction(function () use ($request, $batch, $record, $row, $errors) {
             $claimed = DB::table('tour_gen_import_batches')->where('id', $batch)->where('uploaded_by', $request->user()->id)
-                ->where('status', 'review')->update(['updated_at' => now()]);
+                ->where('status', 'review')->lockForUpdate()->first();
             abort_unless($claimed, 404);
+            DB::table('tour_gen_import_batches')->where('id', $batch)->update(['updated_at' => now()]);
             $source = DB::table('tour_gen_import_records')->where('batch_id', $batch)->find($record);
             abort_unless($source, 404);
             $metadata = array_intersect_key(json_decode($source->raw_payload, true), array_flip(['_tour_id', '_day_key']));
