@@ -5,6 +5,14 @@
 
     RewriteEngine On
 
+    # Canonical production URL; leave localhost and other environments unchanged.
+    RewriteCond %{HTTP_HOST} ^serenoviaafrica\.com(?::[0-9]+)?$ [NC]
+    RewriteRule ^ https://www.serenoviaafrica.com%{REQUEST_URI} [R=301,L,NE]
+
+    RewriteCond %{HTTP_HOST} ^www\.serenoviaafrica\.com(?::[0-9]+)?$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://www.serenoviaafrica.com%{REQUEST_URI} [R=301,L,NE]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
