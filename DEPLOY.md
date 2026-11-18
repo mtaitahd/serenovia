@@ -23,13 +23,13 @@ Upload the local `database/database.sqlite` to `serenovia/database/` and
 the site's uploaded photos to `public_html/uploads/`. Keep the database
 outside the web root. In **MultiPHP Manager**, select PHP 8.3 for the domain
 if available. The deployment task requires PHP CLI with PDO SQLite and GD,
-plus Composer on the hosting account.
+and outbound HTTPS. If Composer is not installed globally, the task downloads the official installer, verifies its SHA-384 checksum, and installs Composer privately in `storage/app/deploy-tools/`. No Terminal access is needed.
 
 In **Git Version Control → Manage → Pull or Deploy**, click **Update from
 Remote**, then **Deploy HEAD Commit**. The checked-in `.cpanel.yml` runs
 the setup, backs up SQLite before migrations, and copies the public assets.
 It preserves the existing `.env` and uploads. If Bluehost does not allow
-deployment tasks or does not provide Composer/PHP CLI, ask support to
+deployment tasks or does not provide PHP CLI/outbound HTTPS, ask support to
 enable these for the account. Check the deployment log for the exact error.
 
 ### Installation with Terminal

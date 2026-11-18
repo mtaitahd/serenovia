@@ -43,3 +43,4 @@ Thumbs.db
 !/public/images/home-safari/
 !/public/images/home-safari/**
 !/public/images/home-ngorongoro-elephants.webm
+/storage/app/deploy-tools/

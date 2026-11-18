@@ -23,7 +23,31 @@ composer_bin="$(command -v composer || true)"
 if [[ -z "$composer_bin" && -f /opt/cpanel/composer/bin/composer ]]; then
     composer_bin=/opt/cpanel/composer/bin/composer
 fi
-[[ -n "$composer_bin" ]] || fail "Composer is unavailable in this cPanel account."
+if [[ -z "$composer_bin" ]]; then
+    # cPanel runs this task even when interactive Terminal is unavailable.
+    tools_dir="$project/storage/app/deploy-tools"
+    mkdir -p "$tools_dir"
+    composer_bin="$tools_dir/composer.phar"
+    if [[ ! -f "$composer_bin" ]]; then
+        printf 'Installing project-local Composer from the official verified installer.\n'
+        setup_dir="$(mktemp -d "$tools_dir/setup.XXXXXX")"
+        trap 'rm -rf -- "$setup_dir"' EXIT
+        download() {
+            if command -v curl >/dev/null 2>&1; then
+                curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --connect-timeout 20 --max-time 120 "$1" -o "$2"
+            else
+                "$php_bin" -r '$context = stream_context_create(["http" => ["timeout" => 120], "ssl" => ["verify_peer" => true, "verify_peer_name" => true]]); exit(copy($argv[1], $argv[2], $context) ? 0 : 1);' "$1" "$2"
+            fi
+        }
+        download https://composer.github.io/installer.sig "$setup_dir/installer.sig" || fail "Cannot download Composer checksum. Ask hosting support to allow outbound HTTPS to composer.github.io."
+        download https://getcomposer.org/installer "$setup_dir/composer-setup.php" || fail "Cannot download Composer installer. Ask hosting support to allow outbound HTTPS to getcomposer.org."
+        "$php_bin" -r '$expected = trim(file_get_contents($argv[1])); exit(preg_match("/^[a-f0-9]{96}$/i", $expected) && hash_equals(strtolower($expected), hash_file("sha384", $argv[2])) ? 0 : 1);' "$setup_dir/installer.sig" "$setup_dir/composer-setup.php" || fail "Composer installer checksum mismatch; installation stopped."
+        "$php_bin" "$setup_dir/composer-setup.php" --2 --install-dir="$tools_dir" --filename=composer.phar --quiet || fail "Composer setup failed. Check PHP extensions and outbound HTTPS in the log above."
+        rm -rf -- "$setup_dir"
+        trap - EXIT
+    fi
+fi
+"$php_bin" "$composer_bin" --version --no-ansi || fail "Composer cannot run with the selected PHP version."
 
 cp deploy/public-path.php bootstrap/public-path.php
 "$php_bin" "$composer_bin" install --no-dev --prefer-dist --optimize-autoloader --no-interaction
