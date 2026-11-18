@@ -10,12 +10,12 @@ class Accommodation extends Model
 {
     protected $fillable = [
         'name', 'slug', 'destination_id', 'tier', 'location', 'description', 'amenities',
-        'price_from', 'currency', 'image_path', 'is_featured', 'status', 'sort_order',
+        'price_from', 'currency', 'image_path', 'gallery_photo_ids', 'is_featured', 'status', 'sort_order',
     ];
 
     protected function casts(): array
     {
-        return ['amenities' => 'array', 'is_featured' => 'boolean', 'price_from' => 'decimal:2'];
+        return ['amenities' => 'array', 'gallery_photo_ids' => 'array', 'is_featured' => 'boolean', 'price_from' => 'decimal:2'];
     }
 
     public function destination(): BelongsTo

@@ -19,6 +19,7 @@
             <div class="builder-panel-heading"><span class="eyebrow">01 / THE EXPERIENCE</span><h2>Start with the journey</h2><p>Give this safari a clear name, destination and a strong cover photo.</p></div>
             <div class="form-grid">
                 <div class="field"><label for="title">PACKAGE NAME *</label><input id="title" name="title" value="{{ old('title', $tour->title) }}" required>@error('title')<small class="field-error">{{ $message }}</small>@enderror</div>
+                <div class="field full"><label for="package-subtitle">PACKAGE SUBTITLE</label><input id="package-subtitle" name="package_details[subtitle]" maxlength="255" value="{{ old('package_details.subtitle', $tour->package_details['subtitle'] ?? '') }}" placeholder="For example: The Whiskey Route — Kilimanjaro trekking">@error('package_details.subtitle')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="slug">PAGE ADDRESS</label><input id="slug" name="slug" value="{{ old('slug', $tour->slug) }}" placeholder="Leave blank to make from name">@error('slug')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="destination_id">DESTINATION</label><select id="destination_id" name="destination_id"><option value="">Choose a destination</option>@foreach($destinations as $destination)<option value="{{ $destination->id }}" @selected(old('destination_id', $tour->destination_id) == $destination->id)>{{ $destination->name }} · {{ $destination->country }}</option>@endforeach</select>@error('destination_id')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="starting_point">STARTING POINT</label><select id="starting_point" name="starting_point"><option value="">Choose a starting point</option>@foreach($startingPoints as $point)<option value="{{ $point }}" @selected(old('starting_point', $tour->starting_point) === $point)>{{ $point }}</option>@endforeach</select>@error('starting_point')<small class="field-error">{{ $message }}</small>@enderror</div>
@@ -28,6 +29,7 @@
                 <div class="field"><label for="duration_days">DAYS *</label><input id="duration_days" name="duration_days" type="number" min="1" max="365" value="{{ old('duration_days', $tour->duration_days ?: 1) }}" required>@error('duration_days')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="duration_nights">NIGHTS *</label><input id="duration_nights" name="duration_nights" type="number" min="0" max="365" value="{{ old('duration_nights', $tour->duration_nights ?? 0) }}" required>@error('duration_nights')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field full"><label for="summary">SHORT INTRODUCTION</label><textarea id="summary" name="summary" maxlength="500" rows="3" placeholder="A brief description for safari cards">{{ old('summary', $tour->summary) }}</textarea><small>Up to 500 characters.</small></div>
+                <div class="field full"><label for="package-meta-description">META DESCRIPTION</label><textarea id="package-meta-description" name="package_details[meta_description]" maxlength="500" rows="3" placeholder="A separate description for search results">{{ old('package_details.meta_description', $tour->package_details['meta_description'] ?? '') }}</textarea><small>Used for search engines. Leave blank to use the short introduction.</small>@error('package_details.meta_description')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field full"><label>HERO / COVER PHOTOGRAPH</label><div class="cover-picker-card">
                     <div class="cover-preview" id="cover-preview">@if($tour->image_path)<img src="{{ asset($tour->image_path) }}" alt="Current package cover">@else<span>Choose a photo that captures this journey</span>@endif</div>
                     <div class="cover-picker-actions"><button type="button" class="button" data-open-gallery-picker>Select from photo gallery</button><label class="button secondary file-choice" for="cover-upload">Upload a new photo</label><input class="visually-hidden" id="cover-upload" type="file" name="image" accept="image/jpeg,image/png,image/webp"><small>Choose a gallery photo or upload a hero image for this safari. It also fills itinerary cards when day photos are missing.</small></div>
@@ -38,6 +40,21 @@
         <section class="builder-panel" data-builder-step="2" hidden>
             <div class="builder-panel-heading"><span class="eyebrow">02 / PRICING & DETAILS</span><h2>Set the trip details</h2><p>Share a starting price and the practical details guests need.</p></div>
             <div class="form-grid">
+                <div class="field"><label for="tour_code">TOUR CODE</label><input id="tour_code" name="tour_code" maxlength="40" value="{{ old('tour_code', $tour->tour_code) }}" placeholder="e.g. SER-TZ-03">@error('tour_code')<small class="field-error">{{ $message }}</small>@enderror</div>
+                @foreach(\App\Models\TourPackage::PRACTICAL_FIELDS as $key => $label)
+                    @php($value = old('practical_details.'.$key, $tour->practical_details[$key] ?? null))
+                    <div class="field">
+                        <label for="practical-{{ $key }}">{{ strtoupper($label) }}</label>
+                        @if($key === 'activity_level')
+                            <select id="practical-{{ $key }}" name="practical_details[{{ $key }}]"><option value="">Not specified</option>@foreach(['Easy', 'Moderate', 'Challenging', 'Strenuous'] as $level)<option @selected($value === $level)>{{ $level }}</option>@endforeach</select>
+                        @elseif(in_array($key, ['min_group_size', 'minimum_age'], true))
+                            <input id="practical-{{ $key }}" name="practical_details[{{ $key }}]" type="number" min="{{ $key === 'minimum_age' ? 0 : 1 }}" max="{{ $key === 'minimum_age' ? 120 : 500 }}" value="{{ $value }}">
+                        @else
+                            <input id="practical-{{ $key }}" name="practical_details[{{ $key }}]" maxlength="180" value="{{ $value }}">
+                        @endif
+                        @error('practical_details.'.$key)<small class="field-error">{{ $message }}</small>@enderror
+                    </div>
+                @endforeach
                 <div class="field"><label for="price_from">STARTING PRICE</label><input id="price_from" name="price_from" type="number" min="0" step="0.01" value="{{ old('price_from', $tour->price_from) }}" placeholder="Leave blank for a custom quote">@error('price_from')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="currency">CURRENCY</label><select id="currency" name="currency">@foreach(['USD','TZS','EUR','GBP'] as $currency)<option value="{{ $currency }}" @selected(old('currency', $tour->currency ?: 'USD') === $currency)>{{ $currency }}</option>@endforeach</select></div>
                 <div class="field"><label for="max_group_size">MAXIMUM GROUP SIZE</label><input id="max_group_size" name="max_group_size" type="number" min="1" max="500" value="{{ old('max_group_size', $tour->max_group_size) }}" placeholder="No limit set"></div>
@@ -74,6 +91,7 @@
                     <template id="accommodation-plan-template"><div class="accommodation-plan-row"><label><span>DAY</span><select data-plan-day data-day-options='@json($dayOptions)'></select></label><label><span>COMFORT</span><select data-plan-tier><option value="budget">Budget</option><option value="mid_range" selected>Mid-range</option><option value="luxury">Luxury</option></select></label><label class="plan-stay-select"><span>ACCOMMODATION</span><select data-plan-stay><option value="">No stay selected</option>@foreach($accommodations as $stay)<option value="{{ $stay->id }}" data-tier="{{ $stay->tier }}">{{ $stay->name }}{{ $stay->destination ? ' · '.$stay->destination->name : '' }}</option>@endforeach</select></label><button type="button" class="text-button plan-remove" data-remove-plan-row aria-label="Remove stay row">Remove</button></div></template>
                     @error('accommodation_plan.*.accommodation_id')<small class="field-error">{{ $message }}</small>@enderror
                 </div>
+                @include('admin.tours.package-content')
             </div>
             <div class="builder-actions"><button type="button" class="button secondary builder-back" data-previous-step="2">← Back</button><button type="button" class="button builder-next" data-next-step="4">Review package <span>→</span></button></div>
         </section>
@@ -103,7 +121,8 @@
 @push('scripts')
 <dialog class="route-location-dialog" id="route-location-dialog" aria-label="Choose itinerary location"><div class="route-location-heading"><div><h2>Pin this day’s location</h2><p>Move the map and click the destination. You can also enter coordinates in the day form.</p></div><button type="button" class="button secondary small" data-close-route-map>Close</button></div><div id="admin-day-location-map"></div><p data-route-map-status aria-live="polite">Click a place to select it.</p><button type="button" class="button" data-save-route-pin disabled>Use this location ↗</button></dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-<script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=1" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=5" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=4" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
 @endpush
 

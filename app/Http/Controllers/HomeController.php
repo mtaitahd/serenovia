@@ -39,10 +39,10 @@ class HomeController extends Controller
             'destinations' => Destination::where('status', 'published')->orderByDesc('is_featured')->orderBy('sort_order')->take(4)->get(),
             'featuredTours' => TourPackage::with('destination')->where('status', 'published')->orderByDesc('is_featured')->latest('published_at')->take(3)->get(),
             'articles' => Article::where('status', 'published')->whereNotNull('published_at')->latest('published_at')->take(6)->get(),
+            'featuredStays' => Accommodation::with('destination')->where('status', 'published')
+                ->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name')->orderBy('id')->take(4)->get(),
             'faqs' => Faq::where('is_active', true)->orderBy('sort_order')->take(6)->get(),
-            'gallery' => GalleryImage::orderBy('sort_order')->latest()->take(6)->get(),
             'storyImages' => $storyImages,
-            'storyCaptions' => $storyItems->keyBy('image_id')->map(fn ($item) => $item['caption'] ?? ''),
         ]);
     }
 }

@@ -15,7 +15,19 @@
             <div class="field"><label for="status">VISIBILITY</label><select id="status" name="status"><option value="published" @selected(old('status', $accommodation->status ?: 'published')==='published')>Published</option><option value="draft" @selected(old('status', $accommodation->status)==='draft')>Draft</option></select></div>
             <div class="field full"><label for="description">DESCRIPTION</label><textarea id="description" name="description" rows="5">{{ old('description', $accommodation->description) }}</textarea></div>
             <div class="field full"><label for="amenities_text">AMENITIES <small>One per line</small></label><textarea id="amenities_text" name="amenities_text" rows="4" placeholder="Private bathroom&#10;Wi-Fi&#10;Restaurant">{{ old('amenities_text', implode("\n", $accommodation->amenities ?? [])) }}</textarea></div>
-            <div class="field full"><label for="image">PROPERTY PHOTO</label>@if($accommodation->image_path)<div class="cover-preview"><img src="{{ asset($accommodation->image_path) }}" alt="Current accommodation"></div>@endif<input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp">@error('image')<small class="field-error">{{ $message }}</small>@enderror<small>JPG, PNG or WebP · up to 8 MB · optimized while preserving the original.</small></div>
+            <div class="field full"><label for="image">PROPERTY COVER PHOTO</label>@if($accommodation->image_path)<div class="cover-preview"><img src="{{ asset($accommodation->image_path) }}" alt="Current accommodation"></div>@endif<input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp">@error('image')<small class="field-error">{{ $message }}</small>@enderror<small>JPG, PNG or WebP · up to 8 MB.</small></div>
+            <div class="field full">
+                <label for="stay-gallery">PROPERTY GALLERY</label>
+                <input type="hidden" name="gallery_edited" value="1">
+                <select id="stay-gallery" name="gallery_photo_ids[]" multiple size="5">
+                    @foreach($galleryImages as $photo)
+                        <option value="{{ $photo->id }}" @selected(in_array($photo->id, old('gallery_photo_ids', old('gallery_edited') ? [] : ($accommodation->gallery_photo_ids ?? []))))>{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>
+                    @endforeach
+                </select>
+                <small>Select up to five photos. Hold Ctrl or Cmd to select multiple photos.</small>
+                @error('gallery_photo_ids')<small class="field-error">{{ $message }}</small>@enderror
+                @if($errors->has('gallery_photo_ids.*'))<small class="field-error">{{ $errors->first('gallery_photo_ids.*') }}</small>@endif
+            </div>
             <div class="field"><label for="sort_order">DISPLAY ORDER</label><input id="sort_order" name="sort_order" type="number" min="0" value="{{ old('sort_order', $accommodation->sort_order ?? 0) }}"></div>
             <div class="field"><label class="checkbox-row"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $accommodation->is_featured))> Feature this stay</label></div>
         </div>

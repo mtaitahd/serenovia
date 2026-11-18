@@ -1,0 +1,81 @@
+.tour-catalogue { display:grid; grid-template-columns:minmax(220px, 260px) minmax(0, 1fr); gap:28px; align-items:start; }
+.catalogue-sidebar { min-width:0; }
+.tour-catalogue .catalogue-filters { display:grid; grid-template-columns:minmax(0, 1fr); gap:15px; padding:20px; border:1px solid var(--line); border-radius:0; background:var(--sand); margin:0; }
+.catalogue-filters h2 { margin:0; font-size:20px; }
+.catalogue-filters :is(input:not([type=checkbox]), select) { width:100%; min-width:0; }
+.catalogue-filters fieldset { border:0; border-top:1px solid var(--line); padding:10px 0 0; margin:0; min-width:0; }
+.catalogue-filters legend { padding-right:8px; font-weight:600; font-size:13px; }
+.catalogue-filters .duration-option { display:flex; align-items:center; gap:8px; font-size:13px; padding-block:4px; }
+.catalogue-filters input[type=checkbox] { width:17px; height:17px; min-height:0; accent-color:var(--forest); }
+.price-inputs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-block:8px; }
+.catalogue-price-slider { position:relative; height:34px; margin:8px 0; }
+.catalogue-price-slider[hidden] { display:none; }
+.catalogue-price-slider.is-unavailable .price-range-track { background:var(--line); }
+.price-range-track { position:absolute; top:50%; left:9px; right:9px; height:4px; transform:translateY(-50%); background:linear-gradient(to right,var(--line) var(--price-start),var(--forest) var(--price-start),var(--forest) var(--price-end),var(--line) var(--price-end)); }
+.catalogue-filters .catalogue-price-slider input[type=range] { position:absolute; inset:0; width:100%; height:100%; min-height:0; margin:0; padding:0; border:0; background:transparent; appearance:none; pointer-events:none; }
+.catalogue-price-slider input[type=range]::-webkit-slider-thumb { appearance:none; width:19px; height:19px; border:2px solid #fff; border-radius:50%; background:var(--forest); box-shadow:0 0 0 1px var(--forest); pointer-events:auto; cursor:ew-resize; }
+.catalogue-price-slider input[type=range]::-moz-range-thumb { width:15px; height:15px; border:2px solid #fff; border-radius:50%; background:var(--forest); box-shadow:0 0 0 1px var(--forest); pointer-events:auto; cursor:ew-resize; }
+.catalogue-price-slider.min-on-top [data-price-thumb=min] { z-index:1; }
+.catalogue-filters small { display:block; font-size:10px; line-height:1.5; }
+.catalogue-filter-strip { display:flex; align-items:center; gap:16px; overflow-x:auto; padding:0 2px 9px; margin-bottom:12px; scrollbar-width:thin; }
+.catalogue-filter-strip .tour-country-filter { display:flex; align-items:center; gap:10px; margin:0; flex:none; }
+.catalogue-filter-strip .tour-category-pills { display:flex; flex:none; flex-wrap:nowrap; gap:8px; margin:0; }
+.catalogue-filter-strip :is(a, .eyebrow) { flex:none; white-space:nowrap; }
+.catalogue-filter-strip .tour-category-pills a.is-active { background:var(--forest); border-color:var(--forest); color:#fff; }
+.catalogue-filter-strip .tour-category-pills a.is-active span { color:inherit; }
+.catalogue-results { min-width:0; }
+.catalogue-count { margin:0 0 14px; font-size:13px; }
+.tour-catalogue .tour-list-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
+.tour-catalogue .tour-tile { display:block; min-width:0; overflow:hidden; border:1px solid var(--line); background:white; box-shadow:0 2px 5px #14291e17; }
+.tour-catalogue .tour-tile-photo { display:block; position:relative; height:auto; aspect-ratio:2 / 1; }
+.tour-catalogue .tour-tile-photo img { display:block; width:100%; height:100%; object-fit:cover; }
+.tour-catalogue .tour-tile-photo::after { content:""; position:absolute; inset:0; background:linear-gradient(transparent 24%, #0c1c13e8); pointer-events:none; }
+.tour-catalogue .tour-tile-photo span { z-index:1; background:var(--forest); color:white; }
+.tour-catalogue .tour-tile-photo h2 { position:absolute; inset:auto 16px 14px; margin:0; z-index:1; color:#fff; font-size:clamp(17px, 2vw, 25px); line-height:1.2; text-wrap:initial; }
+.tour-catalogue .tour-tile-content { display:block; padding:14px 16px; }
+.tour-catalogue .tour-tile-content p { margin:0 0 8px; }
+.tour-catalogue .tour-tile-content .catalogue-card-price { color:var(--forest); font-size:19px; font-weight:700; }
+.catalogue-card-details { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); font-size:13px; }
+.catalogue-card-details summary { cursor:pointer; font-weight:600; }
+.catalogue-card-details[open] summary { margin-bottom:8px; }
+.catalogue-card-details a { color:var(--forest); text-decoration:underline; font-weight:600; }
+.catalogue-filters .price-range-track { height:5px; }
+.catalogue-filters .catalogue-price-slider input::-webkit-slider-thumb { background:#fff; border-color:var(--forest); }
+.catalogue-filters .catalogue-price-slider input::-moz-range-thumb { background:#fff; border-color:var(--forest); }
+.catalogue-pagination { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:28px; }
+.catalogue-pagination > * { display:grid; place-items:center; min-width:38px; min-height:38px; padding:5px 9px; border:1px solid var(--line); font-size:12px; }
+.catalogue-pagination [aria-current] { background:var(--forest); color:white; }
+@media (max-width:740px) { .tour-catalogue { grid-template-columns:minmax(0,1fr); } }
+@media (max-width:490px) { .tour-catalogue .tour-list-grid { grid-template-columns:minmax(0,1fr); } }
+
+.listing-wrap.section-wrap.tour-catalogue {
+    --catalogue-gutter: clamp(16px, 8vw, 154px);
+    width: calc(100% - 2 * var(--catalogue-gutter));
+    max-width: 1610px;
+    margin-inline: auto;
+    padding-inline: 0;
+    grid-template-columns: clamp(250px, 19vw, 340px) minmax(0, 1fr);
+    gap: clamp(16px, 1.5vw, 28px);
+}
+.tour-catalogue .tour-list-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:48px 20px; }
+.tour-catalogue .tour-tile { border-radius:5px; box-shadow:0 2px 4px #14291e26; }
+.tour-catalogue .tour-tile-photo { aspect-ratio:430 / 211; min-height:156px; }
+.tour-catalogue .tour-tile-photo img { position:absolute; inset:0; object-position:center; }
+.tour-catalogue .tour-tile-photo > span { inset:15px auto auto 0; padding:6px 10px; font-size:10px; line-height:1.2; letter-spacing:.06em; }
+.tour-catalogue .tour-tile-photo h2 { inset:auto 19px 18px; font:700 clamp(18px, 2.1vw, 24px)/1.23 Georgia, 'Times New Roman', serif; letter-spacing:0; text-align:left; text-shadow:0 1px 4px #0008; overflow-wrap:anywhere; }
+.tour-catalogue .tour-tile-content { min-height:146px; padding:10px 19px 13px; }
+.tour-catalogue .tour-tile-content p { font-size:13px; line-height:1.55; }
+.tour-catalogue .tour-tile-content .catalogue-card-price { font-size:22px; line-height:1.25; }
+.catalogue-card-footer { display:flex; align-items:flex-start; gap:12px; padding:9px 18px; min-height:56px; border-top:1px dotted var(--line); font-size:12px; }
+.catalogue-card-footer img { width:42px; height:38px; object-fit:contain; }
+.catalogue-card-operator { min-width:0; flex:1; padding-left:12px; border-left:1px solid var(--line); }
+.catalogue-card-operator .catalogue-card-details { margin:3px 0 0; padding:0; border:0; font-size:11px; }
+.catalogue-card-operator .catalogue-card-details p { margin:5px 0; }
+@media (max-width: 950px) { .listing-wrap.section-wrap.tour-catalogue { grid-template-columns:220px minmax(0,1fr); } }
+@media (max-width: 740px) {
+    .listing-wrap.section-wrap.tour-catalogue {
+        --catalogue-gutter: 16px;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+@media (max-width: 600px) { .tour-catalogue .tour-list-grid { grid-template-columns:minmax(0,1fr); gap:24px; } }

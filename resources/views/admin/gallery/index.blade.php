@@ -7,7 +7,7 @@
     <section class="gallery-manager-tools">
         <div><span class="eyebrow">LIBRARY</span><strong>{{ $images->total() }} photographs</strong></div>
         <label class="gallery-search"><span>⌕</span><input id="gallery-search" type="search" placeholder="Search titles or alt text"></label>
-        <select id="gallery-filter"><option value="">Every collection</option>@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Other'] as $category)<option value="{{ strtolower($category) }}">{{ $category }}</option>@endforeach</select>
+        <select id="gallery-filter"><option value="">Every collection</option>@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Transport','Other'] as $category)<option value="{{ strtolower($category) }}">{{ $category }}</option>@endforeach</select>
     </section>
 
     @if($images->isEmpty())
@@ -27,7 +27,7 @@
                             <div class="dialog-heading"><div><span class="eyebrow">PHOTO LIBRARY</span><h2>Edit photo details</h2><p>Update the title, accessible description and collection.</p></div><button class="dialog-close" type="button" data-close-details aria-label="Close">×</button></div>
                             <label><span>IMAGE TITLE</span><input name="title" value="{{ $image->title }}" placeholder="Image title"></label>
                             <label><span>ALT TEXT</span><input name="alt_text" value="{{ $image->alt_text }}" placeholder="Describe the scene"></label>
-                            <label><span>COLLECTION</span><select name="category">@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Other'] as $category)<option @selected($image->category === $category)>{{ $category }}</option>@endforeach</select></label>
+                            <label><span>COLLECTION</span><select name="category">@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Transport','Other'] as $category)<option @selected($image->category === $category)>{{ $category }}</option>@endforeach</select></label>
                             <div class="dialog-footer"><span>Changes appear on the website anywhere this image is used.</span><div><button class="button secondary" type="button" data-close-details>Cancel</button><button class="button" type="submit">Save details</button></div></div>
                         </form>
                         </dialog>
@@ -52,7 +52,7 @@
                 <div class="upload-selection-bar"><span id="gallery-selection-count">No photos selected</span><button type="button" class="text-button" id="gallery-clear-selection" hidden>Clear selection</button></div>
                 <div class="gallery-upload-previews" id="gallery-upload-previews"></div>
                 <div class="gallery-upload-settings">
-                    <label class="field"><span class="field-label">COLLECTION</span><select name="category">@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Other'] as $category)<option>{{ $category }}</option>@endforeach</select></label>
+                    <label class="field"><span class="field-label">COLLECTION</span><select name="category">@foreach(['Safari','Wildlife','Culture','Kilimanjaro','Zanzibar','Transport','Other'] as $category)<option>{{ $category }}</option>@endforeach</select></label>
                     <label class="field quality-control"><span class="field-label">WEBP IMAGE QUALITY <b id="gallery-quality-label">84%</b></span><input type="range" name="quality" id="gallery-quality" min="55" max="95" value="84"><small>Higher quality keeps more image detail; the original is always retained.</small></label>
                 </div>
                 <div class="gallery-upload-progress" id="gallery-upload-progress" hidden><div><span id="gallery-upload-progress-bar"></span></div><small id="gallery-upload-progress-label">Preparing upload…</small></div>

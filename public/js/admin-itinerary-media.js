@@ -3,9 +3,13 @@
     const numberValue = input => input.value.trim() === '' ? null : Number(input.value);
     window.setupItineraryDayMedia = (card, day, list) => {
         const uuid = () => crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16)});
-        ['id','location','latitude','longitude'].forEach(key => { card.querySelector(`[data-day-field="${key}"]`).value = key === 'id' ? (day.id || uuid()) : (day[key] ?? ''); });
+        ['id','location','latitude','longitude','meals','altitude','habitat','overnight_camp','distance','walking_time'].forEach(key => { card.querySelector(`[data-day-field="${key}"]`).value = key === 'id' ? (day.id || uuid()) : (day[key] ?? ''); });
         const gallery = card.querySelector('[data-day-field="gallery_ids"]');
         [...gallery.options].forEach(option => { option.selected = (day.gallery_ids || []).map(String).includes(option.value); });
+        const transport = card.querySelector('[data-day-field="transport_gallery_ids"]');
+        if (transport) {
+            [...transport.options].forEach(option => { option.selected = (day.transport_gallery_ids || []).map(String).includes(option.value); });
+        }
         let saved = {}; try { saved = JSON.parse(list.dataset.savedPhotos || '{}'); } catch {}
         const images = saved[day.id] || day.images || [];
         images.forEach(path => {

@@ -22,9 +22,10 @@
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-website-content.css?v=3">
     @if(request()->routeIs('admin.dashboard'))<link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-dashboard.css?v=1">@endif
     @stack('styles')
+    @if(request()->routeIs('admin.generator.*'))<link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-generator.css?v=5">@endif
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/ui-typography.css?v=1">
 </head>
-<body class="admin-body {{ request()->boolean('popup') ? 'admin-popup-body' : '' }}">
+<body class="admin-body {{ request()->boolean('popup') ? 'admin-popup-body' : '' }} {{ request()->routeIs('admin.generator.*') ? 'generator-page' : '' }}">
     <aside class="admin-sidebar">
         <a class="admin-brand" href="{{ route('admin.dashboard') }}">
             <img class="admin-logo-image" src="{{ $publicBasePath }}/images/serenovia-mark.png" alt=""><span><b>SERENOVIA</b><small>ADMIN DESK</small></span>
@@ -48,6 +49,8 @@
             </div>
             <div class="sidebar-caption nav-caption">EXPERIENCE</div>
             <a href="{{ route('admin.tours.index') }}" @class(['active' => request()->routeIs('admin.tours.*')])><span>✳</span> Safari packages</a>
+            <a href="{{ route('admin.generator.imports') }}" @class(['active' => request()->routeIs('admin.generator.imports', 'admin.generator.review', 'admin.generator.import-preview')])><span>↑</span> Upload &amp; Preview</a>
+            <a href="{{ route('admin.generator.index') }}" @class(['active' => request()->routeIs('admin.generator.index', 'admin.generator.run', 'admin.generator.preview')])><span>✦</span> Generate Packages</a>
             <a href="{{ route('admin.tour-categories.index') }}" @class(['active' => request()->routeIs('admin.tour-categories.*')])><span>⌗</span> Tour categories</a>
             <a href="{{ route('admin.accommodations.index') }}" @class(['active' => request()->routeIs('admin.accommodations.*')])><span>⌂</span> Accommodations</a>
             <a href="{{ route('admin.package-days.index') }}" data-admin-popup @class(['active' => request()->routeIs('admin.package-days.*')])><span>◷</span> Itinerary days</a>

@@ -1,0 +1,67 @@
+:root {
+    --sans: Poppins, system-ui, sans-serif;
+    --serif: var(--sans);
+    --utility-height: 38px;
+    --navigation-height: 78px;
+}
+
+html { scroll-padding-top: calc(var(--navigation-height) + 12px); }
+.premium-type, .premium-type :is(input, button, select, textarea) { font-family: var(--sans); }
+.premium-type main :is(h1, h2, h3) { font-family: var(--sans); font-weight: 700; text-wrap: balance; }
+
+.site-header.serenovia-header {
+    position: sticky;
+    top: calc(-1 * var(--utility-height));
+    z-index: 50;
+    display: block;
+    height: auto;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgb(23 52 38 / 8%);
+}
+.header-utility { background: #f6f7f5; }
+.header-utility-inner, .header-main {
+    width: min(1140px, 100%);
+    margin-inline: auto;
+    padding-inline: 24px;
+    display: flex;
+    align-items: center;
+}
+.header-utility-inner {
+    height: var(--utility-height);
+    justify-content: flex-end;
+    gap: 21px;
+    color: var(--forest);
+    font-size: 11px;
+}
+.header-utility-inner a { display: inline-flex; align-items: center; }
+.header-main { position: relative; min-height: var(--navigation-height); justify-content: space-between; gap: 28px; }
+.serenovia-header .brand { flex: 0 0 auto; }
+.serenovia-header .header-original-logo { display:block; width:auto; height:66px; object-fit:contain; }
+.serenovia-header .main-nav { gap: clamp(16px, 2vw, 30px); }
+.serenovia-header .main-nav > a { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.serenovia-header .main-nav > a:not(.nav-cta) { text-transform: uppercase; color: var(--forest); }
+.serenovia-header .main-nav > a:not(.nav-cta):hover { text-decoration: underline; text-underline-offset: 5px; }
+.serenovia-header .main-nav > .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: var(--forest);
+    color: #fff;
+}
+
+@media (max-width: 900px) {
+    :root { --navigation-height: 68px; }
+    .serenovia-header .header-original-logo { height:56px; }
+    .header-utility-inner, .header-main { padding-inline: 20px; }
+    .serenovia-header .menu-toggle { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 5px; width: 42px; height: 42px; border: 1px solid var(--line); background: #fff; }
+    .serenovia-header .menu-toggle span { width: 16px; border-top: 1px solid var(--forest); }
+    .serenovia-header .main-nav { display: none; position: absolute; inset: 100% 0 auto; flex-direction: column; align-items: stretch; gap: 0; padding: 6px 20px 18px; background: #fff; max-height: calc(100dvh - var(--navigation-height) - var(--utility-height)); overflow-y: auto; box-shadow: 0 10px 18px rgb(23 52 38 / 10%); }
+    .serenovia-header .main-nav.is-open { display: flex; }
+    .serenovia-header .main-nav > a:not(.nav-cta) { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .serenovia-header .main-nav > .nav-cta { margin-top: 12px; }
+}

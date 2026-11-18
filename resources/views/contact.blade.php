@@ -13,8 +13,8 @@
                 <div class="field"><label for="email">EMAIL ADDRESS *</label><input id="email" type="email" name="email" value="{{ old('email') }}" autocomplete="email" required>@error('email')<small class="field-error">{{ $message }}</small>@enderror</div>
                 <div class="field"><label for="phone">PHONE / WHATSAPP</label><input id="phone" name="phone" value="{{ old('phone') }}" autocomplete="tel"></div>
                 <div class="field"><label for="tour_package_id">JOURNEY YOU'RE INTERESTED IN</label><select id="tour_package_id" name="tour_package_id"><option value="">I'm open to ideas</option>@foreach($tours as $tour)<option value="{{ $tour->id }}" @selected(old('tour_package_id', $selectedTour) == $tour->id)>{{ $tour->title }}</option>@endforeach</select></div>
-                <div class="field"><label for="travel_date">PREFERRED TRAVEL DATE</label><input id="travel_date" type="date" name="travel_date" min="{{ now()->toDateString() }}" value="{{ old('travel_date') }}"></div>
-                <div class="field"><label for="travellers">NUMBER OF TRAVELLERS *</label><input id="travellers" type="number" min="1" max="100" name="travellers" value="{{ old('travellers', 2) }}" required></div>
+                <div class="field"><label for="travel_date">PREFERRED TRAVEL DATE</label><input id="travel_date" type="date" name="travel_date" min="{{ now()->toDateString() }}" value="{{ old('travel_date', $preferredDate ?? null) }}"></div>
+                <div class="field"><label for="travellers">NUMBER OF TRAVELLERS *</label><input id="travellers" type="number" min="1" max="100" name="travellers" value="{{ old('travellers', $preferredParty ?? 2) }}" required></div>
                 <div class="field full"><label for="message">WHAT WOULD MAKE THIS JOURNEY YOURS?</label><textarea id="message" name="message" rows="6" placeholder="Tell us about the places, experiences or pace you're dreaming of...">{{ old('message') }}</textarea></div>
                 <div class="field website-field" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
             </div>

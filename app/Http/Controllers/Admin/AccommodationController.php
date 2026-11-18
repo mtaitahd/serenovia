@@ -50,6 +50,7 @@ class AccommodationController extends Controller
     public function update(Request $request, Accommodation $accommodation): RedirectResponse
     {
         $data = $this->validated($request, $accommodation);
+        if ($request->boolean('gallery_edited')) $data['gallery_photo_ids'] = $data['gallery_photo_ids'] ?? [];
         $image = $data['image'] ?? null;
         unset($data['image'], $data['amenities_text']);
         $data['slug'] = $this->uniqueSlug($data['slug'] ?: $data['name'], $accommodation);
@@ -75,7 +76,7 @@ class AccommodationController extends Controller
         return view('admin.accommodations.form', [
             'accommodation' => $accommodation,
             'destinations' => Destination::orderBy('name')->get(),
-            'galleryImages' => GalleryImage::latest()->take(120)->get(),
+            'galleryImages' => GalleryImage::latest()->get(),
         ]);
     }
 
@@ -92,6 +93,8 @@ class AccommodationController extends Controller
             'price_from' => ['nullable', 'numeric', 'min:0', 'max:99999999'],
             'currency' => ['required', 'string', 'size:3'],
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192'],
+            'gallery_photo_ids' => ['nullable', 'array', 'max:5'],
+            'gallery_photo_ids.*' => ['integer', 'distinct', 'exists:gallery_images,id'],
             'status' => ['required', Rule::in(['draft', 'published'])],
             'is_featured' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:10000'],

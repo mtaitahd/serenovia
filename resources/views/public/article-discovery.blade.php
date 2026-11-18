@@ -1,14 +1,41 @@
 @if($articles->isNotEmpty())
-<section class="article-discovery" id="journal" aria-label="Travel articles">
-    <div class="article-discovery-track" tabindex="0" aria-label="Article cards. Scroll to explore.">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/home-blog.css') }}">
+@endpush
+@push('scripts')
+    <script src="{{ asset('js/home-blog.js') }}" defer></script>
+@endpush
+<section class="home-blog" id="journal" aria-labelledby="home-blog-title">
+    <div class="home-blog-inner">
+        <h2 id="home-blog-title">Explore Our Blogs</h2>
+        <div class="home-blog-track" id="home-blog-track" tabindex="0" aria-label="Latest articles">
         @foreach($articles as $article)
-            @php($fallbackPhoto = str_contains(strtolower($article->category ?? ''), 'kilimanjaro') ? 'photo-1464822759023-fed622ff2c3b' : (str_contains(strtolower($article->category ?? ''), 'island') ? 'photo-1518509562904-e7ef99cdcc86' : 'photo-1516426122078-c23e76319801'))
-            <article class="discovery-card"><a href="{{ route('journal.show', $article->slug) }}">
-                <div class="discovery-card-photo"><img src="{{ $article->image_path ? asset($article->image_path) : 'https://images.unsplash.com/'.$fallbackPhoto.'?auto=format&fit=crop&w=950&q=85' }}" alt="{{ $article->title }}" loading="lazy"></div>
-                <div class="discovery-card-copy"><span class="discovery-category">{{ $article->category }}</span><h3>{{ $article->title }}</h3><div class="discovery-card-reveal">@if($article->excerpt)<p>{{ $article->excerpt }}</p>@endif<span class="discovery-read">Read the story <span>↗</span></span></div><span class="discovery-open" aria-hidden="true">↑</span></div>
-            </a></article>
+            @php
+                $topic = Str::lower($article->category.' '.$article->title);
+                $photo = match (true) {
+                    Str::contains($topic, ['kilimanjaro', 'trekking']) => 'kilimanjaro',
+                    Str::contains($topic, ['zanzibar', 'island']) => 'zanzibar',
+                    Str::contains($topic, 'migration') => 'migration',
+                    default => ['serengeti-sunset', 'serengeti-leopard', 'elephant'][$loop->index % 3],
+                };
+            @endphp
+            <article class="home-blog-card">
+                <a class="home-blog-article" href="{{ route('journal.show', $article->slug) }}" aria-labelledby="home-blog-article-{{ $article->id }}">
+                    <div class="home-blog-photo">
+                        <img src="{{ $homePhotoUrl($photo) }}" alt="" loading="lazy">
+                        @if($article->category)<span class="home-blog-category">{{ $article->category }}</span>@endif
+                    </div>
+                    <div class="home-blog-copy">
+                        <small>{{ $siteSettings['brand_name'] }}</small>
+                        <h3 id="home-blog-article-{{ $article->id }}">{{ $article->title }}</h3>
+                        <span class="home-blog-read">Read full article</span>
+                    </div>
+                </a>
+            </article>
         @endforeach
+        </div>
+        <div class="home-blog-pages" role="group" aria-label="Blog carousel pages" hidden></div>
+        <a class="home-blog-more" href="{{ route('journal.index') }}">See more blogs</a>
     </div>
-    <div class="article-slider-controls" hidden><button type="button" data-article-prev aria-label="Previous articles">←</button><button type="button" data-article-next aria-label="Next articles">→</button></div>
 </section>
 @endif

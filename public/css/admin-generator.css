@@ -1,0 +1,154 @@
+.generator-page .generator-heading {
+    background: #173426;
+    color: #fff;
+    padding: clamp(22px, 4vw, 42px);
+    border-left: 4px solid #d97655;
+}
+.generator-page .generator-heading h1 { color: inherit; }
+.generator-page .generator-heading :is(p, .eyebrow) { color: #e2e9df; }
+.generator-page .panel {
+    margin-block: 20px;
+    padding: clamp(18px, 3vw, 32px);
+    box-shadow: 0 8px 24px rgb(23 52 38 / 7%);
+}
+.generator-page .form-grid,
+.generator-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+.generator-fields {
+    grid-column: 1 / -1;
+    border: 0;
+    padding: 0;
+    min-width: 0;
+}
+.generator-page form label {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+    font-weight: 700;
+}
+.generator-page form label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+}
+.generator-page form :is(input:not([type="checkbox"]), select, textarea) {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #d9ded6;
+    background: #fafbf8;
+    color: #173426;
+    font: inherit;
+}
+.generator-page form :is(input, select, textarea):focus-visible {
+    outline: 2px solid #397459;
+    outline-offset: 2px;
+}
+.generator-page .panel > form:not(.form-grid) {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+.generator-page .panel table { width: 100%; border-collapse: collapse; text-align: left; }
+.generator-page .panel :is(th, td) { padding: 12px; border-bottom: 1px solid #e3e7df; }
+.generator-page .panel th { background: #edf2eb; }
+.generator-record { scroll-margin-top: 90px; }
+.generator-record summary { cursor: pointer; }
+.generator-photo-picker { min-width: 0; margin: 0; padding: 14px; border: 1px solid #d9ded6; }
+.generator-photo-picker legend { padding-inline: 6px; font-weight: 800; }
+.generator-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    align-content: start;
+    gap: 8px;
+    max-height: 290px;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding: 3px;
+}
+.generator-page form .generator-photo-option {
+    display: block;
+    margin: 0;
+    border: 1px solid #d9ded6;
+    background: #fafbf8;
+    cursor: pointer;
+}
+.generator-photo-option:has(input:checked) { outline: 2px solid #397459; outline-offset: -2px; }
+.generator-photo-option img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.generator-photo-option span { display: flex; align-items: start; gap: 4px; padding: 7px; font-size: 12px; }
+.generator-photo-option input { flex-shrink: 0; accent-color: #397459; }
+.generator-photo-empty { padding: 18px; background: #f5f7f3; }
+.generator-photo-picker > small { display: block; margin-top: 8px; }
+.generator-gallery-dialog {
+    width: min(860px, calc(100vw - 32px));
+    max-height: 90vh;
+    padding: clamp(14px, 3vw, 26px);
+    border: 1px solid #d9ded6;
+    color: #173426;
+    background: white;
+    box-shadow: 0 18px 60px #10291d40;
+}
+.generator-gallery-dialog::backdrop { background: #10291db3; }
+.generator-gallery-dialog header,
+.generator-gallery-filters { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.generator-gallery-dialog header { justify-content: space-between; }
+.generator-gallery-dialog .generator-photo-grid { max-height: 52vh; }
+.generator-gallery-dialog .generator-photo-grid { overflow-x: hidden; align-items: start; }
+.generator-page form label.generator-photo-option {
+    display: block;
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+.generator-page form label.generator-photo-option img { width: 100%; height: auto; aspect-ratio: 4 / 3; }
+.generator-page form label.generator-photo-option span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.generator-page form label.generator-photo-option input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+.generator-photo-option:focus-within { outline: 2px solid #397459; outline-offset: -2px; }
+.generator-page form .generator-photo-option[hidden] { display: none; }
+.generator-photo-option span { overflow-wrap: anywhere; }
+.generator-photo-tick {
+    display: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 50%;
+    background: #246843;
+    color: white;
+}
+.generator-photo-option:has(input:checked) .generator-photo-tick { display: grid; }
+.generator-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.generator-downloads { display: flex; flex-wrap: wrap; gap: 10px; margin-block: 16px; }
+.generator-page .generator-downloads .button { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.generator-downloads svg { flex: 0 0 auto; }
+.generator-preview {
+    display: block;
+    width: 100%;
+    height: 78vh;
+    min-height: 500px;
+    border: 1px solid #d9ded6;
+    background: white;
+    box-shadow: 0 8px 24px rgb(23 52 38 / 8%);
+}
+@media (max-width: 740px) {
+    .generator-page .form-grid, .generator-fields { grid-template-columns: 1fr; }
+    .generator-page .panel { overflow-x: auto; }
+}

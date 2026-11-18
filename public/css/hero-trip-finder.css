@@ -1,0 +1,85 @@
+.page-home .hero.hero-with-finder {
+    display: grid;
+    align-items: center;
+    height: auto;
+    min-height: 550px;
+    max-height: none;
+}
+.hero-finder-layout {
+    position: relative;
+    width: 100%;
+    max-width: 1360px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    align-items: center;
+    gap: clamp(30px, 6vw, 110px);
+    padding-block: 55px;
+}
+.page-home .hero-with-finder .hero-content {
+    position: relative;
+    inset: auto;
+    width: auto;
+    transform: none;
+    text-align: left;
+    margin: 0;
+}
+.page-home .hero-with-finder .hero-content h1 { font-size: clamp(40px, 5.4vw, 78px); }
+.page-home .hero-with-finder .hero-content > p { margin-inline: 0; }
+.page-home .hero-with-finder .hero-actions { justify-content: flex-start; align-items: center; flex-wrap: wrap; }
+.hero-trip-finder {
+    display: grid;
+    gap: 15px;
+    padding: 22px;
+    background: var(--paper);
+    color: var(--forest);
+    border-radius: 0;
+    box-shadow: 0 12px 36px #10291d35;
+}
+.hero-trip-finder h2 { font-size: 23px; margin: 0; }
+.hero-trip-finder fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+.hero-trip-finder legend, .finder-field span { font-size: 12px; font-weight: 600; margin-bottom: 7px; }
+.finder-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--sand); border-radius: 0; }
+.finder-types label { position: relative; cursor: pointer; }
+.finder-types input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.finder-types span { display: grid; place-items: center; min-height: 41px; padding: 4px; border-radius: 0; font-size: 11px; font-weight: 600; }
+.finder-types :checked + span { background: white; box-shadow: 0 2px 4px #10291d20; }
+.finder-types :focus-visible + span { outline: 2px solid var(--forest); }
+.finder-field { display: grid; }
+.finder-field :is(input,select) { width: 100%; min-height: 44px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 0; background: #fff; color: var(--forest); font-size: 13px; }
+.hero-trip-finder .button { width: 100%; justify-content: center; border: 0; border-radius: 0; cursor: pointer; }
+.hero-trip-finder small { text-align: center; font-size: 10px; color: var(--moss); }
+@media (max-width: 800px) {
+    .hero-finder-layout { grid-template-columns: minmax(0, 1fr); padding-block: 44px; }
+    .hero-trip-finder { width: min(100%, 420px); }
+    .page-home .hero-with-finder .hero-actions { align-items: flex-start; }
+}
+.page-home .home-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+}
+.page-home .home-hero-video.is-ready { opacity: 1; }
+.page-home .hero-with-finder .hero-shade { z-index: 1; }
+.page-home .hero-with-finder .hero-finder-layout { z-index: 2; }
+.home-hero-video-controls:not([hidden]) {
+    position: absolute;
+    z-index: 3;
+    bottom: 16px;
+    right: clamp(12px, 3vw, 38px);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #14251ee8;
+    color: #fff;
+}
+.home-hero-video-controls button { padding: 7px; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: 12px; }
+.home-hero-video-controls small { font-size: 10px; }
+.home-hero-video-controls a { text-decoration: underline; }

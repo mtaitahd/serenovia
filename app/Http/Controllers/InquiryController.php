@@ -15,7 +15,15 @@ class InquiryController extends Controller
     {
         $tours = TourPackage::where('status', 'published')->orderBy('title')->get(['id', 'title']);
 
-        return view('contact', ['tours' => $tours, 'selectedTour' => $request->query('tour')]);
+        $date = $request->query('travel_date');
+        $party = $request->integer('travellers');
+
+        return view('contact', [
+            'tours' => $tours,
+            'selectedTour' => $request->query('tour'),
+            'preferredDate' => is_string($date) && validator(['date' => $date], ['date' => 'date_format:Y-m-d|after_or_equal:today'])->passes() ? $date : null,
+            'preferredParty' => $party >= 1 && $party <= 100 ? $party : 2,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse

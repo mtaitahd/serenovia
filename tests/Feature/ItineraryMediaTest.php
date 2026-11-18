@@ -48,7 +48,8 @@ class ItineraryMediaTest extends TestCase
         [$tour]=$this->createWithPhoto();
         $this->assertTrue($tour->route_map_enabled);$this->assertCount(2,$tour->itinerary_days);
         $this->assertFileExists(public_path($tour->itinerary_days[0]['images'][0]));
-        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('data-itinerary-map',false)->assertSee('itinerary-day-photos',false)->assertSee('First stop');
+        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('data-itinerary-map',false)->assertDontSee('itinerary-day-photos',false);
+        $this->get('/safaris/'.$tour->slug.'?section=itinerary')->assertOk()->assertSee('itinerary-day-photos',false)->assertSee('First stop')->assertDontSee('id="rates"', false);
     }
     public function test_edit_preserves_photos_by_day_id_when_days_are_reordered(): void
     {
@@ -64,7 +65,8 @@ class ItineraryMediaTest extends TestCase
     {
         [$tour,$data]=$this->createWithPhoto();$data['route_map_enabled']=0;
         $this->put('/admin/tours/'.$tour->id,$data)->assertSessionHasNoErrors();
-        $this->get('/safaris/'.$tour->slug)->assertOk()->assertDontSee('data-itinerary-map',false)->assertSee('itinerary-day-photos',false);
+        $this->get('/safaris/'.$tour->slug)->assertOk()->assertDontSee('data-itinerary-map',false);
+        $this->get('/safaris/'.$tour->slug.'?section=itinerary')->assertOk()->assertSee('itinerary-day-photos',false);
     }
     public function test_invalid_coordinates_and_non_image_uploads_are_rejected(): void
     {
@@ -73,11 +75,26 @@ class ItineraryMediaTest extends TestCase
         $this->post('/admin/tours',$data)->assertSessionHasErrors(['itinerary_days.0.latitude','itinerary_days.0.uploads.0']);
         $this->assertDatabaseCount('tour_packages',0);
     }
+    public function test_package_practical_details_can_be_saved_and_changed(): void
+    {
+        $data = $this->payload() + ['tour_code' => 'ser-test', 'max_group_size' => 6,
+            'practical_details' => ['min_group_size' => 2, 'minimum_age' => 0, 'activity_level' => 'Easy', 'transport' => 'Private 4x4']];
+        $this->post('/admin/tours', $data)->assertSessionHasNoErrors();
+        $tour = TourPackage::firstOrFail();
+        $this->assertSame('SER-TEST', $tour->tour_code);
+        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('Private 4x4')->assertSee('Minimum age');
+        $data['practical_details']['min_group_size'] = 7;
+        $this->put('/admin/tours/'.$tour->id, $data)->assertSessionHasErrors('practical_details.min_group_size');
+        $data['practical_details']['min_group_size'] = 3;
+        $data['practical_details']['transport'] = 'Shared vehicle';
+        $this->put('/admin/tours/'.$tour->id, $data)->assertSessionHasNoErrors();
+        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('Shared vehicle')->assertDontSee('Private 4x4');
+    }
     public function test_old_itineraries_remain_visible_and_both_admin_forms_have_controls(): void
     {
         $data=$this->payload();unset($data['itinerary_days']);$data['itinerary']="Day 1: Original arrival\nDay 2: Original safari";
         $this->post('/admin/tours',$data)->assertSessionHasNoErrors();$tour=TourPackage::firstOrFail();
-        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('Original arrival');
+        $this->get('/safaris/'.$tour->slug.'?section=itinerary')->assertOk()->assertSee('Original arrival');
         $this->get('/admin/tours/create')->assertOk()->assertSee('Need a route map?')->assertSee('data-day-field="uploads"',false);
         $this->get('/admin/tours/'.$tour->id.'/edit')->assertOk()->assertSee('data-initial-days',false)->assertSee('Need a route map?');
     }

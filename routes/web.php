@@ -21,6 +21,9 @@ use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/about-us', [\App\Http\Controllers\TravelPageController::class, 'about'])->name('about');
+Route::get('/responsible-travel', [\App\Http\Controllers\TravelPageController::class, 'responsible'])->name('responsible');
+Route::get('/travel-guide', [\App\Http\Controllers\TravelPageController::class, 'guide'])->name('travel-guide');
 Route::get('/safaris', [TourController::class, 'index'])->name('tours.index');
 Route::get('/safaris/{tour:slug}', [TourController::class, 'show'])->name('tours.show');
 Route::get('/accommodations', [HomeController::class, 'accommodations'])->name('accommodations.index');
@@ -43,6 +46,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', fn () => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
         Route::resource('/tours', AdminTourPackageController::class)->except(['show']);
+        Route::prefix('package-generator')->name('generator.')->controller(\App\Http\Controllers\Admin\TourGeneratorController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/imports', 'index')->name('imports');
+            Route::post('/runs', 'generate')->middleware('throttle:6,1')->name('generate');
+            Route::get('/runs/{run}', 'run')->whereNumber('run')->name('run');
+            Route::get('/templates/{format}', 'template')->name('template');
+            Route::post('/imports', 'upload')->middleware('throttle:10,1')->name('upload');
+            Route::post('/imports/tour', 'fromTour')->name('from-tour');
+            Route::get('/imports/{batch}', 'review')->whereNumber('batch')->name('review');
+            Route::get('/imports/{batch}/preview/{record}', 'importPreview')->whereNumber(['batch', 'record'])->name('import-preview');
+            Route::patch('/imports/{batch}/records/{record}', 'correct')->whereNumber(['batch', 'record'])->name('correct');
+            Route::post('/imports/{batch}/approve', 'approve')->whereNumber('batch')->name('approve');
+            Route::get('/drafts/{tour}/preview', 'preview')->name('preview');
+        });
         Route::resource('/countries', \App\Http\Controllers\Admin\CountryController::class)->except(['show']);
         Route::resource('/tour-categories', \App\Http\Controllers\Admin\TourCategoryController::class)->except(['show']);
         Route::resource('/accommodations', \App\Http\Controllers\Admin\AccommodationController::class)->except(['show']);

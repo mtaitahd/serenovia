@@ -1,0 +1,43 @@
+.home-stays {
+    display: grid;
+    grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+    padding-block: clamp(28px, 4vw, 76px);
+    background: #fff;
+    color: var(--forest);
+}
+.home-stays-intro {
+    width: min(100%, 610px);
+    justify-self: end;
+    align-self: center;
+    padding: 36px clamp(26px, 4vw, 78px);
+}
+.home-stays-intro h2 { margin: 0 0 20px; font: 600 clamp(32px, 3.15vw, 61px)/1.13 Georgia, serif; overflow-wrap: anywhere; }
+.home-stays-intro p { margin: 0 0 34px; font-size: clamp(15px, 1.1vw, 21px); line-height: 1.65; }
+.home-stays-button { display: inline-block; border: 2px solid currentColor; border-radius: 999px; padding: 12px 29px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+.home-stays-button:hover { color: #fff; background: var(--forest); border-color: var(--forest); }
+.home-stays-media { position: relative; display: grid; min-width: 0; background: var(--forest); color: #fff; }
+.home-stays-slide { position: relative; isolation: isolate; display: flex; align-items: end; min-height: clamp(440px, 34vw, 660px); height: 100%; }
+.home-stays-slide[hidden] { display: none; }
+.home-stays-slide img, .home-stays-slide::after { position: absolute; inset: 0; width: 100%; height: 100%; }
+.home-stays-slide img { object-fit: cover; z-index: -2; }
+.home-stays-slide::after { content: ""; background: linear-gradient(0deg, #0a1811e8, #0a181122 82%); z-index: -1; }
+.home-stays-caption { width: min(100%, 760px); padding: 30px clamp(24px, 5vw, 96px) 64px; overflow-wrap: anywhere; }
+.home-stays-caption h3 { margin: 0 0 12px; font: 700 clamp(21px, 1.75vw, 32px)/1.2 var(--sans); text-transform: uppercase; letter-spacing: .08em; color: #fff; }
+.home-stays-caption p { margin: 0 0 8px; font-size: clamp(15px, 1.1vw, 21px); line-height: 1.6; }
+.home-stays-caption a { display: inline-grid; place-items: center; min-width: 48px; min-height: 44px; color: #ffc4a8; font-size: 36px; line-height: 1; }
+.home-stays-controls:not([hidden]) { position: absolute; right: clamp(12px, 2.2vw, 42px); bottom: 18px; display: flex; }
+.home-stays-controls button { display: grid; place-items: center; width: 32px; height: 44px; padding: 0; border: 0; background: transparent; color: #fff; cursor: pointer; }
+.home-stays-controls button::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; }
+.home-stays-controls button[aria-pressed="true"]::before { background: currentColor; }
+.home-stays.home-safaris {
+    grid-template-columns: minmax(0, 60fr) minmax(0, 40fr);
+    padding-block: 0;
+    background: var(--paper);
+}
+.home-safaris .home-stays-intro { justify-self: start; }
+@media (max-width: 760px) {
+    .home-stays, .home-stays.home-safaris { grid-template-columns: minmax(0, 1fr); }
+    .home-stays-intro { justify-self: start; padding-block: 8px 28px; }
+    .home-safaris .home-stays-intro { padding-block: 28px 36px; }
+    .home-stays-slide { min-height: clamp(350px, 70vw, 500px); }
+}

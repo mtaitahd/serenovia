@@ -1,9 +1,31 @@
 @extends('layouts.site')
 @section('title', 'Photo gallery · '.$siteSettings['brand_name'])
+@section('description', 'Explore Tanzania in photographs, from the Serengeti plains to the coast.')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/photo-gallery.css') }}">
+@endpush
 @section('content')
-    <section class="listing-hero page-photo-hero">@include('public.hero-image', ['heroKey' => 'gallery'])<span class="eyebrow">A GLIMPSE OF THE JOURNEY</span><h1>Scenes from <em>Tanzania.</em></h1><p>Landscapes, wildlife and the little moments that make a journey yours.</p></section>
-    <section class="listing-wrap section-wrap">
-        @if($images->isEmpty())<div class="public-empty"><span>▧</span><h2>The Serenovia gallery is growing.</h2><p>More scenes from Tanzania will appear here as our photo collection is curated.</p></div>
-        @else<div class="public-gallery">@foreach($images as $image)<figure><img src="{{ asset($image->path) }}" alt="{{ $image->alt_text ?: $image->title }}"><figcaption>{{ $image->title ?: $image->category }}</figcaption></figure>@endforeach</div>@include('public.pagination', ['paginator' => $images])@endif
+    <header class="gallery-hero">
+        <img src="{{ asset(\App\Support\SafariPhotography::path('crater')) }}" alt="" fetchpriority="high">
+        <div class="gallery-hero-copy">
+            <span class="eyebrow">PHOTO GALLERY</span>
+            <h1>Scenes from <em>Tanzania.</em></h1>
+            <p>From wildlife on the Serengeti plains to the shores of the Indian Ocean.</p>
+            <a href="#gallery-collection">Explore the collection <span aria-hidden="true">↓</span></a>
+        </div>
+    </header>
+    <section class="gallery-collection section-wrap" id="gallery-collection" aria-labelledby="gallery-collection-title">
+        <div class="gallery-collection-heading">
+            <h2 id="gallery-collection-title">Tanzania in photographs</h2>
+            <span>{{ $images->count() }} photographs</span>
+        </div>
+        <div class="gallery-editorial-grid">
+            @foreach($images as $image)
+                <a class="gallery-editorial-photo" href="{{ asset($image['path']) }}" data-photo data-photo-group="tanzania-gallery" data-caption="{{ $image['caption'] }}">
+                    <img src="{{ asset($image['path']) }}" alt="" loading="lazy" decoding="async">
+                    <span class="gallery-editorial-caption">{{ $image['caption'] }} <span aria-hidden="true">↗</span></span>
+                </a>
+            @endforeach
+        </div>
     </section>
 @endsection

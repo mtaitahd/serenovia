@@ -50,6 +50,7 @@ class TourPackageController extends Controller
             'startingPoints' => $this->routePoints('starting_points', ['Moshi', 'Arusha', 'Kilimanjaro International Airport']),
             'endingPoints' => $this->routePoints('ending_points', ['Moshi', 'Arusha', 'Zanzibar']),
             'galleryImages' => GalleryImage::latest()->get(),
+            'itineraryOptions' => TourPackage::orderBy('title')->get(['id', 'title', 'duration_days', 'status']),
             'categories' => TourCategory::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
             'accommodations' => Accommodation::where('status', 'published')->with('destination')->orderBy('name')->get(),
         ]);
@@ -99,6 +100,7 @@ class TourPackageController extends Controller
             'startingPoints' => $this->routePoints('starting_points', ['Moshi', 'Arusha', 'Kilimanjaro International Airport'], $tour->starting_point),
             'endingPoints' => $this->routePoints('ending_points', ['Moshi', 'Arusha', 'Zanzibar'], $tour->ending_point),
             'galleryImages' => GalleryImage::latest()->get(),
+            'itineraryOptions' => TourPackage::orderBy('title')->get(['id', 'title', 'duration_days', 'status']),
             'categories' => TourCategory::where(fn ($query) => $query->where('is_active', true)->orWhereHas('packages', fn ($packages) => $packages->whereKey($tour->id)))->orderBy('sort_order')->orderBy('name')->get(),
             'accommodations' => Accommodation::where(fn ($query) => $query->where('status', 'published')->orWhereHas('packages', fn ($packages) => $packages->whereKey($tour->id)))->with('destination')->orderBy('name')->get(),
         ]);
@@ -137,6 +139,9 @@ class TourPackageController extends Controller
 
     private function validated(Request $request, ?TourPackage $tour = null): array
     {
+        if (is_string($request->input('tour_code'))) {
+            $request->merge(['tour_code' => strtoupper(trim($request->input('tour_code'))) ?: null]);
+        }
         $data = $request->validate([
             'title' => ['required', 'string', 'max:180'],
             'slug' => ['nullable', 'string', 'max:190', Rule::unique('tour_packages', 'slug')->ignore($tour?->id)],
@@ -149,6 +154,26 @@ class TourPackageController extends Controller
             'price_from' => ['nullable', 'numeric', 'min:0', 'max:99999999'],
             'currency' => ['required', 'string', 'size:3'],
             'max_group_size' => ['nullable', 'integer', 'min:1', 'max:500'],
+            'tour_code' => ['nullable', 'string', 'max:40', 'regex:/^[A-Z0-9][A-Z0-9-]*$/', Rule::unique('tour_packages', 'tour_code')->ignore($tour?->id)],
+            'practical_details' => ['nullable', 'array:'.implode(',', array_keys(TourPackage::PRACTICAL_FIELDS))],
+            'practical_details.min_group_size' => ['nullable', 'integer', 'between:1,500', ...($request->filled('max_group_size') ? ['lte:max_group_size'] : [])],
+            'practical_details.minimum_age' => ['nullable', 'integer', 'between:0,120'],
+            'practical_details.activity_level' => ['nullable', Rule::in(['Easy', 'Moderate', 'Challenging', 'Strenuous'])],
+            'practical_details.stay_style' => ['nullable', 'string', 'max:180'],
+            'practical_details.transport' => ['nullable', 'string', 'max:180'],
+            'practical_details.meals' => ['nullable', 'string', 'max:180'],
+            'practical_details.guide' => ['nullable', 'string', 'max:180'],
+            'practical_details.activities' => ['nullable', 'string', 'max:180'],
+            'practical_details.arrival' => ['nullable', 'string', 'max:180'],
+            'package_details' => ['nullable', 'array:subtitle,meta_description,faqs,itinerary_option_ids'],
+            'package_details.subtitle' => ['nullable', 'string', 'max:255'],
+            'package_details.meta_description' => ['nullable', 'string', 'max:500'],
+            'package_details.faqs' => ['nullable', 'array', 'max:30'],
+            'package_details.faqs.*' => ['array:question,answer'],
+            'package_details.faqs.*.question' => ['nullable', 'required_with:package_details.faqs.*.answer', 'string', 'max:500'],
+            'package_details.faqs.*.answer' => ['nullable', 'required_with:package_details.faqs.*.question', 'string', 'max:5000'],
+            'package_details.itinerary_option_ids' => ['nullable', 'array', 'max:12'],
+            'package_details.itinerary_option_ids.*' => ['integer', 'distinct', Rule::exists('tour_packages', 'id'), ...($tour ? [Rule::notIn([$tour->id])] : [])],
             'summary' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string', 'max:30000'],
             'itinerary' => ['nullable', 'string', 'max:30000'],
@@ -158,10 +183,18 @@ class TourPackageController extends Controller
             'itinerary_days.*.title' => ['nullable', 'string', 'max:180'],
             'itinerary_days.*.details' => ['nullable', 'string', 'max:12000'],
             'itinerary_days.*.location' => ['nullable', 'string', 'max:180'],
+            'itinerary_days.*.meals' => ['nullable', 'string', 'max:500'],
+            'itinerary_days.*.altitude' => ['nullable', 'string', 'max:240'],
+            'itinerary_days.*.habitat' => ['nullable', 'string', 'max:240'],
+            'itinerary_days.*.overnight_camp' => ['nullable', 'string', 'max:180'],
+            'itinerary_days.*.distance' => ['nullable', 'string', 'max:120'],
+            'itinerary_days.*.walking_time' => ['nullable', 'string', 'max:120'],
             'itinerary_days.*.latitude' => ['nullable', 'numeric', 'between:-90,90', 'required_with:itinerary_days.*.longitude'],
             'itinerary_days.*.longitude' => ['nullable', 'numeric', 'between:-180,180', 'required_with:itinerary_days.*.latitude'],
             'itinerary_days.*.gallery_ids' => ['nullable', 'array', 'max:6'],
             'itinerary_days.*.gallery_ids.*' => ['integer', 'exists:gallery_images,id'],
+            'itinerary_days.*.transport_gallery_ids' => ['nullable', 'array', 'max:5'],
+            'itinerary_days.*.transport_gallery_ids.*' => ['integer', 'exists:gallery_images,id'],
             'itinerary_days.*.uploads' => ['nullable', 'array', 'max:6'],
             'itinerary_days.*.uploads.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:8192'],
             'itinerary_days.*.remove_images' => ['nullable', 'array'],
@@ -185,7 +218,22 @@ class TourPackageController extends Controller
             if (count($data['itinerary_days'] ?? []) > (int)$data['duration_days']) {
                 throw \Illuminate\Validation\ValidationException::withMessages(['itinerary' => 'The number of itinerary days cannot exceed the safari duration.']);
             }
+            $savedDays = collect($tour?->itinerary_days ?? [])->keyBy('id');
+            foreach ($data['itinerary_days'] ?? [] as $index => $day) {
+                $saved = $savedDays->get($day['id'], []);
+                $remaining = count(array_diff($saved['images'] ?? [], $day['remove_images'] ?? []));
+                $added = count(array_unique($day['gallery_ids'] ?? [])) + count($day['uploads'] ?? []);
+                if ($added && $remaining + $added > 5) {
+                    throw \Illuminate\Validation\ValidationException::withMessages(['itinerary' => 'Day '.($index + 1).' can have up to five photos.']);
+                }
+            }
             $data['itinerary_days'] = \App\Support\SafariDays::prepare($data['itinerary_days'] ?? [], $tour);
+        }
+        if (array_key_exists('package_details', $data)) {
+            $details = $data['package_details'] ?? [];
+            $details['faqs'] = array_values(array_filter($details['faqs'] ?? [], fn ($faq) => trim($faq['question'] ?? '') !== '' && trim($faq['answer'] ?? '') !== ''));
+            $details['itinerary_option_ids'] = array_map('intval', $details['itinerary_option_ids'] ?? []);
+            $data['package_details'] = $details;
         }
         return $data;
     }
