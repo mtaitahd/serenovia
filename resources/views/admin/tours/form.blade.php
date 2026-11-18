@@ -113,6 +113,7 @@
         @endif
         <div class="dialog-footer"><span id="gallery-picker-selection">No cover selected</span><div><button type="button" class="button secondary" data-close-dialog>Cancel</button><button type="button" class="button" id="gallery-picker-confirm" disabled>Use this photo</button></div></div>
     </dialog>
+@include('admin.tours.day-gallery-dialog')
 @endsection
 @push('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -121,8 +122,9 @@
 @push('scripts')
 <dialog class="route-location-dialog" id="route-location-dialog" aria-label="Choose itinerary location"><div class="route-location-heading"><div><h2>Pin this day’s location</h2><p>Move the map and click the destination. You can also enter coordinates in the day form.</p></div><button type="button" class="button secondary small" data-close-route-map>Close</button></div><div id="admin-day-location-map"></div><p data-route-map-status aria-live="polite">Click a place to select it.</p><button type="button" class="button" data-save-route-pin disabled>Use this location ↗</button></dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-<script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=5" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=6" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=4" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=1" defer></script>
 @endpush
 

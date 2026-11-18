@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-sidebar.css?v=1">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-components.css">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-brand.css">
-    <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-package-builder.css?v=2">
+    <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-package-builder.css?v=3">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-gallery.css">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-popups.css?v=2">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-catalogue.css">
@@ -96,4 +96,3 @@
     @stack('scripts')
 </body>
 </html>
-

@@ -12,3 +12,17 @@
 .itinerary-day-card .field:last-child{margin-bottom:0}
 .itinerary-day-card input,.itinerary-day-card textarea{width:100%}
 @media(max-width:560px){.itinerary-builder-heading{align-items:flex-start;flex-direction:column}.itinerary-day-card{padding:12px}}
+
+.day-gallery-dialog .gallery-picker-item { position:relative; }
+.day-gallery-dialog .day-gallery-tick { display:none; position:absolute; top:8px; right:8px; width:26px; height:26px; border-radius:50%; background:#23633f; color:white; align-items:center; justify-content:center; font-size:17px; }
+.day-gallery-dialog .gallery-picker-item.is-selected { border:2px solid #23633f; }
+.day-gallery-dialog .is-selected .day-gallery-tick { display:flex; }
+.day-gallery-dialog .gallery-picker-item img { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+.day-gallery-preview { position:relative; padding:0; border:1px solid #d9ded6; background:white; cursor:pointer; }
+.day-gallery-preview img { display:block; }
+.day-gallery-preview > span { position:absolute; right:3px; top:3px; background:#173426; color:white; border-radius:50%; width:20px; height:20px; line-height:20px; }
+.package-builder select[hidden],.package-builder input[hidden] { display:none!important; }
+.day-gallery-dialog .gallery-picker-item { grid-template-rows:auto auto; align-content:start; }
+.day-gallery-dialog [data-day-gallery-status],.day-gallery-dialog [data-day-gallery-empty] { padding-inline:20px; font-size:12px; }
+.day-upload-previews .day-gallery-preview { width:100px; aspect-ratio:4/3; }
+.day-upload-previews .day-gallery-preview img { width:100%; height:100%; object-fit:cover; }
