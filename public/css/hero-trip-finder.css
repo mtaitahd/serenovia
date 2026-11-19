@@ -47,7 +47,7 @@
 .finder-types :focus-visible + span { outline: 2px solid var(--forest); }
 .finder-field { display: grid; }
 .hero-trip-finder .finder-field > span { color: var(--forest, #173426); font-weight: 800; }
-.finder-field :is(input,select) { width: 100%; min-height: 44px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 0; background: #fff; color: var(--forest); font-size: 13px; }
+.finder-field :is(input,select) { width: 100%; min-height: 44px; padding: 8px 11px; border: 2px solid var(--forest, #173426); border-radius: 0; background: #fff; color: var(--forest); font-size: 13px; }
 .hero-trip-finder .button { width: 100%; justify-content: center; border: 0; border-radius: 0; cursor: pointer; }
 .hero-trip-finder small { text-align: center; font-size: 10px; color: var(--moss); }
 @media (max-width: 800px) {
