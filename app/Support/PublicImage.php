@@ -22,10 +22,11 @@ class PublicImage
     {
         $folder = trim($folder, '/');
         $id = (string) Str::uuid();
-        // Laravel validates uploaded files by their MIME type before calling this helper.
-        // Prefer the already-known client extension here so local Windows/XAMPP file paths
-        // don't need a second filesystem MIME probe while being copied into the library.
-        $extension = strtolower($image->getClientOriginalExtension() ?: $image->guessExtension() ?: 'jpg');
+        $mime = @getimagesize($image->getRealPath())['mime'] ?? null;
+        $extension = match ($mime) {
+            'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp',
+            default => throw new RuntimeException('Use a valid JPG, PNG, or WebP image.'),
+        };
         $sourceRelative = "uploads/{$folder}/originals/{$id}.{$extension}";
         $outputRelative = "uploads/{$folder}/{$id}.webp";
         $source = public_path($sourceRelative);
@@ -44,6 +45,13 @@ class PublicImage
             throw $exception;
         }
 
+        // Avoid inflating an already optimized WebP upload.
+        $info = getimagesize($source);
+        if ($mime === 'image/webp' && max($info[0], $info[1]) <= self::MAX_EDGE
+            && filesize($source) <= filesize(public_path($outputRelative))) {
+            File::copy($source, public_path($outputRelative));
+            clearstatcache(true, public_path($outputRelative));
+        }
         ResponsiveImage::generate($outputRelative);
         return $outputRelative;
     }
@@ -90,6 +98,7 @@ class PublicImage
         $outputPath = public_path($outputRelative);
         File::ensureDirectoryExists(dirname($outputPath));
 
+        clearstatcache(true, public_path($path));
         $before = is_file(public_path($path)) ? filesize(public_path($path)) : 0;
         $sourceSize = filesize(public_path($sourceRelative)) ?: $before;
         $workingPath = $outputPath.'.'.Str::random(8).'.working';
@@ -109,7 +118,9 @@ class PublicImage
                 'original_size' => $sourceSize,
                 'optimized_size' => $before,
                 'saved_bytes' => 0,
-                'quality' => $quality,
+                'quality' => null,
+                'before_size' => $before,
+                'target_met' => $mode !== 'filesize' || $before <= $value * 1024,
             ];
         }
 
@@ -123,19 +134,23 @@ class PublicImage
             File::delete(public_path($path));
         }
 
+        clearstatcache(true, $outputPath);
         ResponsiveImage::generate($outputRelative);
         return [
             'path' => $outputRelative,
             'source_path' => $sourceRelative,
             'original_size' => $sourceSize,
             'optimized_size' => $result['size'],
-            'saved_bytes' => max(0, $sourceSize - $result['size']),
+            'saved_bytes' => max(0, $before - $result['size']),
+            'before_size' => $before,
+            'target_met' => $mode !== 'filesize' || $result['size'] <= $value * 1024,
             'quality' => $result['quality'],
         ];
     }
 
     public static function sourceFor(string $path, ?string $sourcePath = null): string
     {
+        if ($sourcePath) $sourcePath = self::safeUploadPath($sourcePath);
         if ($sourcePath && is_file(public_path($sourcePath))) {
             return $sourcePath;
         }
@@ -191,7 +206,13 @@ class PublicImage
     /** @return array{size:int, quality:int} */
     private static function encode(string $sourcePath, string $outputPath, int $quality, ?int $targetKb = null): array
     {
+        if (!function_exists('imagewebp') || !(imagetypes() & IMG_WEBP)) {
+            throw new RuntimeException('This server needs PHP GD with WebP support to optimize images.');
+        }
         $info = @getimagesize($sourcePath);
+        if (!$info || $info[0] * $info[1] > 40000000) {
+            throw new RuntimeException('Use an image no larger than 40 megapixels.');
+        }
         $source = match ($info['mime'] ?? null) {
             'image/jpeg', 'image/jpg' => @imagecreatefromjpeg($sourcePath),
             'image/png' => @imagecreatefrompng($sourcePath),
@@ -203,6 +224,18 @@ class PublicImage
             throw new RuntimeException('This image format cannot be optimized. Use JPG, PNG, or WebP.');
         }
 
+        // Phone JPEGs store rotation separately from their pixels.
+        if (($info['mime'] ?? '') === 'image/jpeg' && function_exists('exif_read_data')) {
+            $exif = @exif_read_data($sourcePath);
+            $orientation = (int) ($exif['Orientation'] ?? 1);
+            if (in_array($orientation, [2, 5, 7], true)) imageflip($source, IMG_FLIP_HORIZONTAL);
+            if ($orientation === 4) imageflip($source, IMG_FLIP_VERTICAL);
+            $angle = match ($orientation) { 3 => 180, 5, 8 => 90, 6, 7 => -90, default => 0 };
+            if ($angle) {
+                $rotated = imagerotate($source, $angle, 0);
+                if ($rotated) { imagedestroy($source); $source = $rotated; }
+            }
+        }
         $width = imagesx($source);
         $height = imagesy($source);
         $scale = min(1, self::MAX_EDGE / max($width, $height));

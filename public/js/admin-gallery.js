@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     uploadForm?.addEventListener('submit', event => {
         event.preventDefault();
+        if (uploadedSuccessfully) { uploadDialog.close(); return; }
         if (isUploading || !selectedFiles.length) return;
         isUploading = true;
         message.textContent = '';

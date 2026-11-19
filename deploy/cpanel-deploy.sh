@@ -26,8 +26,8 @@ php_bin=/opt/cpanel/ea-php83/root/usr/bin/php
 if [[ ! -x "$php_bin" ]]; then
     php_bin="$(command -v php)" || fail "PHP CLI is unavailable."
 fi
-"$php_bin" -r 'exit(PHP_VERSION_ID < 80200 || !extension_loaded("pdo_mysql") || !extension_loaded("gd") ? 1 : 0);' ||
-    fail "PHP CLI 8.2+ with PDO MySQL and GD is required."
+"$php_bin" -r 'exit(PHP_VERSION_ID < 80200 || !extension_loaded("pdo_mysql") || !extension_loaded("gd") || !function_exists("imagewebp") || !function_exists("imagecreatefromwebp") || !(imagetypes() & IMG_WEBP) ? 1 : 0);' ||
+    fail "PHP CLI 8.2+ with PDO MySQL and GD WebP encoding/decoding support is required."
 
 composer_bin="$(command -v composer || true)"
 if [[ -z "$composer_bin" && -f /opt/cpanel/composer/bin/composer ]]; then

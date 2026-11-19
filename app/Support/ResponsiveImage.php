@@ -10,14 +10,20 @@ final class ResponsiveImage
         if (!$source) return;
         try {
             foreach ([480, 960, 1440] as $width) {
-                if (imagesx($source) <= $width) continue;
+                $variantPath = public_path(self::variant($path, $width));
+                if (imagesx($source) <= $width) { \Illuminate\Support\Facades\File::delete($variantPath); continue; }
                 $height = max(1, (int) round(imagesy($source) * $width / imagesx($source)));
                 $image = imagecreatetruecolor($width, $height);
                 imagealphablending($image, false);
                 imagesavealpha($image, true);
                 imagefill($image, 0, 0, imagecolorallocatealpha($image, 0, 0, 0, 127));
                 imagecopyresampled($image, $source, 0, 0, 0, 0, $width, $height, imagesx($source), imagesy($source));
-                imagewebp($image, public_path(self::variant($path, $width)), 84);
+                $written = imagewebp($image, $variantPath, 84);
+                clearstatcache(true, $variantPath);
+                // A responsive file should never cost more bandwidth than the main image.
+                if (!$written || !is_file($variantPath) || filesize($variantPath) >= filesize(public_path($path))) {
+                    \Illuminate\Support\Facades\File::delete($variantPath);
+                }
                 imagedestroy($image);
             }
         } finally {

@@ -116,11 +116,13 @@ class GalleryController extends Controller
             'optimized_size' => $result['optimized_size'],
         ]);
 
-        $saved = max(0, $result['original_size'] - $result['optimized_size']);
+        $saved = $result['saved_bytes'];
         $message = $saved > 0
-            ? 'Image optimized: '.number_format($saved / 1024, 1).' KB saved. Its original and colors are preserved.'
+            ? 'Image optimized: '.number_format($saved / 1024, 1).' KB saved in this compression. The original remains unchanged.'
             : 'Image checked: the current display copy is already smaller; the original remains safe.';
 
+        $message .= ' Display size: '.number_format($result['before_size'] / 1024, 1).' KB → '.number_format($result['optimized_size'] / 1024, 1).' KB.';
+        if (!$result['target_met']) $message .= ' The requested target could not be reached within the quality limit.';
         return back()->with('success', $message);
     }
 }

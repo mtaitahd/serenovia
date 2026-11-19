@@ -79,6 +79,6 @@
     </dialog>
 @endsection
 @push('scripts')
-<script src="{{ $publicBasePath }}/js/admin-gallery.js?v=2" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-gallery.js?v=3" defer></script>
 @endpush
 
