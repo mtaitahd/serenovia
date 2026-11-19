@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TourPackage extends Model
 {
+    use \App\Models\Concerns\StablePublicSlug;
+
+    public function scopePubliclyVisible($query)
+    {
+        $query->where('status', 'published');
+        return $query->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()));
+    }
+
     public const PRACTICAL_FIELDS = [
         'min_group_size' => 'Minimum group size',
         'minimum_age' => 'Minimum age',
@@ -37,6 +45,17 @@ class TourPackage extends Model
             'published_at' => 'datetime',
             'price_from' => 'decimal:2',
         ];
+    }
+
+    public function searchDescription(): string
+    {
+        foreach ([$this->package_details['meta_description'] ?? '', $this->summary, $this->description] as $index => $candidate) {
+            $plain = preg_replace('/<[^>]*>/', ' ', (string) $candidate);
+            $plain = html_entity_decode($plain, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $plain = trim(preg_replace('/[\s\x{00a0}]+/u', ' ', $plain));
+            if ($plain !== '') return $index === 0 ? $plain : \Illuminate\Support\Str::limit($plain, 160);
+        }
+        return $this->title.' with Serenovia Africa Safaris.';
     }
 
     public function destination(): BelongsTo

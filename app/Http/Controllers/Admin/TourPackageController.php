@@ -109,6 +109,10 @@ class TourPackageController extends Controller
     public function update(Request $request, TourPackage $tour): RedirectResponse
     {
         $data = $this->validated($request, $tour);
+        if ($tour->status === 'published' && !empty($data['slug']) && \Illuminate\Support\Str::slug($data['slug']) !== $tour->slug) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['slug' => 'Keep the published page address unchanged to protect existing links.']);
+        }
+        if ($tour->status === 'published') $data['slug'] = $tour->slug;
         $image = $data['image'] ?? null;
         $galleryImageId = $data['gallery_image_id'] ?? null;
         unset($data['image'], $data['gallery_image_id'], $data['category_ids'], $data['accommodation_plan']);

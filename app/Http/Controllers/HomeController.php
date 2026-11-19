@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function __invoke(): View
     {
-        $settings = collect(config('serenova.settings', []))->merge(SiteSetting::pluck('value', 'key'));
+        $settings = collect(config('serenova.settings', []))->merge(SiteSetting::publicValues());
         $storyItems = collect(json_decode($settings->get('our_story_gallery', '[]'), true) ?: []);
         $photos = GalleryImage::whereIn('id', $storyItems->pluck('image_id'))->get()->keyBy('id');
         $storyImages = $storyItems->map(function ($item) use ($photos) {

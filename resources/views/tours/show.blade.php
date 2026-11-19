@@ -1,6 +1,6 @@
 @extends('layouts.site')
 @section('title', $tour->title.' · '.$siteSettings['brand_name'])
-@section('description', ($tour->package_details['meta_description'] ?? null) ?: ($tour->summary ?: $tour->title.' with Serenovia Africa Safaris.'))
+@section('description', $tour->searchDescription())
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tour-catalogue.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('css/tour-detail.css') }}?v=8">
@@ -27,7 +27,7 @@
     <div class="tour-detail-shell">
         <nav class="detail-breadcrumb" aria-label="Breadcrumb"><a href="{{ route('home') }}">Home</a><span>›</span><a href="{{ route('tours.index') }}">Safaris</a><span>›</span><span>{{ $tour->destination?->name ?? ucfirst($tour->tour_type) }}</span></nav>
         <section class="detail-cover" aria-labelledby="tour-title">
-            @if(!empty($heroPhoto['path']))<img src="{{ asset($heroPhoto['path']) }}" alt="" fetchpriority="high">@endif
+            @if(!empty($heroPhoto['path']))<img src="{{ asset($heroPhoto['path']) }}" {{ \App\Support\ResponsiveImage::attributes($heroPhoto['path'], '100vw') }} alt="" fetchpriority="high">@endif
             <div class="detail-cover-copy">
                 <span>{{ $tour->duration_days }} days · {{ ucfirst($tour->tour_type) }}</span>
                 <h1 id="tour-title">{{ str_replace('&', 'and', $tour->title) }}</h1>
@@ -36,7 +36,7 @@
         </section>
         <nav class="detail-tabs" id="tour-sections" aria-label="Explore this safari">
             @foreach($tabs as $tab => $label)
-                <a href="{{ $tabUrl($tab) }}" @if($tab === $activeTab) aria-current="page" @endif>{{ $label }}</a>
+                <a data-tour-tab="{{ $tab }}" href="{{ $tabUrl($tab) }}" @if($tab === $activeTab) aria-current="page" @endif>{{ $label }}</a>
             @endforeach
         </nav>
     <section class="safari-layout detail-layout">
@@ -44,7 +44,7 @@
             @if(isset($itineraryOptions) && $itineraryOptions->isNotEmpty())
                 <section class="safari-section"><h2>Itinerary options</h2><div class="safari-tags">@foreach($itineraryOptions as $option)<a class="text-link" href="{{ route('tours.show', ['tour' => $option->slug, 'section' => 'itinerary']) }}">{{ $option->duration_days }} days · {{ $option->title }} ↗</a>@endforeach</div></section>
             @endif
-            @if($activeTab === 'overview')
+            <div data-tour-panel="overview" @if($activeTab !== 'overview') hidden @endif>
             <section class="safari-section" id="overview"><span class="eyebrow">THE EXPERIENCE</span><h2>Overview</h2>@if($tour->categories->isNotEmpty())<div class="safari-tags">@foreach($tour->categories as $category)<span>{{ $category->name }}</span>@endforeach</div>@endif<div class="prose">{!! \App\Support\RichText::display($tour->description ?: $tour->summary) !!}</div>
                 @if($tour->starting_point || $tour->ending_point)<div class="safari-route">@if($tour->starting_point)<div><span>YOUR JOURNEY BEGINS</span><strong>{{ $tour->starting_point }}</strong></div>@endif<span aria-hidden="true">⟶</span>@if($tour->ending_point)<div><span>YOUR JOURNEY ENDS</span><strong>{{ $tour->ending_point }}</strong></div>@endif</div>@endif
             </section>
@@ -52,18 +52,18 @@
                 <section class="safari-section"><h2>Route</h2>@include('public.itinerary-route')</section>
             @endif
             @include('public.tour-practical-details')
-            @elseif($activeTab === 'itinerary')
+            </div><div data-tour-panel="itinerary" @if($activeTab !== 'itinerary') hidden @endif>
                 @include('public.tour-day-timeline')
-            @elseif($activeTab === 'stays')
+            </div><div data-tour-panel="stays" @if($activeTab !== 'stays') hidden @endif>
                 @include('public.tour-accommodation-table')
-            @elseif($activeTab === 'included')<section class="safari-section" id="included"><span class="eyebrow">THE FINER DETAILS</span><h2>Inclusions &amp; exclusions</h2><div class="safari-inclusions">@if($tour->inclusions)<div><h3><span>✓</span> What’s included</h3><div class="prose">{!! \App\Support\RichText::display($tour->inclusions) !!}</div></div>@endif @if($tour->exclusions)<div><h3><span>−</span> What’s excluded</h3><div class="prose">{!! \App\Support\RichText::display($tour->exclusions) !!}</div></div>@endif</div></section>
-            @elseif($activeTab === 'rates')
+            </div><div data-tour-panel="included" @if($activeTab !== 'included') hidden @endif><section class="safari-section" id="included"><span class="eyebrow">THE FINER DETAILS</span><h2>Inclusions &amp; exclusions</h2><div class="safari-inclusions">@if($tour->inclusions)<div><h3><span>✓</span> What’s included</h3><div class="prose">{!! \App\Support\RichText::display($tour->inclusions) !!}</div></div>@endif @if($tour->exclusions)<div><h3><span>−</span> What’s excluded</h3><div class="prose">{!! \App\Support\RichText::display($tour->exclusions) !!}</div></div>@endif</div></section>
+            </div><div data-tour-panel="rates" @if($activeTab !== 'rates') hidden @endif>
             <section class="safari-section" id="rates">
                 <h2>Rates</h2>
                 <p class="detail-rate">{{ $tour->price_from !== null ? 'From '.$tour->currency.' '.number_format((float) $tour->price_from, 2) : 'Price on request' }}</p>
                 <p>Request a written quote for your dates and group size.</p>
             </section>
-            @elseif($activeTab === 'getting-there')
+            </div><div data-tour-panel="getting-there" @if($activeTab !== 'getting-there') hidden @endif>
             <section class="safari-section" id="getting-there">
                 <h2>Getting there</h2>
                 @if(!empty($tour->practical_details['arrival']))<p>{{ $tour->practical_details['arrival'] }}</p>
@@ -71,12 +71,12 @@
                 @if($tour->starting_point)<p><strong>Starts in:</strong> {{ $tour->starting_point }}</p>@endif
                 @if($tour->ending_point)<p><strong>Ends in:</strong> {{ $tour->ending_point }}</p>@endif
             </section>
-            @elseif($activeTab === 'operator')
+            </div><div data-tour-panel="operator" @if($activeTab !== 'operator') hidden @endif>
             <section class="safari-section" id="operator">
                 <h2>Offered by</h2>
                 <div class="detail-operator"><img src="{{ asset('images/serenovia-logo.png') }}" alt="" width="64" height="58"><div><strong>{{ $siteSettings['brand_name'] }}</strong><p>{{ $siteSettings['address'] }}</p><a class="text-link" href="{{ route('about') }}">About our team ↗</a></div></div>
             </section>
-            @endif
+            </div>
         </article>
         <aside class="detail-sidebar" aria-label="Quote and trip resources">
         <section class="detail-quote" aria-labelledby="quote-title">
@@ -122,3 +122,5 @@
 @endsection
 
 @push('styles')<link rel="stylesheet" href="{{ asset('css/itinerary-map.css') }}?v=2">@endpush
+
+@push('scripts')<script src="{{ asset('js/tour-tabs.js') }}" defer></script>@endpush

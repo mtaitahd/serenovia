@@ -26,6 +26,7 @@ final class SafariPhotography
 
     public static function tour(TourPackage $tour): string
     {
+        if ($tour->image_path) return $tour->image_path;
         $photo = self::destination($tour->destination?->slug) ?? match ($tour->tour_type) {
             'mountain' => 'kilimanjaro',
             'island' => 'zanzibar',

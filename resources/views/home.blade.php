@@ -20,7 +20,7 @@
     @endphp
     <section class="hero hero-with-finder" aria-labelledby="hero-title">
         @if($home['home_hero_video_enabled'] === '1' && $home['home_hero_video'])
-            <video class="home-hero-video" src="{{ asset($home['home_hero_video']) }}" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+            <video class="home-hero-video" src="{{ asset($home['home_hero_video']) }}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
         @else
             <div class="hero-image" style="background-image:url('{{ asset($home['hero_image']) }}')"></div>
         @endif

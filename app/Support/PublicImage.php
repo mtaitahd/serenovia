@@ -44,6 +44,7 @@ class PublicImage
             throw $exception;
         }
 
+        ResponsiveImage::generate($outputRelative);
         return $outputRelative;
     }
 
@@ -70,6 +71,7 @@ class PublicImage
             throw $exception;
         }
 
+        ResponsiveImage::generate($newOutput);
         return $newOutput;
     }
 
@@ -121,6 +123,7 @@ class PublicImage
             File::delete(public_path($path));
         }
 
+        ResponsiveImage::generate($outputRelative);
         return [
             'path' => $outputRelative,
             'source_path' => $sourceRelative,
@@ -153,6 +156,7 @@ class PublicImage
     {
         foreach (array_unique(array_filter([$path, $sourcePath])) as $candidate) {
             $relative = self::safeUploadPath($candidate);
+            ResponsiveImage::delete($relative);
             $fullPath = public_path($relative);
             if (File::isFile($fullPath)) {
                 File::delete($fullPath);

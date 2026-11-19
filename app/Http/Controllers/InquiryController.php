@@ -13,7 +13,7 @@ class InquiryController extends Controller
 {
     public function create(Request $request): View
     {
-        $tours = TourPackage::where('status', 'published')->orderBy('title')->get(['id', 'title']);
+        $tours = TourPackage::publiclyVisible()->orderBy('title')->get(['id', 'title']);
 
         $date = $request->query('travel_date');
         $party = $request->integer('travellers');

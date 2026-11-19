@@ -21,7 +21,7 @@ class DestinationController extends Controller
 
         return view('destinations.show', [
             'destination' => $destination,
-            'tours' => $destination->tours()->with('destination')->where('status', 'published')->latest('published_at')->paginate(6),
+            'tours' => $destination->tours()->with('destination')->publiclyVisible()->latest('published_at')->paginate(6),
         ]);
     }
 }

@@ -1,21 +1,35 @@
-@php($publicBasePath = preg_replace('#/public$#', '', rtrim(request()->getBasePath(), '/')))
-@php($sharedHome = \App\Support\HomepageContent::values($siteSettings))
-@php($phoneHref = preg_replace('/\D+/', '', $siteSettings['phone'] ?? ''))
-@php($footerLinks = json_decode($siteSettings['footer_explore_links'] ?? '[]', true) ?: [['label' => 'Safari journeys', 'url' => '/safaris'], ['label' => 'Places to stay', 'url' => '/accommodations'], ['label' => 'Destinations', 'url' => '/destinations'], ['label' => 'Travel journal', 'url' => '/journal'], ['label' => 'Photo gallery', 'url' => '/gallery']])
+<?php $publicBasePath = preg_replace('#/public$#', '', rtrim(request()->getBasePath(), '/')); ?>
+<?php $sharedHome = \App\Support\HomepageContent::values($siteSettings); ?>
+<?php $phoneHref = preg_replace('/\D+/', '', $siteSettings['phone'] ?? ''); ?>
+<?php $footerLinks = json_decode($siteSettings['footer_explore_links'] ?? '[]', true) ?: [['label' => 'Safari journeys', 'url' => '/safaris'], ['label' => 'Places to stay', 'url' => '/accommodations'], ['label' => 'Destinations', 'url' => '/destinations'], ['label' => 'Travel journal', 'url' => '/journal'], ['label' => 'Photo gallery', 'url' => '/gallery']]; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#173426">
-    <meta name="description" content="@yield('description', $siteSettings['hero_subtitle'] ?? 'Thoughtfully made journeys through Tanzania.')">
-    <title>@yield('title', $siteSettings['brand_name'] ?? 'Serenovia Africa Safaris')</title>
-    @php($canonical = request()->url().(request()->integer('page') > 1 ? '?page='.request()->integer('page') : ''))
-    <link rel="canonical" href="{{ $canonical }}">
-    <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:title" content="@yield('title', $siteSettings['brand_name'])">
-    <meta property="og:description" content="@yield('description', $siteSettings['hero_subtitle'] ?? '')">
-    <meta property="og:image" content="{{ asset(($siteSettings['hero_image'] ?? '') ?: 'images/serenovia-logo.png') }}">
+    @php
+        $seo = \App\Support\SeoMetadata::page(get_defined_vars(), $siteSettings);
+        $seoTitle = trim($__env->yieldContent('title', $siteSettings['brand_name'] ?? 'Serenovia Africa Safaris'));
+        $seoDescription = trim($__env->yieldContent('description', $seo['description']));
+        $seo['description'] = \App\Support\SeoMetadata::text($seoDescription);
+    @endphp
+    <meta name="description" content="{{ $seo['description'] }}">
+    <title>{{ $seoTitle }}</title>
+    <link rel="canonical" href="{{ $seo['canonical'] }}">
+    <meta name="robots" content="{{ $seo['robots'] }}">
+    <meta property="og:url" content="{{ $seo['canonical'] }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+    <meta property="og:type" content="{{ $seo['type'] }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+    @unless(request()->routeIs('admin.*'))
+    <script type="application/ld+json">{!! json_encode(\App\Support\StructuredData::graph(get_defined_vars(), $siteSettings, $seo, $seoTitle), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) !!}</script>
+    @endunless
     <link rel="icon" type="image/png" href="{{ $publicBasePath }}/images/serenovia-mark.png?v=1">
     <link rel="apple-touch-icon" href="{{ $publicBasePath }}/images/serenovia-mark.png?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">

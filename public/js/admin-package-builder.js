@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         progress.style.width = `${percent}%`;
         progressLabel.textContent = `${percent}% complete`;
         stepTitle.textContent = `Step ${currentStep} of 4 · ${titles[currentStep - 1]}`;
+        if (currentStep === 4) updateReview();
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const panel = form.querySelector(`[data-builder-step="${currentStep}"]`);
         const invalid = [...panel.querySelectorAll('input,select,textarea')].find(input => !input.checkValidity());
         if (invalid) {
+            revealDetails(invalid);
             invalid.reportValidity();
             invalid.focus();
             return;
@@ -40,8 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('.builder-back').forEach(button => button.addEventListener('click', () => showStep(button.dataset.previousStep)));
     steps.forEach(button => button.addEventListener('click', () => showStep(button.dataset.stepJump)));
 
+    function revealDetails(element) {
+        for (let parent = element.parentElement; parent && parent !== form; parent = parent.parentElement) {
+            if (parent.tagName === 'DETAILS') parent.open = true;
+        }
+    }
+    form.addEventListener('invalid', event => {
+        const panel = event.target.closest('[data-builder-step]');
+        if (panel) showStep(panel.dataset.builderStep);
+        revealDetails(event.target);
+    }, true);
     const firstInvalid = form.querySelector('.field-error');
     if (firstInvalid) {
+        revealDetails(firstInvalid);
         const failedPanel = firstInvalid.closest('[data-builder-step]');
         if (failedPanel) showStep(failedPanel.dataset.builderStep);
     }
@@ -117,16 +130,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('gallery-picker-search')?.addEventListener('input', filterGallery);
     document.getElementById('gallery-picker-category')?.addEventListener('change', filterGallery);
 
+    function overviewText() {
+        const html = window.tinymce?.get('description')?.getContent() || document.getElementById('description').value;
+        const documentText = new DOMParser().parseFromString(html.replace(/<[^>]+>/g, ' '), 'text/html');
+        return documentText.body.textContent.replace(/\s+/g, ' ').trim();
+    }
     function updateReview() {
         document.getElementById('review-title').textContent = document.getElementById('title').value || 'Your safari package';
-        document.getElementById('review-summary').textContent = document.getElementById('summary').value || 'Your short introduction will appear here.';
+        document.getElementById('review-summary').textContent = document.getElementById('summary').value.trim() || overviewText().slice(0, 250) || 'Add the tour overview in Itinerary.';
         document.getElementById('review-duration').textContent = `${document.getElementById('duration_days').value || 1} days · ${document.getElementById('duration_nights').value || 0} nights`;
-        const image = preview.querySelector('img');
+        const image = document.getElementById('cover-preview').querySelector('img');
         const reviewCover = document.getElementById('review-cover');
         if (image) reviewCover.replaceChildren(image.cloneNode());
         else reviewCover.replaceChildren();
     }
-    form.querySelectorAll('#title,#summary,#duration_days,#duration_nights').forEach(input => input.addEventListener('input', updateReview));
+    form.querySelectorAll('#title,#summary,#description,#duration_days,#duration_nights').forEach(input => input.addEventListener('input', updateReview));
 
     const planList = document.getElementById('accommodation-plan-list');
     const planTemplate = document.getElementById('accommodation-plan-template');

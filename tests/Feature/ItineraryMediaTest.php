@@ -48,8 +48,11 @@ class ItineraryMediaTest extends TestCase
         [$tour]=$this->createWithPhoto();
         $this->assertTrue($tour->route_map_enabled);$this->assertCount(2,$tour->itinerary_days);
         $this->assertFileExists(public_path($tour->itinerary_days[0]['images'][0]));
-        $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('data-itinerary-map',false)->assertDontSee('itinerary-day-photos',false);
-        $this->get('/safaris/'.$tour->slug.'?section=itinerary')->assertOk()->assertSee('itinerary-day-photos',false)->assertSee('First stop')->assertDontSee('id="rates"', false);
+        $overview = $this->get('/safaris/'.$tour->slug)->assertOk()->assertSee('data-itinerary-map',false)->assertSee('itinerary-day-photos',false);
+        $this->assertMatchesRegularExpression('/data-tour-panel="itinerary"\s+hidden/', $overview->getContent());
+        $itinerary = $this->get('/safaris/'.$tour->slug.'?section=itinerary')->assertOk()->assertSee('itinerary-day-photos',false)->assertSee('First stop')->assertSee('id="rates"', false);
+        $this->assertMatchesRegularExpression('/data-tour-panel="rates"\s+hidden/', $itinerary->getContent());
+        $this->assertDoesNotMatchRegularExpression('/data-tour-panel="itinerary"\s+hidden/', $itinerary->getContent());
     }
     public function test_edit_preserves_photos_by_day_id_when_days_are_reordered(): void
     {

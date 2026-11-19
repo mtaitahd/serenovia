@@ -62,10 +62,10 @@ class HomepageContent
     public static function query(string $kind)
     {
         return match ($kind) {
-            'tours' => TourPackage::with('destination')->where('status', 'published')->orderByDesc('is_featured')->latest('published_at')->orderBy('id'),
+            'tours' => TourPackage::with('destination')->publiclyVisible()->orderByDesc('is_featured')->latest('published_at')->orderBy('id'),
             'accommodations' => Accommodation::with('destination')->where('status', 'published')->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name')->orderBy('id'),
             'destinations' => Destination::where('status', 'published')->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('id'),
-            'articles' => Article::where('status', 'published')->whereNotNull('published_at')->latest('published_at')->orderBy('id'),
+            'articles' => Article::publiclyVisible()->latest('published_at')->orderBy('id'),
             'faqs' => Faq::where('is_active', true)->orderBy('sort_order')->orderBy('id'),
         };
     }

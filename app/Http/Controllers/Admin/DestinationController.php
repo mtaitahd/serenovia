@@ -45,6 +45,10 @@ class DestinationController extends Controller
     public function update(Request $request, Destination $destination): RedirectResponse
     {
         $data = $this->validated($request, $destination);
+        if ($destination->status === 'published' && !empty($data['slug']) && \Illuminate\Support\Str::slug($data['slug']) !== $destination->slug) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['slug' => 'Keep the published page address unchanged to protect existing links.']);
+        }
+        if ($destination->status === 'published') $data['slug'] = $destination->slug;
         $image = $data['image'] ?? null;
         unset($data['image']);
         $data['slug'] = Str::slug($data['slug'] ?: $data['name']);

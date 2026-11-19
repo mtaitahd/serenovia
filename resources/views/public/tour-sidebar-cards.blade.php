@@ -18,7 +18,7 @@
         @foreach($dayGallery as $photo)
             <a href="{{ asset($photo['path']) }}" data-photo data-photo-group="sidebar-day-gallery" data-caption="{{ $photo['caption'] }}" @unless($loop->first) hidden @endunless>
                 @if($loop->first)
-                    <img src="{{ asset($photo['path']) }}" alt="" loading="lazy">
+                    <img src="{{ asset($photo['path']) }}" alt="{{ $photo['caption'] }}" loading="lazy">
                     <span class="detail-gallery-label">Open Day Photos ({{ $dayGallery->count() }})</span>
                 @endif
             </a>

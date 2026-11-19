@@ -1,5 +1,5 @@
 <input type="hidden" data-day-field="id">
-<details class="day-media-settings"><summary>Photographs &amp; route stop <span aria-hidden="true">＋</span></summary><div class="form-grid itinerary-media-fields">
+<details class="day-media-settings"><summary>Day details, camp &amp; photographs <span aria-hidden="true">＋</span></summary><div class="form-grid itinerary-media-fields">
     <div class="field full"><label>MAP STOP / PLACE NAME</label><input type="text" data-day-field="location" maxlength="180" placeholder="For example: Serengeti National Park"><small>This label appears on the animated route.</small></div>
     @foreach(\App\Support\SafariDays::TRAIL_FIELDS as $key => $label)
         <div class="field">

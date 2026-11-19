@@ -89,6 +89,7 @@ umask 077
 "$php_bin" artisan serenovia:backup-database
 "$php_bin" artisan migrate --force
 "$php_bin" artisan optimize:clear
+"$php_bin" artisan serenovia:seo-check
 umask 022
 
 for dir in css images js; do

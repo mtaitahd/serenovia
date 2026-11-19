@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Destination extends Model
 {
+    use \App\Models\Concerns\StablePublicSlug;
+
+    public function scopePubliclyVisible($query)
+    {
+        $query->where('status', 'published');
+        return $query;
+    }
+
     protected $fillable = [
         'name', 'slug', 'country', 'tagline', 'summary', 'description',
         'image_path', 'is_featured', 'status', 'sort_order',

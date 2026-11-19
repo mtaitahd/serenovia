@@ -20,7 +20,7 @@
                 @if($photos->isNotEmpty())
                     <div class="itinerary-day-collage itinerary-day-photos collage-count-{{ $photos->count() }}">
                         @foreach($photos as $image)
-                            <a href="{{ asset($image) }}" data-photo data-photo-group="itinerary-{{ $index }}" data-caption="{{ $day['label'] }} · {{ $day['title'] }}" aria-label="Open {{ $day['label'] }} photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" alt="" loading="lazy"></a>
+                            <a href="{{ asset($image) }}" data-photo data-photo-group="itinerary-{{ $index }}" data-caption="{{ $day['label'] }} · {{ $day['title'] }}" aria-label="Open {{ $day['label'] }} photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="{{ $day['label'] }} · {{ $day['title'] }}" loading="lazy"></a>
                         @endforeach
                     </div>
                 @endif
@@ -46,13 +46,13 @@
                     <div class="itinerary-stay-copy"><span class="eyebrow">{{ $day['label'] }} · Accommodation</span><h4>{{ $stay->name }}</h4>@if($stay->location)<p>{{ $stay->location }}</p>@endif @if($stay->tier)<span class="itinerary-stay-tier">{{ ucfirst($stay->tier) }}</span>@endif</div>
                     @if($stayImages->isNotEmpty())
                         <div class="itinerary-stay-gallery">
-                            @foreach($stayImages as $path)<a href="{{ asset($path) }}" data-photo data-photo-group="stay-{{ $stay->id }}-{{ $index + 1 }}" data-caption="{{ $stay->name }}" aria-label="Open {{ $stay->name }} photograph {{ $loop->iteration }}"><img src="{{ asset($path) }}" alt="" loading="lazy"><span>{{ $stay->name }}</span></a>@endforeach
+                            @foreach($stayImages as $path)<a href="{{ asset($path) }}" data-photo data-photo-group="stay-{{ $stay->id }}-{{ $index + 1 }}" data-caption="{{ $stay->name }}" aria-label="Open {{ $stay->name }} photograph {{ $loop->iteration }}"><img src="{{ asset($path) }}" {{ \App\Support\ResponsiveImage::attributes($path) }} alt="{{ $stay->name }}" loading="lazy"><span>{{ $stay->name }}</span></a>@endforeach
                         </div>
                     @endif
                 </section>
             @endforeach
             @if(!empty($day['transport_images']))
-                <section class="itinerary-transport"><h4>Transport</h4><div class="itinerary-transport-gallery">@foreach(array_slice($day['transport_images'], 0, 5) as $image)<a href="{{ asset($image) }}" data-photo data-photo-group="transport-{{ $index }}" data-caption="{{ $day['label'] }} · Transport" aria-label="Open transport photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" alt="" loading="lazy"></a>@endforeach</div></section>
+                <section class="itinerary-transport"><h4>Transport</h4><div class="itinerary-transport-gallery">@foreach(array_slice($day['transport_images'], 0, 5) as $image)<a href="{{ asset($image) }}" data-photo data-photo-group="transport-{{ $index }}" data-caption="{{ $day['label'] }} · Transport" aria-label="Open transport photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="Transport for {{ $day['label'] }}" loading="lazy"></a>@endforeach</div></section>
             @endif
         </article>
     @endforeach

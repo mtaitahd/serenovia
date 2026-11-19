@@ -45,6 +45,10 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article): RedirectResponse
     {
         $data = $this->validated($request, $article);
+        if ($article->status === 'published' && !empty($data['slug']) && \Illuminate\Support\Str::slug($data['slug']) !== $article->slug) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['slug' => 'Keep the published page address unchanged to protect existing links.']);
+        }
+        if ($article->status === 'published') $data['slug'] = $article->slug;
         $image = $data['image'] ?? null;
         unset($data['image']);
         $data['slug'] = Str::slug($data['slug'] ?: $data['title']);

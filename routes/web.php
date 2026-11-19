@@ -20,6 +20,9 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', [\App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about-us', [\App\Http\Controllers\TravelPageController::class, 'about'])->name('about');
 Route::get('/responsible-travel', [\App\Http\Controllers\TravelPageController::class, 'responsible'])->name('responsible');

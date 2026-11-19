@@ -2,7 +2,7 @@
 @section('title', $destination->name.' · '.$siteSettings['brand_name'])
 @section('content')
     @php($cover = \App\Support\SafariPhotography::destination($destination->slug) ?? 'serengeti-sunset')
-    <section class="detail-hero" style="background-image:linear-gradient(90deg,rgba(10,27,19,.67),rgba(10,27,19,.12)),url('{{ asset(\App\Support\SafariPhotography::path($cover)) }}')"><div class="detail-hero-copy"><span class="eyebrow light">{{ strtoupper($destination->country) }} · DESTINATION NOTES</span><h1>{{ $destination->name }}</h1><p>{{ $destination->tagline }}</p></div></section>
+    <section class="detail-hero" style="background-image:linear-gradient(90deg,rgba(10,27,19,.67),rgba(10,27,19,.12)),url('{{ asset($destination->image_path ?: \App\Support\SafariPhotography::path($cover)) }}')"><div class="detail-hero-copy"><span class="eyebrow light">{{ strtoupper($destination->country) }} · DESTINATION NOTES</span><h1>{{ $destination->name }}</h1><p>{{ $destination->tagline }}</p></div></section>
     <section class="destination-story section-wrap"><div><span class="eyebrow">GET TO KNOW THE PLACE</span><h2>{{ $destination->tagline ?: 'A place to discover.' }}</h2></div><div class="prose">{!! nl2br(e($destination->description ?: $destination->summary)) !!}</div></section>
     <section class="related-tours section-wrap"><div class="section-heading"><div><span class="eyebrow">MADE FOR THIS PLACE</span><h2>Journeys in <em>{{ $destination->name }}.</em></h2></div></div>
         @if($tours->isEmpty())<div class="public-empty slim"><p>We are shaping journeys for this destination. Ask us about a custom route.</p><a class="text-link" href="{{ route('contact') }}">Plan with our team <span>↗</span></a></div>

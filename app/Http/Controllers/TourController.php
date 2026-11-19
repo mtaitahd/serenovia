@@ -14,7 +14,7 @@ class TourController extends Controller
     public function index(Request $request): View
     {
         $query = TourPackage::with(['destination', 'categories', 'accommodations'])
-            ->where('status', 'published')->latest('published_at')->orderByDesc('id');
+            ->publiclyVisible()->latest('published_at')->orderByDesc('id');
         if ($request->filled('q')) {
             $term = '%'.$request->string('q')->trim()->limit(100, '').'%';
             $query->where(fn ($search) => $search->where('title', 'like', $term)
@@ -28,7 +28,7 @@ class TourController extends Controller
         if ($request->filled('type')) $query->where('tour_type', (string) $request->string('type'));
         if ($request->integer('max_days') > 0) $query->where('duration_days', '<=', $request->integer('max_days'));
         if ($request->integer('min_days') > 0) $query->where('duration_days', '>=', $request->integer('min_days'));
-        $lengths = TourPackage::where('status', 'published')->selectRaw('MIN(duration_days) as shortest, MAX(duration_days) as longest')->first();
+        $lengths = TourPackage::publiclyVisible()->selectRaw('MIN(duration_days) as shortest, MAX(duration_days) as longest')->first();
         $durations = array_intersect(['2-5', '6-9', '10+'], (array) $request->query('duration', []));
         if ($durations) {
             $query->where(function ($range) use ($durations) {
@@ -37,7 +37,7 @@ class TourController extends Controller
                 if (in_array('10+', $durations)) $range->orWhere('duration_days', '>=', 10);
             });
         }
-        $priceBounds = TourPackage::where('status', 'published')->whereNotNull('price_from')
+        $priceBounds = TourPackage::publiclyVisible()->whereNotNull('price_from')
             ->selectRaw('currency, MIN(price_from) AS lowest, MAX(price_from) AS highest')
             ->groupBy('currency')->orderBy('currency')->get()->mapWithKeys(fn ($row) => [
                 $row->currency => ['min' => floor($row->lowest), 'max' => ceil($row->highest)],
@@ -59,8 +59,11 @@ class TourController extends Controller
         if ($request->filled('category')) $query->whereHas('categories', fn ($q) => $q->where('tour_categories.slug', (string) $request->string('category')));
         if ($request->filled('comfort')) $query->whereHas('accommodations', fn ($q) => $q->where('tour_package_accommodations.tier', (string) $request->string('comfort')));
 
+        $tours = $query->paginate(9)->withQueryString();
+        abort_if($request->integer('page', 1) < 1 || $tours->currentPage() > $tours->lastPage(), 404);
+
         return view('tours.index', [
-            'tours' => $query->paginate(9)->withQueryString(),
+            'tours' => $tours,
             'currencies' => $currencies,
             'priceBounds' => $priceBounds,
             'priceCurrency' => $priceCurrency,
@@ -76,7 +79,7 @@ class TourController extends Controller
 
     public function show(TourPackage $tour): View
     {
-        abort_unless($tour->status === 'published', 404);
+        abort_unless(TourPackage::publiclyVisible()->whereKey($tour->id)->exists(), 404);
 
         return $this->details($tour);
     }
@@ -94,7 +97,7 @@ class TourController extends Controller
             'faqs' => !empty($tour->package_details['faqs'])
                 ? collect($tour->package_details['faqs'])->map(fn ($faq) => (object) $faq)
                 : \App\Models\Faq::where('is_active', true)->orderBy('sort_order')->take(6)->get(),
-            'itineraryOptions' => TourPackage::whereIn('id', $tour->package_details['itinerary_option_ids'] ?? [])->where('status', 'published')->orderBy('duration_days')->get(),
+            'itineraryOptions' => TourPackage::whereIn('id', $tour->package_details['itinerary_option_ids'] ?? [])->publiclyVisible()->orderBy('duration_days')->get(),
             'related' => $this->relatedTours($tour),
         ]);
     }
@@ -102,7 +105,7 @@ class TourController extends Controller
     private function relatedTours(TourPackage $tour)
     {
         return TourPackage::with('destination')
-            ->where('status', 'published')->where('id', '!=', $tour->id)
+            ->publiclyVisible()->where('id', '!=', $tour->id)
             ->when((int) $tour->duration_days === 1,
                 fn ($query) => $query->where('duration_days', 1),
                 fn ($query) => $query->where('duration_days', '>', 1))

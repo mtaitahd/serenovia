@@ -22,7 +22,7 @@
         <div class="gallery-editorial-grid">
             @foreach($images as $image)
                 <a class="gallery-editorial-photo" href="{{ asset($image['path']) }}" data-photo data-photo-group="tanzania-gallery" data-caption="{{ $image['caption'] }}">
-                    <img src="{{ asset($image['path']) }}" alt="" loading="lazy" decoding="async">
+                    <img src="{{ asset($image['path']) }}" {{ \App\Support\ResponsiveImage::attributes($image['path']) }} alt="{{ $image['alt'] ?? $image['caption'] }}" loading="lazy" decoding="async">
                     <span class="gallery-editorial-caption">{{ $image['caption'] }} <span aria-hidden="true">↗</span></span>
                 </a>
             @endforeach

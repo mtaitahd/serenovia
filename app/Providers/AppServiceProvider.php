@@ -23,9 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $settings = collect(config('serenova.settings', []));
 
-        if (\Illuminate\Support\Facades\Schema::hasTable('site_settings')) {
-            $settings = $settings->merge(SiteSetting::query()->pluck('value', 'key'));
-        }
+        $settings = $settings->merge(SiteSetting::publicValues());
 
         View::share('siteSettings', $settings);
     }
