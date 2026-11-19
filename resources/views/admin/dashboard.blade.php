@@ -33,7 +33,7 @@
     </div>
     <div class="admin-columns">
         <section class="panel">
-            <div class="panel-heading"><h2>Recent trip enquiries</h2><a href="{{ route('admin.inquiries.index') }}">VIEW ALL ↗</a></div>
+            <div class="panel-heading"><h2>Recent trip enquiries</h2><a href="{{ route('admin.inquiries.index') }}">VIEW ALL</a></div>
             @if ($inquiries->isEmpty())
                 <div class="empty-state"><strong>Your inbox is ready.</strong>New trip enquiries from the website will appear here.</div>
             @else
@@ -45,7 +45,7 @@
             @endif
         </section>
         <section class="panel">
-            <div class="panel-heading"><h2>Recently updated tours</h2><a href="{{ route('admin.tours.index') }}">MANAGE ↗</a></div>
+            <div class="panel-heading"><h2>Recently updated tours</h2><a href="{{ route('admin.tours.index') }}">MANAGE</a></div>
             @if ($latest_tours->isEmpty())
                 <div class="empty-state"><strong>Start with a journey.</strong>Add your first safari package to build your catalogue.</div>
             @else

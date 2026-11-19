@@ -20,6 +20,6 @@
         </div>
     @endif
     @error('story_images')<small class="field-error">{{ $message }}</small>@enderror
-    <div class="form-actions"><button class="button" type="submit">Save story images <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save story images </button></div>
 </form>
 @endsection

@@ -22,7 +22,7 @@
                                     @if($tour->summary)<p>{{ $tour->summary }}</p>@endif
                                     <p>{{ $tour->duration_days }} days · {{ $tour->duration_nights }} nights</p>
                                     @if($tour->categories->isNotEmpty())<p>{{ $tour->categories->pluck('name')->implode(' · ') }}</p>@endif
-                                    <a href="{{ route('tours.show', $tour->slug) }}">View itinerary ↗</a>
+                                    <a href="{{ route('tours.show', $tour->slug) }}">View itinerary</a>
                                 </details>
                             </div>
                         </div>

@@ -42,7 +42,7 @@
     <section class="safari-layout detail-layout">
         <article class="safari-story">
             @if(isset($itineraryOptions) && $itineraryOptions->isNotEmpty())
-                <section class="safari-section"><h2>Itinerary options</h2><div class="safari-tags">@foreach($itineraryOptions as $option)<a class="text-link" href="{{ route('tours.show', ['tour' => $option->slug, 'section' => 'itinerary']) }}">{{ $option->duration_days }} days · {{ $option->title }} ↗</a>@endforeach</div></section>
+                <section class="safari-section"><h2>Itinerary options</h2><div class="safari-tags">@foreach($itineraryOptions as $option)<a class="text-link" href="{{ route('tours.show', ['tour' => $option->slug, 'section' => 'itinerary']) }}">{{ $option->duration_days }} days · {{ $option->title }}</a>@endforeach</div></section>
             @endif
             <div data-tour-panel="overview" @if($activeTab !== 'overview') hidden @endif>
             <section class="safari-section" id="overview"><span class="eyebrow">THE EXPERIENCE</span><h2>Overview</h2>@if($tour->categories->isNotEmpty())<div class="safari-tags">@foreach($tour->categories as $category)<span>{{ $category->name }}</span>@endforeach</div>@endif<div class="prose">{!! \App\Support\RichText::display($tour->description ?: $tour->summary) !!}</div>
@@ -74,7 +74,7 @@
             </div><div data-tour-panel="operator" @if($activeTab !== 'operator') hidden @endif>
             <section class="safari-section" id="operator">
                 <h2>Offered by</h2>
-                <div class="detail-operator"><img src="{{ asset('images/serenovia-logo.png') }}" alt="" width="64" height="58"><div><strong>{{ $siteSettings['brand_name'] }}</strong><p>{{ $siteSettings['address'] }}</p><a class="text-link" href="{{ route('about') }}">About our team ↗</a></div></div>
+                <div class="detail-operator"><img src="{{ asset('images/serenovia-logo.png') }}" alt="" width="64" height="58"><div><strong>{{ $siteSettings['brand_name'] }}</strong><p>{{ $siteSettings['address'] }}</p><a class="text-link" href="{{ route('about') }}">About our team</a></div></div>
             </section>
             </div>
         </article>
@@ -86,19 +86,19 @@
                 <input type="hidden" name="tour" value="{{ $tour->id }}">
                 <label>Preferred start date<input type="date" name="travel_date" min="{{ now()->toDateString() }}"></label>
                 <label>Travellers<input type="number" name="travellers" min="1" max="100" value="2" required></label>
-                <button class="button button-dark" type="submit">Get a quote <span aria-hidden="true">↗</span></button>
+                <button class="button button-dark" type="submit">Get a quote </button>
             </form>
             <small>Send a request to Serenovia. Your dates and price will be confirmed by our team.</small>
-            @if($whatsapp)<a class="text-link" href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hello, I am interested in '.$tour->title.'.') }}" target="_blank" rel="noopener">Chat on WhatsApp ↗</a>@endif
+            @if($whatsapp)<a class="text-link" href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hello, I am interested in '.$tour->title.'.') }}" target="_blank" rel="noopener">Chat on WhatsApp</a>@endif
         </section>
         @include('public.tour-sidebar-cards')
         </aside>
     </section>
     </div>
-    @if($faqs->isNotEmpty())<section class="faq section-wrap tour-faq" id="tour-faq"><div class="faq-heading"><span class="eyebrow">{{ $siteSettings['home_faq_eyebrow'] ?? 'GOOD TO KNOW' }}</span><h2>{{ $siteSettings['home_faq_title'] ?? 'Your questions, answered.' }}</h2><p>{{ $siteSettings['home_faq_copy'] ?? 'Our local team is here to help you plan.' }}</p><a href="{{ $enquiryUrl }}" class="text-link">Ask about this safari <span>↗</span></a><div class="faq-question-sculpture" aria-hidden="true"><span>?</span></div></div><div class="faq-list">@foreach($faqs as $index => $faq)<details class="faq-item"><summary><span class="faq-number">{{ str_pad((string)($index+1),2,'0',STR_PAD_LEFT) }}</span><span class="faq-question">{{ $faq->question }}</span><span class="faq-chevron" aria-hidden="true"></span></summary><div class="faq-answer"><p>{{ $faq->answer }}</p></div></details>@endforeach</div></section>@endif
+    @if($faqs->isNotEmpty())<section class="faq section-wrap tour-faq" id="tour-faq"><div class="faq-heading"><span class="eyebrow">{{ $siteSettings['home_faq_eyebrow'] ?? 'GOOD TO KNOW' }}</span><h2>{{ $siteSettings['home_faq_title'] ?? 'Your questions, answered.' }}</h2><p>{{ $siteSettings['home_faq_copy'] ?? 'Our local team is here to help you plan.' }}</p><a href="{{ $enquiryUrl }}" class="text-link">Ask about this safari </a><div class="faq-question-sculpture" aria-hidden="true"><span>?</span></div></div><div class="faq-list">@foreach($faqs as $index => $faq)<details class="faq-item"><summary><span class="faq-number">{{ str_pad((string)($index+1),2,'0',STR_PAD_LEFT) }}</span><span class="faq-question">{{ $faq->question }}</span><span class="faq-chevron" aria-hidden="true"></span></summary><div class="faq-answer"><p>{{ $faq->answer }}</p></div></details>@endforeach</div></section>@endif
     @if($related->isNotEmpty())
         <section class="article-discovery related-tour-discovery" aria-labelledby="related-tour-title">
-            <div class="section-heading"><h2 id="related-tour-title">Related Tours</h2><a class="text-link" href="{{ route('tours.index', (int)$tour->duration_days === 1 ? ['max_days' => 1] : ['min_days' => 2]) }}">Explore more tours ↗</a></div>
+            <div class="section-heading"><h2 id="related-tour-title">Related Tours</h2><a class="text-link" href="{{ route('tours.index', (int)$tour->duration_days === 1 ? ['max_days' => 1] : ['min_days' => 2]) }}">Explore more tours</a></div>
             <div class="article-discovery-track" tabindex="0" aria-label="Related tour cards">
                 @foreach($related as $other)
                     @php($relatedPhoto = $other->image_path ?: $other->destination?->image_path)
@@ -109,7 +109,7 @@
                         <div class="discovery-card-copy">
                             <span class="discovery-category">{{ $other->duration_days }} {{ (int) $other->duration_days === 1 ? 'day' : 'days' }} · {{ $other->destination?->name ?? ucfirst($other->tour_type) }}</span>
                             <h3>{{ $other->title }}</h3>
-                            <div class="discovery-card-reveal"><p>{{ $other->price_from !== null ? 'From '.$other->currency.' '.number_format((float) $other->price_from, 0) : 'Price on request' }}</p><span class="discovery-read">View tour ↗</span></div>
+                            <div class="discovery-card-reveal"><p>{{ $other->price_from !== null ? 'From '.$other->currency.' '.number_format((float) $other->price_from, 0) : 'Price on request' }}</p><span class="discovery-read">View tour</span></div>
                             <span class="discovery-open" aria-hidden="true">↑</span>
                         </div>
                     </a></article>
@@ -118,7 +118,7 @@
             <div class="article-slider-controls" hidden><button type="button" data-article-prev aria-label="Previous tours">←</button><button type="button" data-article-next aria-label="Next tours">→</button></div>
         </section>
     @endif
-    <div class="mobile-safari-enquiry"><div><small>{{ $tour->duration_days }} DAYS · {{ $tour->duration_nights }} NIGHTS</small><strong>{{ $tour->price_from ? 'From '.$tour->currency.' '.number_format((float)$tour->price_from) : 'Your tailor-made safari' }}</strong></div><a class="button button-coral" href="{{ $enquiryUrl }}">Enquire <span>↗</span></a></div>
+    <div class="mobile-safari-enquiry"><div><small>{{ $tour->duration_days }} DAYS · {{ $tour->duration_nights }} NIGHTS</small><strong>{{ $tour->price_from ? 'From '.$tour->currency.' '.number_format((float)$tour->price_from) : 'Your tailor-made safari' }}</strong></div><a class="button button-coral" href="{{ $enquiryUrl }}">Enquire </a></div>
 @endsection
 
 @push('styles')<link rel="stylesheet" href="{{ asset('css/itinerary-map.css') }}?v=2">@endpush

@@ -26,7 +26,7 @@
         <small data-gallery-count="transport_gallery_ids">0 of 5 photos selected</small>
         <select hidden multiple data-day-field="transport_gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ $photo->category }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
         <div class="day-upload-previews" data-transport-previews></div>
-        <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery ↗</a>
+        <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery</a>
         @if($errors->has('itinerary_days.*.transport_gallery_ids*'))<small class="field-error">{{ $errors->first('itinerary_days.*.transport_gallery_ids*') }}</small>@endif
     </div>
 </div>

@@ -28,7 +28,7 @@
                 <div class="day-upload-previews" data-day-upload-previews></div>
                 @if($accommodation->image_path)<div class="cover-preview"><img src="{{ asset($accommodation->image_path) }}" alt="Current accommodation cover"></div>@endif
                 <small>Choose up to five stay photos. The first selected photo becomes the cover. These photos appear on itinerary days using this stay.</small>
-                <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery ↗</a>
+                <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery</a>
                 @error('gallery_photo_ids')<small class="field-error">{{ $message }}</small>@enderror
                 @if($errors->has('gallery_photo_ids.*'))<small class="field-error">{{ $errors->first('gallery_photo_ids.*') }}</small>@endif
             </div>

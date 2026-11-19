@@ -12,7 +12,7 @@
         <h2 class="form-section-title">Message</h2><div class="inquiry-message">{{ $inquiry->message ?: 'No additional message was included.' }}</div>
         <form class="status-update" method="POST" action="{{ route('admin.inquiries.update', $inquiry) }}">@csrf @method('PATCH')
             <div class="field"><label for="status">FOLLOW-UP STATUS</label><select id="status" name="status">@foreach(['new','contacted','quoted','confirmed','closed'] as $status)<option value="{{ $status }}" @selected($inquiry->status === $status)>{{ ucfirst($status) }}</option>@endforeach</select></div>
-            <button class="button" type="submit">Update status ↗</button>
+            <button class="button" type="submit">Update status</button>
         </form>
         <form class="delete-inquiry" method="POST" action="{{ route('admin.inquiries.destroy', $inquiry) }}" onsubmit="return confirm('Delete this enquiry?')">@csrf @method('DELETE')<button class="text-button">Delete enquiry</button></form>
     </section>

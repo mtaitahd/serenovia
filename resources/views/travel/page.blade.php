@@ -19,10 +19,10 @@
             </details>
         @endforeach
         <div class="hero-actions">
-            <a class="button button-dark" href="{{ route('tours.index') }}">Find your trip <span>↗</span></a>
-            <a class="text-link" href="{{ route('contact') }}">Contact our team <span>↗</span></a>
-            @isset($faqs)<a class="text-link" href="{{ route('journal.index') }}">Travel stories <span>↗</span></a>@endisset
-            @if(!request()->routeIs('responsible'))<a class="text-link" href="{{ route('responsible') }}">Responsible travel <span>↗</span></a>@endif
+            <a class="button button-dark" href="{{ route('tours.index') }}">Find your trip </a>
+            <a class="text-link" href="{{ route('contact') }}">Contact our team </a>
+            @isset($faqs)<a class="text-link" href="{{ route('journal.index') }}">Travel stories </a>@endisset
+            @if(!request()->routeIs('responsible'))<a class="text-link" href="{{ route('responsible') }}">Responsible travel </a>@endif
         </div>
     </article>
 @endsection

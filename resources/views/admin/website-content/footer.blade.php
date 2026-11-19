@@ -11,6 +11,6 @@
         <div class="field"><label for="footer_contact_heading">CONTACT COLUMN HEADING</label><input id="footer_contact_heading" name="footer_contact_heading" required value="{{ old('footer_contact_heading', $siteSettings['footer_contact_heading'] ?? 'Get in touch') }}"></div>
         <div class="field full"><label for="footer_links_text">EXPLORE LINKS <small>One per line: label | URL</small></label><textarea id="footer_links_text" name="footer_links_text" rows="7" placeholder="Safari journeys | /safaris&#10;Places to stay | /accommodations">{{ old('footer_links_text', $footerLinksText) }}</textarea></div>
     </div>
-    <div class="form-actions"><button class="button" type="submit">Save footer <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save footer </button></div>
 </form>
 @endsection

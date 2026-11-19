@@ -10,6 +10,6 @@
             <div class="field"><label for="sort_order">LIST ORDER *</label><input id="sort_order" type="number" name="sort_order" min="0" max="10000" value="{{ old('sort_order', $country->sort_order ?? 0) }}" required><small>Lower numbers appear first on the safari listing.</small>@error('sort_order')<small class="field-error">{{ $message }}</small>@enderror</div>
             <div class="field"><label class="checkbox-row"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $country->exists ? $country->is_active : true))> Show in safari country list</label></div>
         </div>
-        <div class="form-actions"><button class="button" type="submit">{{ $country->exists ? 'Save country' : 'Add country' }} <span>↗</span></button><a class="button secondary" href="{{ route('admin.countries.index') }}">Cancel</a></div>
+        <div class="form-actions"><button class="button" type="submit">{{ $country->exists ? 'Save country' : 'Add country' }} </button><a class="button secondary" href="{{ route('admin.countries.index') }}">Cancel</a></div>
     </form>
 @endsection

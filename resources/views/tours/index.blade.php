@@ -49,7 +49,7 @@
                         <small>Price on request. Set a starting price on a published safari to enable this filter.</small>
                     @endif
                 </fieldset>
-            <button class="button button-dark" type="submit">Show journeys <span>↗</span></button>
+            <button class="button button-dark" type="submit">Show journeys </button>
             <a class="tour-filter-clear" href="{{ route('tours.index') }}">Clear filters</a>
         </form>
         </aside>
@@ -64,7 +64,7 @@
         </div>
         <p class="catalogue-count">{{ $tours->total() }} {{ \Illuminate\Support\Str::plural('journey', $tours->total()) }} found</p>
         @if($tours->isEmpty())
-            <div class="public-empty"><span>✳</span><h2>{{ request()->hasAny(['q','destination','type','category','comfort']) ? 'No journeys match those filters.' : 'Good journeys take thought.' }}</h2><p>{{ request()->hasAny(['q','destination','type','category','comfort']) ? 'Try clearing a filter or ask our team to shape a custom Tanzania trip.' : 'Our safari collection is being prepared. Tell us what you would love to experience and we can start planning a custom Tanzania trip.' }}</p><a class="button button-dark" href="{{ route('contact') }}">Plan a custom journey <span>↗</span></a></div>
+            <div class="public-empty"><span>✳</span><h2>{{ request()->hasAny(['q','destination','type','category','comfort']) ? 'No journeys match those filters.' : 'Good journeys take thought.' }}</h2><p>{{ request()->hasAny(['q','destination','type','category','comfort']) ? 'Try clearing a filter or ask our team to shape a custom Tanzania trip.' : 'Our safari collection is being prepared. Tell us what you would love to experience and we can start planning a custom Tanzania trip.' }}</p><a class="button button-dark" href="{{ route('contact') }}">Plan a custom journey </a></div>
         @else
             <div class="tour-list-grid">
                 @foreach($tours as $tour)
@@ -75,5 +75,5 @@
         @endif
         </div>
     </section>
-    <section class="plan section-wrap"><span class="eyebrow">YOUR TRIP, YOUR WAY</span><h2>Have a different idea <em>in mind?</em></h2><p>We can help you plan a route around your dates, interests and pace.</p><a class="button button-dark" href="{{ route('contact') }}">Talk to our team <span>↗</span></a></section>
+    <section class="plan section-wrap"><span class="eyebrow">YOUR TRIP, YOUR WAY</span><h2>Have a different idea <em>in mind?</em></h2><p>We can help you plan a route around your dates, interests and pace.</p><a class="button button-dark" href="{{ route('contact') }}">Talk to our team </a></section>
 @endsection

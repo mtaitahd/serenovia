@@ -16,6 +16,6 @@
             <div class="field"><label for="instagram">INSTAGRAM PROFILE URL</label><input id="instagram" type="url" name="instagram" value="{{ old('instagram', $settings['instagram']) }}" placeholder="https://instagram.com/..."></div>
             <div class="field"><label for="facebook">FACEBOOK PAGE URL</label><input id="facebook" type="url" name="facebook" value="{{ old('facebook', $settings['facebook']) }}" placeholder="https://facebook.com/..."></div>
         </div>
-        <div class="form-actions"><button class="button" type="submit">Save website details <span>↗</span></button></div>
+        <div class="form-actions"><button class="button" type="submit">Save website details </button></div>
     </form>
 @endsection

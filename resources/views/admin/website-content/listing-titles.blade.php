@@ -15,6 +15,6 @@
             <div class="field full"><label for="{{ $key }}_listing_intro">INTRODUCTION</label><textarea id="{{ $key }}_listing_intro" name="{{ $key }}_listing_intro" rows="2">{{ old($key.'_listing_intro', $siteSettings[$key.'_listing_intro'] ?? $defaults[2]) }}</textarea></div>
         @endforeach
     </div>
-    <div class="form-actions"><button class="button" type="submit">Save listing titles <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save listing titles </button></div>
 </form>
 @endsection

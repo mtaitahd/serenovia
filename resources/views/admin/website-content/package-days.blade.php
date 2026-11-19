@@ -16,7 +16,7 @@
         @error('package_days.*')<small class="field-error">{{ $message }}</small>@enderror
         <button type="button" class="button button-light" id="add-package-day">＋ Add day option</button>
         <div class="form-hint">Removing an option affects new package selections. Saved accommodation assignments remain unchanged.</div>
-        <div class="form-actions"><button class="button" type="submit">Save day options <span>↗</span></button></div>
+        <div class="form-actions"><button class="button" type="submit">Save day options </button></div>
     </section>
 </form>
 <script>

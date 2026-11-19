@@ -39,6 +39,6 @@
     })();
     </script>
     <div class="form-hint">Removing an option here changes choices for new packages; saved safari routes remain intact.</div>
-    <div class="form-actions"><button class="button" type="submit">Save route points <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save route points </button></div>
 </form>
 @endsection

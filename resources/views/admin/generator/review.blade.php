@@ -59,12 +59,12 @@
                         @else
                             <div class="generator-photo-empty">
                                 <p>No gallery photos yet.</p>
-                                <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos in Gallery ↗</a>
+                                <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos in Gallery</a>
                             </div>
                         @endif
                     </fieldset>
                 @endforeach
-                <p><a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Upload photos to Gallery ↗</a><br><small>Save your mapping before refreshing to see new uploads.</small></p>
+                <p><a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Upload photos to Gallery</a><br><small>Save your mapping before refreshing to see new uploads.</small></p>
                 @foreach(array_diff($fields, ['gallery_ids', 'transport_gallery_ids']) as $field)
                     <label>{{ str($field)->headline() }}
                         @if(isset($lookup[$field]))

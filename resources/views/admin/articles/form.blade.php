@@ -13,6 +13,6 @@
             <div class="field full"><label for="body">ARTICLE BODY *</label><textarea class="tinymce-editor" id="body" name="body" rows="16" required>{{ old('body', $article->body) }}</textarea><small>Format your story with headings, links, lists, tables, and emphasis.</small>@error('body')<small class="field-error">{{ $message }}</small>@enderror</div>
             <div class="field full"><label for="image">FEATURED PHOTO</label>@if($article->image_path)<img class="image-current" src="{{ asset($article->image_path) }}" alt="">@endif<input id="image" type="file" name="image" accept="image/*"><small>JPG, PNG or WebP. Maximum 8 MB.</small></div>
         </div>
-        <div class="form-actions"><button class="button" type="submit">Save article <span>↗</span></button><a class="button secondary" href="{{ route('admin.articles.index') }}">Cancel</a></div>
+        <div class="form-actions"><button class="button" type="submit">Save article </button><a class="button secondary" href="{{ route('admin.articles.index') }}">Cancel</a></div>
     </form>
 @endsection

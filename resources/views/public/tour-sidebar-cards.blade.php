@@ -26,5 +26,5 @@
     </section>
 @endif
 @if($tour->route_map_enabled && count($itineraryDays))
-    <section class="detail-side-card detail-related-links"><h2>Safari route</h2><a href="{{ strtok($tabUrl('overview'), '#') }}#journey-route-map">View route map ↗</a></section>
+    <section class="detail-side-card detail-related-links"><h2>Safari route</h2><a href="{{ strtok($tabUrl('overview'), '#') }}#journey-route-map">View route map</a></section>
 @endif

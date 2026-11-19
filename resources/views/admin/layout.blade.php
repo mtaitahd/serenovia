@@ -67,18 +67,18 @@
             <a href="{{ route('admin.faqs.index') }}" @class(['active' => request()->routeIs('admin.faqs.*')])><span>?</span> FAQs</a>
             <div class="sidebar-caption nav-caption">COMMUNICATION</div>
             <a href="{{ route('admin.inquiries.index') }}" @class(['active' => request()->routeIs('admin.inquiries.*')])><span>✉</span> Enquiries <i>{{ \App\Models\Inquiry::where('status', 'new')->count() ?: '' }}</i></a>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener"><span>↗</span> View website</a>
+            <a href="{{ route('home') }}" target="_blank" rel="noopener"> View website</a>
         </nav>
         <div class="admin-user-card">
             <span class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
             <span class="user-info"><b>{{ auth()->user()->name }}</b><small>Administrator</small></span>
-            <form method="POST" action="{{ route('admin.logout') }}">@csrf<button aria-label="Log out" title="Log out">↗</button></form>
+            <form method="POST" action="{{ route('admin.logout') }}">@csrf<button aria-label="Log out" title="Log out">Log out</button></form>
         </div>
     </aside>
     <main class="admin-main">
         <header class="admin-topbar">
             <div><span class="topbar-overline">SERENOVIA AFRICA SAFARIS</span><span class="topbar-divider">/</span><span class="topbar-section">CONTENT MANAGEMENT</span></div>
-            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="site-preview">Open website <span>↗</span></a>
+            <a href="{{ route('home') }}" target="_blank" rel="noopener" class="site-preview">Open website </a>
         </header>
         <div class="admin-page">
             @if (session('success')) <div class="notice success">{{ session('success') }}</div> @endif

@@ -18,7 +18,7 @@
                 <div class="field full"><label for="message">WHAT WOULD MAKE THIS JOURNEY YOURS?</label><textarea id="message" name="message" rows="6" placeholder="Tell us about the places, experiences or pace you're dreaming of...">{{ old('message') }}</textarea></div>
                 <div class="field website-field" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
             </div>
-            <button class="button button-dark" type="submit">Send your enquiry <span>↗</span></button>
+            <button class="button button-dark" type="submit">Send your enquiry </button>
             <p class="form-privacy">Your details are used only to respond to this trip enquiry.</p>
         </form>
     </section>

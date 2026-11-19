@@ -4,7 +4,7 @@
         $staysByDay = $tour->accommodations->groupBy('pivot.day_number');
     @endphp
     @if(!empty($tour->practical_details['arrival']))
-        <div class="itinerary-arrival"><h3>Arrival</h3><p>{{ $tour->practical_details['arrival'] }} <a href="{{ $tabUrl('getting-there') }}">Getting there ↗</a></p></div>
+        <div class="itinerary-arrival"><h3>Arrival</h3><p>{{ $tour->practical_details['arrival'] }} <a href="{{ $tabUrl('getting-there') }}">Getting there</a></p></div>
     @endif
     @foreach($itineraryDays as $index => $day)
         @php

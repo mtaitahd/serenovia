@@ -30,7 +30,7 @@
                 <div class="field"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"></div>
                 <div class="field"><label for="password">PASSWORD</label><input id="password" type="password" name="password" required minlength="12" autocomplete="new-password"></div>
                 <div class="field"><label for="password_confirmation">CONFIRM PASSWORD</label><input id="password_confirmation" type="password" name="password_confirmation" required minlength="12" autocomplete="new-password"></div>
-                <button class="button" type="submit">Create administrator <span>↗</span></button>
+                <button class="button" type="submit">Create administrator </button>
                 <div class="admin-help">Your password is stored securely as a hash.</div>
             </form>
         </section>

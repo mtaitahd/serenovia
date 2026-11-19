@@ -29,7 +29,7 @@
             <div class="hero-content">
                 <div class="eyebrow light"><span class="eyebrow-line"></span>{{ $home['home_hero_eyebrow'] }}</div>
                 <h1 id="hero-title">{{ $home['hero_title'] }}</h1><p>{{ $home['hero_subtitle'] }}</p>
-                <div class="hero-actions"><a href="{{ $homeLink('home_primary_url') }}" class="button button-coral">{{ $home['home_primary_button'] }} <span>↗</span></a><a href="{{ $homeLink('home_secondary_url') }}" class="text-link light-link">{{ $home['home_secondary_button'] }} <span>↓</span></a></div>
+                <div class="hero-actions"><a href="{{ $homeLink('home_primary_url') }}" class="button button-coral">{{ $home['home_primary_button'] }} </a><a href="{{ $homeLink('home_secondary_url') }}" class="text-link light-link">{{ $home['home_secondary_button'] }} <span>↓</span></a></div>
             </div>
             <form class="hero-trip-finder" id="trip-finder" method="get" action="{{ route('tours.index') }}" aria-labelledby="trip-finder-title">
                 <h2 id="trip-finder-title">{{ $home['home_finder_title'] }}</h2>
@@ -40,7 +40,7 @@
                 </div></fieldset>
                 <label class="finder-field"><span>{{ $home['home_finder_destination'] }}</span><input type="search" name="q" maxlength="100" placeholder="{{ $home['home_finder_placeholder'] }}"></label>
                 <label class="finder-field"><span>{{ $home['home_finder_duration'] }}</span><select name="max_days"><option value="">{{ $home['home_finder_any'] }}</option>@foreach([3,7,14] as $days)<option value="{{ $days }}">{{ $home['home_finder_'.$days] }}</option>@endforeach</select></label>
-                <button type="submit" class="button button-dark">{{ $home['home_finder_button'] }} <span aria-hidden="true">↗</span></button>
+                <button type="submit" class="button button-dark">{{ $home['home_finder_button'] }} </button>
                 <small>{{ $home['home_finder_note'] }}</small>
             </form>
         </div>
@@ -63,16 +63,16 @@
             @php($whatsapp = preg_replace('/\D+/', '', $siteSettings['whatsapp'] ?? ''))
             <div class="home-featured-grid">@foreach($featuredTours as $tour) @include('public.home-featured-tour') @endforeach</div>
         @else
-            <div class="catalogue-empty"><span class="empty-symbol">✳</span><div><b>Your next journey starts here.</b><p>Tell us what you have in mind and we will help you plan a custom trip.</p></div><a class="text-link" href="{{ route('contact') }}">Plan with our team <span>↗</span></a></div>
+            <div class="catalogue-empty"><span class="empty-symbol">✳</span><div><b>Your next journey starts here.</b><p>Tell us what you have in mind and we will help you plan a custom trip.</p></div><a class="text-link" href="{{ route('contact') }}">Plan with our team </a></div>
         @endif
     </div></section>
     @endif
     @if($home['home_safaris_enabled'] === '1') @include('public.home-safaris') @endif
     @if($home['home_destinations_enabled'] === '1')
     <div class="home-destinations-paper"><section class="destinations section-wrap" id="destinations">
-        <div class="destination-title"><span class="eyebrow">{{ $home['home_destinations_eyebrow'] }}</span><h2>{{ $home['home_destinations_title'] }}</h2><p>{{ $home['home_destinations_copy'] }}</p><a class="text-link" href="{{ $homeLink('home_destinations_url') }}">{{ $home['home_destinations_button'] }} <span>↗</span></a></div>
+        <div class="destination-title"><span class="eyebrow">{{ $home['home_destinations_eyebrow'] }}</span><h2>{{ $home['home_destinations_title'] }}</h2><p>{{ $home['home_destinations_copy'] }}</p><a class="text-link" href="{{ $homeLink('home_destinations_url') }}">{{ $home['home_destinations_button'] }} </a></div>
         <div class="destination-list">@foreach($destinations as $index => $destination)
-            <a href="{{ route('destinations.show', $destination->slug) }}"><span class="destination-no">{{ str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) }}</span><span class="destination-name">{{ $destination->name }}</span><span class="destination-desc">{{ $destination->tagline ?: $destination->country }}</span><span class="destination-arrow">↗</span></a>
+            <a href="{{ route('destinations.show', $destination->slug) }}"><span class="destination-no">{{ str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) }}</span><span class="destination-name">{{ $destination->name }}</span><span class="destination-desc">{{ $destination->tagline ?: $destination->country }}</span></a>
         @endforeach</div>
     </section></div>
     @endif
@@ -83,7 +83,7 @@
     <div class="home-faq-band"><section class="faq home-faq section-wrap" id="faq" aria-labelledby="faq-title">
         <div class="faq-heading">
             <span class="eyebrow">{{ $home['home_faq_eyebrow'] }}</span><h2 id="faq-title">{{ $home['home_faq_title'] }}</h2><p>{{ $home['home_faq_copy'] }}</p>
-            <a class="text-link" href="{{ $homeLink('home_faq_url') }}">{{ $home['home_faq_button'] }} <span>↗</span></a>
+            <a class="text-link" href="{{ $homeLink('home_faq_url') }}">{{ $home['home_faq_button'] }} </a>
             @if($home['home_faq_image'])<img src="{{ asset($home['home_faq_image']) }}" alt="" loading="lazy" style="display:block;max-width:250px;width:100%;margin:35px auto;object-fit:contain">
             @else<div class="faq-question-sculpture" aria-hidden="true"><span>?</span></div>@endif
         </div>
@@ -91,6 +91,6 @@
     </section></div>
     @endif
     @if($home['home_plan_enabled'] === '1')
-    <section class="plan section-wrap" id="plan"><div class="plan-mark" aria-hidden="true">S<span>✳</span></div><span class="eyebrow">{{ $home['home_plan_eyebrow'] }}</span><h2>{{ $home['home_plan_title'] }}</h2><p>{{ $home['home_plan_copy'] }}</p><a class="button button-dark" href="{{ $homeLink('home_plan_url') }}">{{ $home['home_plan_button'] }} <span>↗</span></a><span class="plan-note">{{ $home['home_plan_note'] }}</span></section>
+    <section class="plan section-wrap" id="plan"><div class="plan-mark" aria-hidden="true">S<span>✳</span></div><span class="eyebrow">{{ $home['home_plan_eyebrow'] }}</span><h2>{{ $home['home_plan_title'] }}</h2><p>{{ $home['home_plan_copy'] }}</p><a class="button button-dark" href="{{ $homeLink('home_plan_url') }}">{{ $home['home_plan_button'] }} </a><span class="plan-note">{{ $home['home_plan_note'] }}</span></section>
     @endif
 @endsection

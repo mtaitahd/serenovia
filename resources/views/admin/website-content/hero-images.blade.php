@@ -13,6 +13,6 @@
         @error('hero_gallery.'.$key)<small class="field-error">{{ $message }}</small>@enderror @error('hero_uploads.'.$key)<small class="field-error">{{ $message }}</small>@enderror
     </div>
 @endforeach
-</div><p>Individual safari, destination and article covers are managed in their own edit forms.</p><div class="form-actions"><button type="submit" class="button">Save hero images <span>↗</span></button></div>
+</div><p>Individual safari, destination and article covers are managed in their own edit forms.</p><div class="form-actions"><button type="submit" class="button">Save hero images </button></div>
 </form>
 @endsection

@@ -35,7 +35,7 @@
                     <input id="password" type="password" name="password" required autocomplete="current-password">
                 </div>
                 <label class="login-remember"><input type="checkbox" name="remember" value="1" @checked(old('remember'))> Remember me</label>
-                <button type="submit">Sign in <span aria-hidden="true">↗</span></button>
+                <button type="submit">Sign in </button>
             </form>
             <footer><a href="{{ route('home') }}">Return to Serenovia</a></footer>
         </section>

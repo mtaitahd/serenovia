@@ -16,6 +16,6 @@
         <div class="field"><label for="traveller_review_link">LEAVE A REVIEW URL</label><input id="traveller_review_link" name="traveller_review_link" type="url" value="{{ old('traveller_review_link', $siteSettings['traveller_review_link'] ?? '') }}" placeholder="https://..."></div>
         <div class="field"><label for="traveller_review_link_text">LEAVE A REVIEW BUTTON</label><input id="traveller_review_link_text" name="traveller_review_link_text" value="{{ old('traveller_review_link_text', $siteSettings['traveller_review_link_text'] ?? 'Leave a review') }}"></div>
     </div>
-    <div class="form-actions"><button class="button" type="submit">Save traveller story <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save traveller story </button></div>
 </form>
 @endsection

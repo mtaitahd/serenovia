@@ -10,6 +10,6 @@
             <div class="field"><label for="sort_order">DISPLAY ORDER</label><input id="sort_order" name="sort_order" type="number" min="0" value="{{ old('sort_order', $faq->sort_order ?? 0) }}"></div>
             <div class="field"><label class="checkbox-row"><input type="checkbox" name="is_active" value="1" @checked(old('is_active', $faq->exists ? $faq->is_active : true))> Show this question on the website</label></div>
         </div>
-        <div class="form-actions"><button class="button" type="submit">Save FAQ <span>↗</span></button><a class="button secondary" href="{{ route('admin.faqs.index') }}">Cancel</a></div>
+        <div class="form-actions"><button class="button" type="submit">Save FAQ </button><a class="button secondary" href="{{ route('admin.faqs.index') }}">Cancel</a></div>
     </form>
 @endsection

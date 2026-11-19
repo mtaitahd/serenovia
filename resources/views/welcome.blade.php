@@ -28,7 +28,7 @@
             <a href="#faq">FAQ</a>
             <a href="#story">Our story</a>
             <a href="#contact">Contact</a>
-            <a class="nav-cta" href="#plan">Plan your safari <span>↗</span></a>
+            <a class="nav-cta" href="#plan">Plan your safari </a>
         </nav>
     </header>
 
@@ -41,7 +41,7 @@
                 <h1 id="hero-title">The wild<br>is calling<span>.</span></h1>
                 <p>Some journeys change the way you see the world.<br class="desktop-only"> Let us take you to the heart of Tanzania.</p>
                 <div class="hero-actions">
-                    <a href="#plan" class="button button-coral">Start your journey <span>↗</span></a>
+                    <a href="#plan" class="button button-coral">Start your journey </a>
                     <a href="#journeys" class="text-link light-link">Explore our safaris <span>↓</span></a>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <h2>Made of wild places.<br><em>Made for your kind of wonder.</em></h2>
                 <div class="intro-bottom">
                     <p>At Serenovia, we believe the best safari is the one that feels like yours. From the first morning on the savannah to the last light over the Indian Ocean, our local team brings Tanzania closer—with care, curiosity and a little bit of magic.</p>
-                    <a class="text-link" href="#contact">Get to know us <span>↗</span></a>
+                    <a class="text-link" href="#contact">Get to know us </a>
                 </div>
             </div>
             <div class="intro-stamp" aria-hidden="true"><span>LOCAL HEART</span><b>✳</b><span>WILD SOUL</span></div>
@@ -74,28 +74,28 @@
                 <div class="journey-grid">
                     <a class="journey-card card-safari" href="#plan">
                         <div class="journey-photo"></div><span class="card-number">01 / THE CLASSIC</span>
-                        <div class="journey-info"><div><h3>Safari, untamed.</h3><p>Serengeti · Ngorongoro · Tarangire</p></div><span class="circle-arrow">↗</span></div>
+                        <div class="journey-info"><div><h3>Safari, untamed.</h3><p>Serengeti · Ngorongoro · Tarangire</p></div></div>
                     </a>
                     <a class="journey-card card-mountain" href="#plan">
                         <div class="journey-photo"></div><span class="card-number">02 / THE CLIMB</span>
-                        <div class="journey-info"><div><h3>Above the clouds.</h3><p>Kilimanjaro · Mount Meru</p></div><span class="circle-arrow">↗</span></div>
+                        <div class="journey-info"><div><h3>Above the clouds.</h3><p>Kilimanjaro · Mount Meru</p></div></div>
                     </a>
                     <a class="journey-card card-island" href="#plan">
                         <div class="journey-photo"></div><span class="card-number">03 / THE SLOWDOWN</span>
-                        <div class="journey-info"><div><h3>Island state of mind.</h3><p>Zanzibar · Pemba · Mafia</p></div><span class="circle-arrow">↗</span></div>
+                        <div class="journey-info"><div><h3>Island state of mind.</h3><p>Zanzibar · Pemba · Mafia</p></div></div>
                     </a>
                 </div>
-                <div class="journeys-foot"><span>NO TWO JOURNEYS ARE THE SAME.</span><a class="text-link" href="#plan">Tell us what moves you <span>↗</span></a></div>
+                <div class="journeys-foot"><span>NO TWO JOURNEYS ARE THE SAME.</span><a class="text-link" href="#plan">Tell us what moves you </a></div>
             </div>
         </section>
 
         <section class="destinations section-wrap" id="destinations">
-            <div class="destination-title"><span class="eyebrow">A COUNTRY THAT STAYS WITH YOU</span><h2>Four corners.<br><em>Endless feeling.</em></h2><p>Come for the wildlife. Stay for the way Tanzania makes you feel.</p><a class="text-link" href="#plan">Find your place <span>↗</span></a></div>
+            <div class="destination-title"><span class="eyebrow">A COUNTRY THAT STAYS WITH YOU</span><h2>Four corners.<br><em>Endless feeling.</em></h2><p>Come for the wildlife. Stay for the way Tanzania makes you feel.</p><a class="text-link" href="#plan">Find your place </a></div>
             <div class="destination-list">
-                <a href="#plan"><span class="destination-no">01</span><span class="destination-name">Serengeti</span><span class="destination-desc">Where the plains go on forever</span><span class="destination-arrow">↗</span></a>
-                <a href="#plan"><span class="destination-no">02</span><span class="destination-name">Ngorongoro</span><span class="destination-desc">A world within a world</span><span class="destination-arrow">↗</span></a>
-                <a href="#plan"><span class="destination-no">03</span><span class="destination-name">Kilimanjaro</span><span class="destination-desc">The roof of Africa</span><span class="destination-arrow">↗</span></a>
-                <a href="#plan"><span class="destination-no">04</span><span class="destination-name">Zanzibar</span><span class="destination-desc">Where the ocean slows time</span><span class="destination-arrow">↗</span></a>
+                <a href="#plan"><span class="destination-no">01</span><span class="destination-name">Serengeti</span><span class="destination-desc">Where the plains go on forever</span></a>
+                <a href="#plan"><span class="destination-no">02</span><span class="destination-name">Ngorongoro</span><span class="destination-desc">A world within a world</span></a>
+                <a href="#plan"><span class="destination-no">03</span><span class="destination-name">Kilimanjaro</span><span class="destination-desc">The roof of Africa</span></a>
+                <a href="#plan"><span class="destination-no">04</span><span class="destination-name">Zanzibar</span><span class="destination-desc">Where the ocean slows time</span></a>
             </div>
         </section>
 
@@ -112,7 +112,7 @@
                             <div class="article-meta"><span>◷ &nbsp;1 MIN READ</span><span>• &nbsp;SAFARI</span></div>
                             <h3>Your first safari: learning to slow down</h3>
                             <p>A safari is not a checklist. It is the hush before sunrise, the guide who knows where to pause, and the moment the plains begin to move.</p>
-                            <div class="article-read"><span>READ THE STORY</span><b>↗</b></div>
+                            <div class="article-read"><span>READ THE STORY</span></div>
                         </summary>
                         <div class="article-full"><p>Leave a little room in the day for the unexpected. The most memorable moments often arrive between the famous sightings: a herd crossing the horizon, the changing light on the grass, or a quiet conversation with your guide.</p><p>Every park has its own rhythm. Let your interests and the time you have shape the route, then give each place time to unfold. A thoughtful safari is measured in moments, not miles.</p></div>
                     </details>
@@ -122,7 +122,7 @@
                             <div class="article-meta"><span>◷ &nbsp;1 MIN READ</span><span>• &nbsp;MOUNTAIN</span></div>
                             <h3>On the mountain, every step has a story</h3>
                             <p>The climb begins long before the summit. It starts with a trail, a steady pace and a team sharing the same horizon.</p>
-                            <div class="article-read"><span>READ THE STORY</span><b>↗</b></div>
+                            <div class="article-read"><span>READ THE STORY</span></div>
                         </summary>
                         <div class="article-full"><p>Kilimanjaro changes with every step: forest shade gives way to open moorland, then to a high, wide quiet. Each day brings a new landscape and a different view of the mountain.</p><p>There is no need to rush the experience. Walk at a considered pace, take in the small details around you, and let your local mountain crew lead the way. Reaching the summit is a moment to remember; so is the journey there.</p></div>
                     </details>
@@ -132,12 +132,12 @@
                             <div class="article-meta"><span>◷ &nbsp;1 MIN READ</span><span>• &nbsp;ISLAND LIFE</span></div>
                             <h3>Zanzibar, best explored unhurried</h3>
                             <p>Beyond the shoreline, island life reveals itself in carved doorways, market colours and the scent of spices on the breeze.</p>
-                            <div class="article-read"><span>READ THE STORY</span><b>↗</b></div>
+                            <div class="article-read"><span>READ THE STORY</span></div>
                         </summary>
                         <div class="article-full"><p>Give yourself time to wander through Stone Town's narrow lanes, notice the details in its old doors, and pause when a small café or market catches your eye. The island's character is found in these everyday encounters.</p><p>Then follow the coast at your own pace. A few unplanned hours can turn a beach stay into a richer part of your Tanzania journey.</p></div>
                     </details>
                 </div>
-                <div class="journal-foot"><span>MORE STORIES ARE ON THEIR WAY</span><a href="#plan" class="text-link">Plan a journey of your own <span>↗</span></a></div>
+                <div class="journal-foot"><span>MORE STORIES ARE ON THEIR WAY</span><a href="#plan" class="text-link">Plan a journey of your own </a></div>
             </div>
         </section>
 
@@ -178,7 +178,7 @@
                     <div class="faq-answer"><p>Comfortable neutral layers, sturdy walking shoes, sun protection and any personal medication are useful starting points. Conditions vary by itinerary, so we'll share a tailored packing list once your route is planned.</p></div>
                 </details>
             </div>
-            <div class="faq-contact"><span>Still have a question?</span><a class="text-link" href="https://wa.me/255621861958?text=Hello%20Serenovia%2C%20I%20have%20a%20question%20about%20planning%20a%20trip." target="_blank" rel="noopener">Ask our local team <span>↗</span></a></div>
+            <div class="faq-contact"><span>Still have a question?</span><a class="text-link" href="https://wa.me/255621861958?text=Hello%20Serenovia%2C%20I%20have%20a%20question%20about%20planning%20a%20trip." target="_blank" rel="noopener">Ask our local team </a></div>
         </section>
 
         <section class="plan section-wrap" id="plan">
@@ -186,7 +186,7 @@
             <span class="eyebrow">YOUR TANZANIA STORY STARTS HERE</span>
             <h2>Let's make it <em>unforgettable.</em></h2>
             <p>Tell us what you've been dreaming about.<br>We'll take it from there.</p>
-            <a class="button button-dark" href="https://wa.me/255621861958?text=Hello%20Serenovia%2C%20I%27m%20planning%20a%20Tanzania%20safari." target="_blank" rel="noopener">Plan your safari on WhatsApp <span>↗</span></a>
+            <a class="button button-dark" href="https://wa.me/255621861958?text=Hello%20Serenovia%2C%20I%27m%20planning%20a%20Tanzania%20safari." target="_blank" rel="noopener">Plan your safari on WhatsApp </a>
             <span class="plan-note">REAL PEOPLE. LOCAL KNOWLEDGE. A JOURNEY THAT'S YOURS.</span>
         </section>
     </main>
@@ -195,7 +195,7 @@
         <div class="footer-main section-wrap">
             <div class="footer-brand-col"><a class="brand brand-footer" href="#top"><span class="brand-mark" aria-hidden="true"><span>S</span><i></i></span><span class="brand-copy"><strong>SERENOVIA</strong><small>AFRICA SAFARIS</small></span></a><p>Thoughtfully made journeys<br>through Tanzania and beyond.</p><span class="footer-location">MOSHI, KILIMANJARO · TANZANIA</span></div>
             <div class="footer-links"><span class="footer-heading">EXPLORE</span><a href="#journeys">Our journeys</a><a href="#destinations">Destinations</a><a href="#story">Our story</a></div>
-            <div class="footer-links"><span class="footer-heading">SAY HELLO</span><a href="mailto:kizzaadventures07@gmail.com">kizzaadventures07@gmail.com</a><a href="tel:+255621861958">+255 621 861 958</a><a href="https://wa.me/255621861958" target="_blank" rel="noopener">WhatsApp us ↗</a></div>
+            <div class="footer-links"><span class="footer-heading">SAY HELLO</span><a href="mailto:kizzaadventures07@gmail.com">kizzaadventures07@gmail.com</a><a href="tel:+255621861958">+255 621 861 958</a><a href="https://wa.me/255621861958" target="_blank" rel="noopener">WhatsApp us</a></div>
         </div>
         <div class="footer-bottom section-wrap"><span>© {{ date('Y') }} SERENOVIA AFRICA SAFARIS</span><span>MADE WITH CARE IN TANZANIA <b>✳</b></span><a href="#top">BACK TO TOP ↑</a></div>
     </footer>

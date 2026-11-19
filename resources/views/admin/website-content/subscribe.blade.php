@@ -30,7 +30,7 @@
     </div>
     <button class="button button-light" type="button" id="add-subscribe-video">+ Add video</button>
     <p class="form-hint">The first 3 videos are shown on the public homepage.</p>
-    <div class="form-actions"><button class="button" type="submit">Save subscribe section <span>↗</span></button></div>
+    <div class="form-actions"><button class="button" type="submit">Save subscribe section </button></div>
 </form>
 @push('scripts')
 <script>

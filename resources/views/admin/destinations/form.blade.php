@@ -16,6 +16,6 @@
             <div class="field full"><label for="image">COVER PHOTO</label>@if($destination->image_path)<img class="image-current" src="{{ asset($destination->image_path) }}" alt="">@endif<input id="image" type="file" name="image" accept="image/*"><small>JPG, PNG or WebP. Maximum 8 MB.</small></div>
             <div class="field full"><label class="checkbox-row"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $destination->is_featured))> Feature on the home page</label></div>
         </div>
-        <div class="form-actions"><button class="button" type="submit">Save destination <span>↗</span></button><a class="button secondary" href="{{ route('admin.destinations.index') }}">Cancel</a></div>
+        <div class="form-actions"><button class="button" type="submit">Save destination </button><a class="button secondary" href="{{ route('admin.destinations.index') }}">Cancel</a></div>
     </form>
 @endsection
