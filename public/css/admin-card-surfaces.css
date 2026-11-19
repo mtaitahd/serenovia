@@ -1,0 +1,26 @@
+/* Soft depth for admin cards, using Serenovia's forest-green tone. */
+.admin-body .stat-card,
+.admin-body .panel,
+.admin-body .quick-links > a {
+    border-color: rgba(23, 52, 38, 0.12);
+    box-shadow: 0 2px 5px rgba(23, 52, 38, 0.04),
+                0 10px 26px -6px rgba(23, 52, 38, 0.13);
+}
+
+.admin-body .quick-links > a {
+    transition: box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.admin-body .quick-links > a:hover,
+.admin-body .quick-links > a:focus-visible {
+    border-color: rgba(23, 52, 38, 0.25);
+    box-shadow: 0 3px 7px rgba(23, 52, 38, 0.06),
+                0 14px 30px -7px rgba(23, 52, 38, 0.19);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-body .quick-links > a {
+        transition: none;
+        transform: none;
+    }
+}

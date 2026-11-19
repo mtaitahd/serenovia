@@ -24,6 +24,7 @@
     @stack('styles')
     @if(request()->routeIs('admin.generator.*'))<link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-generator.css?v=5">@endif
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/ui-typography.css?v=1">
+    <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-card-surfaces.css?v=1">
 </head>
 <body class="admin-body {{ request()->boolean('popup') ? 'admin-popup-body' : '' }} {{ request()->routeIs('admin.generator.*') ? 'generator-page' : '' }}">
     <aside class="admin-sidebar">
