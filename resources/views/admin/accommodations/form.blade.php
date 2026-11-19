@@ -15,16 +15,20 @@
             <div class="field"><label for="status">VISIBILITY</label><select id="status" name="status"><option value="published" @selected(old('status', $accommodation->status ?: 'published')==='published')>Published</option><option value="draft" @selected(old('status', $accommodation->status)==='draft')>Draft</option></select></div>
             <div class="field full"><label for="description">DESCRIPTION</label><textarea id="description" name="description" rows="5">{{ old('description', $accommodation->description) }}</textarea></div>
             <div class="field full"><label for="amenities_text">AMENITIES <small>One per line</small></label><textarea id="amenities_text" name="amenities_text" rows="4" placeholder="Private bathroom&#10;Wi-Fi&#10;Restaurant">{{ old('amenities_text', implode("\n", $accommodation->amenities ?? [])) }}</textarea></div>
-            <div class="field full"><label for="image">PROPERTY COVER PHOTO</label>@if($accommodation->image_path)<div class="cover-preview"><img src="{{ asset($accommodation->image_path) }}" alt="Current accommodation"></div>@endif<input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp">@error('image')<small class="field-error">{{ $message }}</small>@enderror<small>JPG, PNG or WebP · up to 8 MB.</small></div>
-            <div class="field full">
-                <label for="stay-gallery">PROPERTY GALLERY</label>
+            <div class="field full itinerary-day-card" id="stay-photo-picker">
+                <label>STAY PHOTOGRAPHS</label>
                 <input type="hidden" name="gallery_edited" value="1">
-                <select id="stay-gallery" name="gallery_photo_ids[]" multiple size="5">
+                <button type="button" class="button secondary" data-open-day-gallery="gallery_ids">Select from gallery</button>
+                <small data-gallery-count="gallery_ids">0 of 5 photos selected</small>
+                <select hidden multiple name="gallery_photo_ids[]" data-day-field="gallery_ids">
                     @foreach($galleryImages as $photo)
-                        <option value="{{ $photo->id }}" @selected(in_array($photo->id, old('gallery_photo_ids', old('gallery_edited') ? [] : ($accommodation->gallery_photo_ids ?? []))))>{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>
+                    <option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ $photo->category }}" @selected(in_array($photo->id, old('gallery_photo_ids', old('gallery_edited') ? [] : ($accommodation->gallery_photo_ids ?? []))))>{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>
                     @endforeach
                 </select>
-                <small>Select up to five photos. Hold Ctrl or Cmd to select multiple photos.</small>
+                <div class="day-upload-previews" data-day-upload-previews></div>
+                @if($accommodation->image_path)<div class="cover-preview"><img src="{{ asset($accommodation->image_path) }}" alt="Current accommodation cover"></div>@endif
+                <small>Choose up to five stay photos. The first selected photo becomes the cover. These photos appear on itinerary days using this stay.</small>
+                <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery ↗</a>
                 @error('gallery_photo_ids')<small class="field-error">{{ $message }}</small>@enderror
                 @if($errors->has('gallery_photo_ids.*'))<small class="field-error">{{ $errors->first('gallery_photo_ids.*') }}</small>@endif
             </div>
@@ -33,4 +37,8 @@
         </div>
         <div class="builder-actions"><a class="button secondary" href="{{ route('admin.accommodations.index') }}">Cancel</a><button class="button" type="submit">{{ $accommodation->exists ? 'Save accommodation' : 'Add accommodation' }}</button></div>
     </form>
+@include('admin.tours.day-gallery-dialog')
 @endsection
+@push('scripts')
+<script src="{{ asset('js/admin-day-gallery.js') }}?v=2" defer></script>
+@endpush

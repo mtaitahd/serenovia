@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pending = new Set([...activeSelect.selectedOptions].map(option => option.value));
         savedCount = trigger.dataset.openDayGallery === 'gallery_ids' ? remainingSaved(activeCard) : 0;
         capacity = Math.max(0, 5 - savedCount);
-        dialog.querySelector('h2').textContent = trigger.dataset.openDayGallery === 'gallery_ids' ? 'Choose day photographs' : 'Choose transport photographs';
+        dialog.querySelector('h2').textContent = trigger.dataset.openDayGallery === 'gallery_ids' ? (activeCard.id === 'stay-photo-picker' ? 'Choose stay photographs' : 'Choose day photographs') : 'Choose transport photographs';
         category.replaceChildren(new Option('All collections', '')); search.value = ''; grid.replaceChildren();
         const categories = [...new Set([...activeSelect.options].map(option => option.dataset.category).filter(Boolean))].sort();
         categories.forEach(value => category.add(new Option(value,value)));
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             grid.append(button);
         }
+        dialog.querySelector('.dialog-heading p').textContent = 'Select up to five photographs.';
         paintSelection(); filter(); dialog.showModal();
     });
     dialog.querySelectorAll('[data-day-gallery-cancel]').forEach(button => button.addEventListener('click', () => dialog.close()));
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = event.target.closest('.itinerary-day-card');
         if (card && (event.target.matches('[data-day-field="gallery_ids"], [data-day-field="transport_gallery_ids"], [data-remove-photo]'))) paintCard(card);
     });
+    document.querySelectorAll('#stay-photo-picker').forEach(paintCard);
     const list = document.getElementById('itinerary-day-list');
     if (list) {
         new MutationObserver(() => list.querySelectorAll('.itinerary-day-card').forEach(paintCard)).observe(list, {childList:true});

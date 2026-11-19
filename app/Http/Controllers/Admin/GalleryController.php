@@ -22,11 +22,14 @@ class GalleryController extends Controller
             $image->setAttribute('display_bytes', is_file(public_path($image->path)) ? filesize(public_path($image->path)) : null);
         });
 
-        return view('admin.gallery.index', compact('images'));
+        $categories = collect(['Safari', 'Wildlife', 'Culture', 'Kilimanjaro', 'Zanzibar', 'Transport', 'Accommodation', 'Other'])
+            ->merge(GalleryImage::query()->distinct()->pluck('category'))->filter()->unique()->sort()->values();
+        return view('admin.gallery.index', compact('images', 'categories'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|\Illuminate\Http\JsonResponse
     {
+        $this->prepareCategory($request);
         $data = $request->validate([
             'images' => ['required', 'array', 'min:1', 'max:20'],
             'images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192', 'dimensions:min_width=100,min_height=100,max_width=8000,max_height=8000'],
@@ -63,6 +66,7 @@ class GalleryController extends Controller
 
     public function update(Request $request, GalleryImage $image): RedirectResponse
     {
+        $this->prepareCategory($request);
         $data = $request->validate([
             'title' => ['nullable', 'string', 'max:180'],
             'alt_text' => ['nullable', 'string', 'max:255'],
@@ -72,6 +76,14 @@ class GalleryController extends Controller
         $image->update($data);
 
         return back()->with('success', 'Gallery image details updated.');
+    }
+
+    private function prepareCategory(Request $request): void
+    {
+        if ($request->input('category') === '__new__') {
+            $request->validate(['new_category' => ['required', 'string', 'max:80']]);
+            $request->merge(['category' => trim($request->input('new_category'))]);
+        }
     }
 
     public function destroy(GalleryImage $image): RedirectResponse

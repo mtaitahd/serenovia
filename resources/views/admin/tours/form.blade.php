@@ -74,7 +74,7 @@
                     @if($errors->has('itinerary_days.*'))<small class="field-error">{{ collect($errors->get('itinerary_days.*'))->flatten()->first() }}</small>@endif
                     @error('itinerary')<small class="field-error">{{ $message }}</small>@enderror
                 </div>
-                <div class="field full"><div class="accommodation-plan-heading"><div><label>STAYS BY DAY & COMFORT LEVEL</label><small>Choose the property for each itinerary day. Leave the property blank when no stay applies.</small></div><a class="text-link" href="{{ route('admin.accommodations.index') }}" target="_blank" rel="noopener">Manage stays ↗</a></div>
+                <div class="field full"><div class="accommodation-plan-heading"><div><label>STAYS BY DAY & COMFORT LEVEL</label><small>Choose the property for each itinerary day. Its photos come from the stay’s Gallery selection in Manage stays. Leave blank when no stay applies.</small></div><a class="text-link" href="{{ route('admin.accommodations.index') }}" target="_blank" rel="noopener">Manage stays ↗</a></div>
                     <div class="accommodation-plan-list" id="accommodation-plan-list">
                         @foreach($selectedPlan as $index => $plan)
                             <div class="accommodation-plan-row">
@@ -128,6 +128,6 @@
 <script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=6" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=5" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
-<script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=1" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=2" defer></script>
 @endpush
 

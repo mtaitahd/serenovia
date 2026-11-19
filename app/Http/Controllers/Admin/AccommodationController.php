@@ -38,6 +38,7 @@ class AccommodationController extends Controller
         $data['amenities'] = $this->amenities($request->input('amenities_text'));
         $data['is_featured'] = $request->boolean('is_featured');
         if ($image) $data['image_path'] = PublicImage::store($image, 'accommodations');
+        if (!empty($data['gallery_photo_ids'])) $data['image_path'] = GalleryImage::findOrFail($data['gallery_photo_ids'][0])->path;
         Accommodation::create($data);
         return redirect()->route('admin.accommodations.index')->with('success', 'Accommodation added.');
     }
@@ -57,16 +58,18 @@ class AccommodationController extends Controller
         $data['amenities'] = $this->amenities($request->input('amenities_text'));
         $data['is_featured'] = $request->boolean('is_featured');
         if ($image) {
-            PublicImage::delete($accommodation->image_path);
+            if (!GalleryImage::where('path', $accommodation->image_path)->exists()) PublicImage::delete($accommodation->image_path);
             $data['image_path'] = PublicImage::store($image, 'accommodations');
         }
+        if (!empty($data['gallery_photo_ids'])) $data['image_path'] = GalleryImage::findOrFail($data['gallery_photo_ids'][0])->path;
+        if ($request->boolean('gallery_edited') && empty($data['gallery_photo_ids']) && GalleryImage::where('path', $accommodation->image_path)->exists()) $data['image_path'] = null;
         $accommodation->update($data);
         return redirect()->route('admin.accommodations.index')->with('success', 'Accommodation updated.');
     }
 
     public function destroy(Accommodation $accommodation): RedirectResponse
     {
-        PublicImage::delete($accommodation->image_path);
+        if (!GalleryImage::where('path', $accommodation->image_path)->exists()) PublicImage::delete($accommodation->image_path);
         $accommodation->delete();
         return back()->with('success', 'Accommodation removed.');
     }

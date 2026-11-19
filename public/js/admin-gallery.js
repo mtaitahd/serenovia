@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-category-choice]').forEach(select => {
+        const input = select.parentElement.querySelector('[data-new-category]');
+        const toggle = () => {
+            const adding = select.value === '__new__';
+            input.hidden = !adding; input.disabled = !adding; input.required = adding;
+            if (adding) input.focus();
+        };
+        select.addEventListener('change', toggle); toggle();
+    });
     const search = document.getElementById('gallery-search');
     const categoryFilter = document.getElementById('gallery-filter');
     const cards = [...document.querySelectorAll('.gallery-manager-card')];
