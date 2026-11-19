@@ -2,7 +2,7 @@
 @section('title', $siteSettings['brand_name'].' — '.$siteSettings['tagline'])
 @section('description', $home['hero_subtitle'])
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/hero-trip-finder.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/hero-trip-finder.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('css/home-featured-tours.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('css/home-intro.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/home-social.css') }}">
