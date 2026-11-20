@@ -31,7 +31,7 @@ class GalleryController extends Controller
         ]);
 
         $uploaded = \App\Models\GalleryImage::orderBy('sort_order')->orderBy('id')->get();
-        if ($uploaded->isNotEmpty()) $images = $uploaded->map(fn ($photo) => ['path' => $photo->path, 'caption' => $photo->title ?: $photo->alt_text, 'alt' => $photo->alt_text ?: $photo->title, 'category' => $photo->category ?: 'Other']);
+        if ($uploaded->isNotEmpty()) $images = $uploaded->map(fn ($photo) => ['path' => $photo->path, 'caption' => $photo->title ?: $photo->alt_text, 'alt' => $photo->alt_text ?: $photo->title, 'category' => \App\Support\GalleryCategory::group($photo->category)]);
 
         return view('gallery.index', compact('images'));
     }

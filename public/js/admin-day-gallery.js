@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const categories = [...new Set([...activeSelect.options].map(option => option.dataset.category).filter(Boolean))].sort();
         categories.forEach(value => category.add(new Option(value,value)));
         if (trigger.dataset.openDayGallery === 'transport_gallery_ids') category.value = categories.find(value => /transport|vehicle|car/i.test(value)) || '';
+        if (activeCard.id === 'stay-photo-picker') category.value = categories.includes('Accommodation') ? 'Accommodation' : '';
         for (const option of activeSelect.options) {
             const button = document.createElement('button'); button.type = 'button'; button.className = 'gallery-picker-item';
             button.dataset.id = option.value; button.dataset.title = option.textContent.toLowerCase(); button.dataset.category = option.dataset.category || '';

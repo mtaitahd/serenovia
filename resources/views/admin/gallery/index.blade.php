@@ -7,7 +7,7 @@
     <section class="gallery-manager-tools">
         <div><span class="eyebrow">LIBRARY</span><strong>{{ $images->total() }} photographs</strong></div>
         <label class="gallery-search"><span>⌕</span><input id="gallery-search" type="search" placeholder="Search titles or alt text"></label>
-        <select id="gallery-filter"><option value="">Every collection</option>@foreach($categories as $category)<option value="{{ strtolower($category) }}">{{ $category }}</option>@endforeach</select>
+        <select id="gallery-filter"><option value="">Every collection</option>@foreach($categories->map(fn ($value) => \App\Support\GalleryCategory::group($value))->unique()->sort() as $category)<option value="{{ strtolower($category) }}">{{ $category }}</option>@endforeach</select>
     </section>
 
     @if($images->isEmpty())
@@ -15,7 +15,7 @@
     @else
         <div class="gallery-manager-grid" id="gallery-manager-grid">
             @foreach($images as $image)
-                <article class="gallery-manager-card" data-title="{{ strtolower(($image->title ?? '').' '.($image->alt_text ?? '')) }}" data-category="{{ strtolower($image->category) }}">
+                <article class="gallery-manager-card" data-title="{{ strtolower(($image->title ?? '').' '.($image->alt_text ?? '')) }}" data-category="{{ strtolower(\App\Support\GalleryCategory::group($image->category)) }}">
                     <div class="gallery-manager-photo"><img src="{{ asset($image->path) }}" alt="{{ $image->alt_text }}" loading="lazy"><span>{{ $image->category }}</span></div>
                     <div class="gallery-manager-body">
                         <div class="gallery-image-title"><strong>{{ $image->title ?: 'Untitled photograph' }}</strong><small>{{ $image->alt_text ?: 'Add a description for accessibility' }}</small></div>

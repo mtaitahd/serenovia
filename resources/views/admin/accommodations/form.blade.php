@@ -22,7 +22,7 @@
                 <small data-gallery-count="gallery_ids">0 of 5 photos selected</small>
                 <select hidden multiple name="gallery_photo_ids[]" data-day-field="gallery_ids">
                     @foreach($galleryImages as $photo)
-                    <option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ $photo->category }}" @selected(in_array($photo->id, old('gallery_photo_ids', old('gallery_edited') ? [] : ($accommodation->gallery_photo_ids ?? []))))>{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>
+                    <option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ \App\Support\GalleryCategory::group($photo->category) }}" @selected(in_array($photo->id, old('gallery_photo_ids', old('gallery_edited') ? [] : ($accommodation->gallery_photo_ids ?? []))))>{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>
                     @endforeach
                 </select>
                 <div class="day-upload-previews" data-day-upload-previews></div>
@@ -40,5 +40,5 @@
 @include('admin.tours.day-gallery-dialog')
 @endsection
 @push('scripts')
-<script src="{{ asset('js/admin-day-gallery.js') }}?v=2" defer></script>
+<script src="{{ asset('js/admin-day-gallery.js') }}?v=3" defer></script>
 @endpush

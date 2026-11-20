@@ -17,14 +17,14 @@
         <div class="day-saved-photos" data-day-saved-photos></div>
         <button type="button" class="button secondary small" data-open-day-gallery="gallery_ids">Select from gallery</button>
         <small data-gallery-count="gallery_ids">0 of 5 photos selected</small>
-        <select hidden multiple data-day-field="gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ $photo->category }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
+        <select hidden multiple data-day-field="gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ \App\Support\GalleryCategory::group($photo->category) }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
         <input hidden type="file" multiple accept="image/jpeg,image/png,image/webp" data-day-field="uploads" data-day-array>
         <div class="day-upload-previews" data-day-upload-previews></div>
     </div>
     <div class="field full"><label>TRANSPORT / CAR PHOTOGRAPHS</label>
         <button type="button" class="button secondary small" data-open-day-gallery="transport_gallery_ids">Select from gallery</button>
         <small data-gallery-count="transport_gallery_ids">0 of 5 photos selected</small>
-        <select hidden multiple data-day-field="transport_gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ $photo->category }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
+        <select hidden multiple data-day-field="transport_gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ \App\Support\GalleryCategory::group($photo->category) }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
         <div class="day-upload-previews" data-transport-previews></div>
         <a href="{{ route('admin.gallery.index') }}" target="_blank" rel="noopener">Add photos to gallery</a>
         @if($errors->has('itinerary_days.*.transport_gallery_ids*'))<small class="field-error">{{ $errors->first('itinerary_days.*.transport_gallery_ids*') }}</small>@endif
