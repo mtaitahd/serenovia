@@ -61,7 +61,8 @@ return [
         'home_tour_visit' => $field('Visits label', 'text', 'You visit'),
         'home_tour_end' => $field('End label', 'text', 'End'),
     ]],
-    'safaris' => ['label' => 'Our safaris · slideshow', 'anchor' => 'our-safaris', 'description' => 'Large safari photos and captions, alongside the introduction. Slides link to published tours.', 'collection' => 'tours', 'limit' => 4, 'fields' => [
+    'safaris' => ['label' => 'Our safaris · slideshow', 'anchor' => 'our-safaris', 'description' => 'Slides use the cover photos of your selected published tours, not gallery categories. When no tours are available, choose the standalone image below from any gallery category.', 'collection' => 'tours', 'limit' => 4, 'fields' => [
+        'home_safaris_image' => $field('Safari image (shown when no published tours are selected)', 'image', 'images/home-safari/serengeti-sunset.jpg'),
         'home_safaris_title' => $field('Heading', 'title', 'Our safaris in Tanzania'),
         'home_safaris_copy' => $field('Description', 'textarea', 'Watch wildlife on the Serengeti plains, explore Tarangire’s baobabs or spend time with local communities. Our team can help you choose a route and travel at your own pace.'),
         'home_safaris_button' => $field('Button label', 'text', 'Discover more'),

@@ -1,4 +1,10 @@
-@php($safariSlides = $safariTours)
+@php
+    $safariSlides = $safariTours;
+    $safariFallback = $home['home_safaris_image'] ?? '';
+    if (!$safariFallback || !is_file(public_path($safariFallback))) {
+        $safariFallback = 'images/home-safari/serengeti-sunset.jpg';
+    }
+@endphp
 <section class="home-stays home-safaris" id="our-safaris" aria-labelledby="home-safaris-title">
     <div class="home-stays-media" data-home-carousel>
         <div id="home-safari-slides">
@@ -12,7 +18,7 @@
                 </article>
             @empty
                 <article class="home-stays-slide">
-                    <img src="{{ asset($home['hero_image']) }}" alt="" loading="lazy">
+                    <img src="{{ asset($safariFallback) }}" alt="" loading="lazy">
                     <div class="home-stays-caption">
                         <h3>Explore Tanzania</h3>
                         <a href="{{ route('tours.index') }}" aria-label="Explore Tanzania safaris">⟶</a>
