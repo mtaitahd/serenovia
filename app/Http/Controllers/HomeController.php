@@ -21,7 +21,13 @@ class HomeController extends Controller
         if ($request->filled('destination')) $query->where('destination_id', $request->integer('destination'));
         if ($request->filled('q')) $query->where('name', 'like', '%'.(string) $request->string('q').'%');
 
+        $hasStayFilters = collect(['q', 'destination', 'tier'])->contains(fn ($key) => $request->filled($key));
+        $stayGallery = $hasStayFilters ? collect() : GalleryImage::orderBy('sort_order')->orderBy('id')->get()
+            ->filter(fn ($photo) => \App\Support\GalleryCategory::group($photo->category) === 'Accommodation');
+
         return view('accommodations.index', [
+            'stayGallery' => $stayGallery,
+            'hasStayFilters' => $hasStayFilters,
             'accommodations' => $query->paginate(9)->withQueryString(),
             'destinations' => Destination::where('status', 'published')->orderBy('name')->get(),
         ]);

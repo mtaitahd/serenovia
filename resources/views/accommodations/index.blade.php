@@ -1,6 +1,9 @@
 @extends('layouts.site')
 @section('title', 'Places to stay · '.$siteSettings['brand_name'])
 @section('description', 'Explore the camps and lodges selected for Serenovia safari journeys.')
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/photo-gallery.css') }}?v=2">
+@endpush
 @section('content')
     <section class="listing-hero page-photo-hero">@include('public.hero-image', ['heroKey' => 'accommodations'])<span class="eyebrow">REST WELL, TRAVEL WELL</span><h1>Places to <em>stay.</em></h1><p>Explore camps and lodges selected for their location, character and warm Tanzanian welcome.</p></section>
     <section class="listing-wrap section-wrap">
@@ -11,7 +14,9 @@
             <span></span><button class="button button-dark" type="submit">Find a stay </button>
         </form>
         @if($accommodations->isEmpty())
-            <div class="public-empty"><span>⌂</span><h2>{{ request()->hasAny(['q','destination','tier']) ? 'No stays match those filters.' : 'Our stay collection is taking shape.' }}</h2><p>Ask our local team to recommend the right camp or lodge for your journey.</p><a class="button button-dark" href="{{ route('contact') }}">Ask our team </a></div>
+            @if($stayGallery->isEmpty())
+            <div class="public-empty"><span>⌂</span><h2>{{ $hasStayFilters ? 'No stays match those filters.' : 'Our stay collection is taking shape.' }}</h2><p>Ask our local team to recommend the right camp or lodge for your journey.</p><a class="button button-dark" href="{{ route('contact') }}">Ask our team </a></div>
+            @endif
         @else
             <div class="stay-list-grid">
                 @foreach($accommodations as $stay)
@@ -19,6 +24,20 @@
                 @endforeach
             </div>
             @include('public.pagination', ['paginator' => $accommodations])
+        @endif
+        @if($stayGallery->isNotEmpty())
+        <section class="gallery-category-section" aria-labelledby="stay-gallery-title">
+            <h2 id="stay-gallery-title">Accommodation photographs</h2>
+            <p>Explore our camp and lodge photographs. Contact our team to plan your stay.</p>
+            <div class="gallery-editorial-grid">
+                @foreach($stayGallery as $photo)
+                <a class="gallery-editorial-photo" href="{{ asset($photo->path) }}" data-photo data-photo-group="stay-gallery" data-caption="{{ $photo->title ?: $photo->category }}">
+                    <img src="{{ asset($photo->path) }}" {{ \App\Support\ResponsiveImage::attributes($photo->path) }} alt="{{ $photo->alt_text ?: $photo->title }}" loading="lazy">
+                    <span class="gallery-editorial-caption">{{ $photo->title ?: $photo->category }}</span>
+                </a>
+                @endforeach
+            </div>
+        </section>
         @endif
     </section>
     <section class="plan section-wrap"><span class="eyebrow">MATCH THE STAY TO THE JOURNEY</span><h2>Your comfort, <em>your way.</em></h2><p>Tell us your travel style and we will build the right mix of camps and lodges into your itinerary.</p><a class="button button-dark" href="{{ route('contact') }}">Plan your trip </a></section>
