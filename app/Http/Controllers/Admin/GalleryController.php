@@ -32,9 +32,13 @@ class GalleryController extends Controller
         $this->prepareCategory($request);
         $data = $request->validate([
             'images' => ['required', 'array', 'min:1', 'max:20'],
-            'images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192', 'dimensions:min_width=100,min_height=100,max_width=8000,max_height=8000'],
+            'images.*' => ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:8192', new \App\Rules\GalleryImageDimensions()],
             'category' => ['required', 'string', 'max:80'],
             'quality' => ['nullable', 'integer', 'min:55', 'max:95'],
+        ], [
+            'images.*.image' => 'Photo :position must be a valid image.',
+            'images.*.mimes' => 'Photo :position must be a JPG, PNG or WebP file.',
+            'images.*.max' => 'Photo :position is too large. Each photo must be 8 MB or less.',
         ]);
 
         $created = [];

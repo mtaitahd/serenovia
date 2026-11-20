@@ -17,6 +17,7 @@ class PublicImage
     public const MIN_QUALITY = 25;
     public const MAX_QUALITY = 95;
     public const MAX_EDGE = 2400;
+    public const MAX_PIXELS = 40000000;
 
     public static function store(UploadedFile $image, string $folder, int $quality = self::DEFAULT_QUALITY): string
     {
@@ -210,7 +211,7 @@ class PublicImage
             throw new RuntimeException('This server needs PHP GD with WebP support to optimize images.');
         }
         $info = @getimagesize($sourcePath);
-        if (!$info || $info[0] * $info[1] > 40000000) {
+        if (!$info || $info[0] * $info[1] > self::MAX_PIXELS) {
             throw new RuntimeException('Use an image no larger than 40 megapixels.');
         }
         $source = match ($info['mime'] ?? null) {
