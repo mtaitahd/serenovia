@@ -1,0 +1,316 @@
+{
+  "source": "MACHAME ROUTE KILIMANJARO TREKKING.docx",
+  "source_sha256": "9772942acec558ac5323665cd50f9f431fc3a3c1444f082c9a9e10f6fb32d039",
+  "tours": [
+    {
+      "title": "MACHAME ROUTE: 6-DAY ITINERARY",
+      "slug": "machame-route-6-day-itinerary",
+      "tour_type": "mountain",
+      "duration_days": 6,
+      "duration_nights": 5,
+      "price_from": null,
+      "image_path": null,
+      "summary": null,
+      "description": "MACHAME ROUTE KILIMANJARO TREKKING, 6-DAY AND 7-DAY\n\nMACHAME ROUTE OVERVIEW\n\nThe Machame Route approaches Kilimanjaro from the southwest, and it is known as the \" Whiskey Route \" and is one of the most scenic routes on the mountain. The route passes through rainforest, moorland, alpine desert, and finally to the arctic zone, with diverse landscapes. The route joins the Southern Circuit, passing through Lava Tower, Barranco Wall, Karanga, and Barafu, then summiting and descending via Mweka. You will enjoy hiking through all five climatic zones of Kilimanjaro.\n\nSerenovia Safaris prepares the 6-day itinerary that suits experienced, physically fit climbers; the 7-day itinerary is the recommended choice, as the extra day allows better acclimatization and aims to reduce the risk of altitude sickness.",
+      "inclusions": "park entry fees for Kilimanjaro National Park\nprofessional English-speaking mountain guide\nround trip from hotel to Marangu Gate\npicnic lunch on Marangu Mountain\nbottle of drinking water per person\ngovernment tax and conservation fees\nKilimanjaro National Park rescue fees\nHotel pick-up and drop-off",
+      "exclusions": "International and domestic flights\nTanzania visa fees\nTravel and medical insurance\nPersonal hiking equipment\nOther beverages\nPersonal expenses\nTips and gratitude",
+      "itinerary_days": [
+        {
+          "id": "87872052-3895-57d1-8674-42fb4007d429",
+          "title": "MACHAME GATE TO MACHAME CAMP",
+          "details": "Our climb begins with a morning pick-up from your hotel in Moshi or Arusha and a drive to Machame Gate. After registration and park formalities, the trek starts through the rainforest. The trail winds upward along ridges, and the path can be muddy and slippery during the rainy season. Your guide will introduce you to the forest environment as you make your way uphill. After around 5 to 6 hours of hiking, you will reach the Machame camp. Dinner and overnight accommodation are provided at camp.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "5,400ft to 9,400ft (1,640m to 2,860m)",
+          "distance": "11km",
+          "walking_time": "5 to 6 hours",
+          "habitat": "rainy forest"
+        },
+        {
+          "id": "c014cde8-59ce-5b0d-9598-74b1f7100bb6",
+          "title": "MACHAME CAMP TO SHIRA CAMP",
+          "details": "After an early morning breakfast, we leave the rainforest and climb into the moorland. The trail continues upward, crossing the valleys and ridges covered with heather, then turns west into a river valley. Take a break and a picnic lunch along the way. After several hours of hiking, we arrive at Shira Camp for dinner and the night's rest; you should drink some water and give your body time to adjust to the altitude.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "9,400ft to 12,500ft (2,860m to 3,810m)",
+          "distance": "5km",
+          "walking_time": "4to 6 hours",
+          "habitat": "moorland habitat"
+        },
+        {
+          "id": "0187eec1-3d34-5dcf-9b9b-5b3dedd023d8",
+          "title": "SHIRA CAMP TO BARRANCO CAMP VIA LAVA TOWER",
+          "details": "After breakfast, you will be heading toward Kibo, passing Lava Tower at about 4630 meters above sea level. The day follows a climb-high, sleep-low approach: you gain altitude before descending to a lower camp. Stop for lunch and a short rest at Lava Tower, then descend toward Barranco Camp, with views of the Great Barranco Valley. Dinner and overnight accommodation are at camp.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "12,500 ft to 13,000 ft (3,810 m to 3,960 m),",
+          "distance": "10km",
+          "walking_time": "6 to 8 hours",
+          "habitat": "the alpine desert"
+        },
+        {
+          "id": "d2e47a59-6928-5e04-a4f4-0394426b62e1",
+          "title": "BARRANCO CAMP TO BARAFU CAMP VIA KARANGA CAMP",
+          "details": "After breakfast, we climb the Baranco Wall. One of the routes best known sections. It can look imposing from below, but your guide will lead the way along the rocky trail. From the top, take in the views of the valley and glaciers. Then continue to Karanga Camp for lunch and a break, then dinner, and listen to your guide's summit briefing, then set out your warm layers, headlamp, gloves, and other essential gear before resting. The summit climb usually begins around midnight.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "13,000ft to 15,000ft (3,960m to 4,670m)",
+          "distance": "9km",
+          "walking_time": "8 to 10 hours",
+          "habitat": "the alpine desert"
+        },
+        {
+          "id": "60558aa3-78a8-5a4d-9357-7f27a2380a04",
+          "title": "BARAFU CAMP TO UHURU PEAK TO MWEKA CAMP",
+          "details": "The summit that we will begin to attempt begins around midnight after a light meal; climb slowly over the steep ground and loose volcanic scree towards the Stella Point, about 5756 meters on the crater rim. Cold, darkness, and altitude make this a demanding stretch, so follow your guide's pace instructions. This is the longest and most demanding route. Reaching the stela point, pause to rest and, weather permitting, watch the sunrise. Continue along the crater rim to Uhuru Peak, Kilimanjaro's highest point and the highest point in Africa, at 5895 meters above sea level. Take photographs and enjoy the view before beginning the descent. We return above sea level. Take photographs and enjoy the views before beginning the descent. Return to the Barafu camp for a short rest and lunch, then continue downhill through the alpine desert and moorland toward Mweka camp. Dinner and overnight accommodation are provided at camp.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "15,000 ft to 19,300 ft (4,670 m to 5,895 m) at Uhuru Peak, then descending to 10,200 ft (3,100 m)",
+          "distance": "15km",
+          "walking_time": "12 to 14 hours",
+          "habitat": "The Arctic and alpine desert habitats."
+        },
+        {
+          "id": "4f6efd13-5e1b-5d45-93ff-add432db97f9",
+          "title": "MWEKA CAMP TO MWEKA GATE TO MOSHI",
+          "details": "After breakfast, make your final descent through the rainforest to Mweka Gate. The trail passes through tall trees and a bird-filled forest, and the air grows warmer as you lose altitude. Upon reaching the gate, complete the parking exit procedures and receive your Kilimanjaro certificate. Your driver will take you back to Moshi, where you can rest and celebrate completing the climb with Serenovia African safaris",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "10,200 ft to 5,400ft (3,100m to 1,640m)",
+          "distance": "10km",
+          "walking_time": "3 to 4 hours",
+          "habitat": "the rainforest habitat"
+        }
+      ],
+      "package_details": {
+        "subtitle": "The Whiskey Route: Kilimanjaro Packages, Itineraries and Booking",
+        "meta_description": "Book your Kilimanjaro trek via the Machame Route with professional guides and traverse rainforest, alpine desert, and the Barranco Wall to reach Uhuru Peak.",
+        "faqs": [
+          {
+            "question": "How many days does the Machame Route take?",
+            "answer": "Common options are 6 days or 7 days. The 7-day itinerary adds one day at Karanga Camp compared to the 6-day version, shortening the hiking distance before summit day and improving summit success rate."
+          },
+          {
+            "question": "Which is better: 6 days or 7 days?",
+            "answer": "The 7-day itinerary is more recommended. The extra day allows the body to acclimatize better and reduces the risk of altitude sickness. The 6-day itinerary is only suitable for experienced, physically fit, and well-acclimatized climbers."
+          },
+          {
+            "question": "What is the highest point on the Machame Route?",
+            "answer": "Uhuru Peak, at 5,895 meters above sea level, is the highest point in Africa."
+          },
+          {
+            "question": "What are the accommodation conditions on the Machame Route?",
+            "answer": "The entire route uses tented camps; camps include Machame, Shira, Barranco, Karanga, Barafu, and Mweka."
+          },
+          {
+            "question": "What is the most challenging section?",
+            "answer": "Barranco Wall requires some scrambling, but with guide assistance it is manageable. Summit day (from Barafu to Uhuru Peak) is the most demanding, due to high altitude, cold temperatures, and long hiking hours."
+          },
+          {
+            "question": "When is the best time to climb the Machame Route?",
+            "answer": "The popular climbing seasons are January to March and June to October, when weather conditions are generally more favorable."
+          },
+          {
+            "question": "Is the Machame Route suitable for beginners?",
+            "answer": "The 7-day version may be suitable for beginners with good physical fitness and adequate preparation. The 6-day version is not recommended for beginners."
+          },
+          {
+            "question": "Do I need to bring a sleeping bag?",
+            "answer": "Yes. Sleeping bags are personal trekking gear and are typically not included in the price."
+          },
+          {
+            "question": "Can the Machame Route be combined with a safari?",
+            "answer": "Yes. After descending, you can extend to Serengeti, Ngorongoro Crater, Tarangire, or Lake Manyara for a safari."
+          },
+          {
+            "question": "Is reaching Uhuru Peak guaranteed?",
+            "answer": "No. Summiting depends on weather, physical fitness, and individual response to altitude. Guides will prioritize safety and may recommend descending if necessary."
+          }
+        ]
+      },
+      "status": "draft",
+      "route_map_enabled": false,
+      "is_featured": false
+    },
+    {
+      "title": "MACHAME ROUTE: 7-DAY ITINERARY",
+      "slug": "machame-route-7-day-itinerary",
+      "tour_type": "mountain",
+      "duration_days": 7,
+      "duration_nights": 6,
+      "price_from": null,
+      "image_path": null,
+      "summary": null,
+      "description": "MACHAME ROUTE KILIMANJARO TREKKING, 6-DAY AND 7-DAY\n\nMACHAME ROUTE OVERVIEW\n\nThe Machame Route approaches Kilimanjaro from the southwest, and it is known as the \" Whiskey Route \" and is one of the most scenic routes on the mountain. The route passes through rainforest, moorland, alpine desert, and finally to the arctic zone, with diverse landscapes. The route joins the Southern Circuit, passing through Lava Tower, Barranco Wall, Karanga, and Barafu, then summiting and descending via Mweka. You will enjoy hiking through all five climatic zones of Kilimanjaro.\n\nSerenovia Safaris prepares the 6-day itinerary that suits experienced, physically fit climbers; the 7-day itinerary is the recommended choice, as the extra day allows better acclimatization and aims to reduce the risk of altitude sickness.",
+      "inclusions": "park entry fees for Kilimanjaro National Park\nprofessional English-speaking mountain guide\nround trip from hotel to Marangu Gate\npicnic lunch on Marangu Mountain\nbottle of drinking water per person\ngovernment tax and conservation fees\nKilimanjaro National Park rescue fees\nHotel pick-up and drop-off",
+      "exclusions": "International and domestic flights\nTanzania visa fees\nTravel and medical insurance\nPersonal hiking equipment\nOther beverages\nPersonal expenses\nTips and gratitude",
+      "itinerary_days": [
+        {
+          "id": "0d827877-048c-556e-8e76-631a4d902b29",
+          "title": "MACHAME GATE TO MACHAME CAMP",
+          "details": "After breakfast, drive from Moshi or Arusha to Machame Gate. Complete registration and obtain your climbing permits, then begin hiking through the rainforest, where you may see monkeys, birds, and varied forest plants. The trail climbs gradually to Machame Camp. Dinner and overnight accommodation are provided at camp.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "5,400ft to 9,400ft (1,640m to 2,860m)",
+          "distance": "11km",
+          "walking_time": "5 to 6hours",
+          "habitat": "the rainforest habitat"
+        },
+        {
+          "id": "6a8e4211-03c9-5f97-8ea4-28489c73f22f",
+          "title": "MACHAME CAMP TO SHIRA CAMP",
+          "details": "After breakfast, climb through the rainforest and into the moorland. As the forest thins, open landscapes and mountain views begin to appear. Continue toward Shira camp across a rocky path and open hillsides. Arrive at Shira camp in the afternoon for dinner and an overnight stay.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "9,400ft to 12,500ft (2,860m to 3,810m),",
+          "distance": "5km",
+          "walking_time": "4 to 6 hours",
+          "habitat": "the moorland habitat"
+        },
+        {
+          "id": "8b9a4fd6-631d-5e71-b7cd-3c8a16aa7a1f",
+          "title": "SHIRA CAMP TO BARRANCO CAMP VIA LAVA TOWER",
+          "details": "After breakfast, leave Shira Camp and climb through the alpine desert toward Lava Tower. The trail rises to about 4630 metres and offers views across the mountain. Then stop at the Lava Tower for lunch and a short rest, then descend toward Barranco Camp. The climb-high, sleep-low approach gives your body time to adjust to the altitude. Continue beneath Kibos ' southern side to camp for dinner and the night.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "12,500ft to 13,000ft (3,810m to 3,960m)",
+          "distance": "10km",
+          "walking_time": "6 to 8 hours",
+          "habitat": "the alpine desert habitat"
+        },
+        {
+          "id": "01464fc5-4741-50ef-953f-3ec44f8f35cb",
+          "title": "BARRANCO CAMP TO KARANGA CAMP",
+          "details": "After a fresh breakfast, climb the Barranco Wall with your guide's support. From the top, take in the views of the surrounding valleys and mountain landscape, continuing to give your body time to rest and acclimatize. Continue over ridges and valleys to Karanga Camp. at the camp, you will have lunch and dinner, then stay overnight.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "13,000ft to 13,100ft (3,960m to 4,000m)",
+          "distance": "5km",
+          "walking_time": "4 to 5 hours",
+          "habitat": "the alpine desert"
+        },
+        {
+          "id": "77512c06-de50-5057-b312-c43adeb41778",
+          "title": "KARANGA CAMP TO BARAFU CAMP",
+          "details": "After breakfast, leave Karanga Camp and climb towards the Barafu Camp. The trail crosses rocky alpine desert with little vegetation, and conditions grow colder and drier. At the Barafu, have lunch and then rest. Your guide will brief you on the summit attempt and help you prepare your gear for the night climb; dinner is served early, followed by an overnight stay at camp.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "13,100ft to 15,000ft (4,000m to 4,670m),",
+          "distance": "4km",
+          "walking_time": "3 to 4 hours",
+          "habitat": "the alpine desert"
+        },
+        {
+          "id": "3c95184d-cd7b-57f2-ae04-ca592febc90f",
+          "title": "BARAFU CAMP TO UHURU PEAK TO MWEKA CAMP",
+          "details": "When it reaches around midnight, begin the final ascent toward the summit. The climb is demanding because of the steep trail. Cold temperatures and high altitude. reaching toward the stella point, at abouit 5756 metres. Then from the Stella Point, we continue along the crater rim to the Uhuru Peak, at 5895 metres above sea level. We will celebrate your achievements and take photographs. Then descend to Barafu Camp for a short rest and lunch before continuing through the alpine desert and moorland to Mweka Camp. dinner and overnight accommodation are provided.",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "15,000ft to 19,300ft (4,670m to 5,895m) at Uhuru Peak, then descending to 10,200ft (3,100m)",
+          "distance": "15km",
+          "walking_time": "12 to 14 hours",
+          "habitat": "The Arctic and alpine desert habitats"
+        },
+        {
+          "id": "76a4a9d7-63ce-531c-81fe-7ca32a1cdb01",
+          "title": "MWEKA CAMP TO MWEKA GATE TO MOSHI",
+          "details": "After taking a breakfast, we will descend through the rainforest to Mweka Gate, enjoy the fresh and breathtaking forest scenery as you complete the final part of your climb. Upon reaching the gate, complete the full park exit procedures and receive your summit certificate. Meet your driver for the transfer to Moshi or Arusha, where you can rest and celebrate completing the climb with Serenovia African safaris",
+          "location": "",
+          "meals": "",
+          "overnight_camp": "",
+          "images": [],
+          "transport_gallery_ids": [],
+          "altitude": "10,200ft to 5,400ft (3,100m to 1,640m)",
+          "distance": "10km",
+          "walking_time": "3 to 4 hours",
+          "habitat": "the rainforest habitat"
+        }
+      ],
+      "package_details": {
+        "subtitle": "The Whiskey Route: Kilimanjaro Packages, Itineraries and Booking",
+        "meta_description": "Book your Kilimanjaro trek via the Machame Route with professional guides and traverse rainforest, alpine desert, and the Barranco Wall to reach Uhuru Peak.",
+        "faqs": [
+          {
+            "question": "How many days does the Machame Route take?",
+            "answer": "Common options are 6 days or 7 days. The 7-day itinerary adds one day at Karanga Camp compared to the 6-day version, shortening the hiking distance before summit day and improving summit success rate."
+          },
+          {
+            "question": "Which is better: 6 days or 7 days?",
+            "answer": "The 7-day itinerary is more recommended. The extra day allows the body to acclimatize better and reduces the risk of altitude sickness. The 6-day itinerary is only suitable for experienced, physically fit, and well-acclimatized climbers."
+          },
+          {
+            "question": "What is the highest point on the Machame Route?",
+            "answer": "Uhuru Peak, at 5,895 meters above sea level, is the highest point in Africa."
+          },
+          {
+            "question": "What are the accommodation conditions on the Machame Route?",
+            "answer": "The entire route uses tented camps; camps include Machame, Shira, Barranco, Karanga, Barafu, and Mweka."
+          },
+          {
+            "question": "What is the most challenging section?",
+            "answer": "Barranco Wall requires some scrambling, but with guide assistance it is manageable. Summit day (from Barafu to Uhuru Peak) is the most demanding, due to high altitude, cold temperatures, and long hiking hours."
+          },
+          {
+            "question": "When is the best time to climb the Machame Route?",
+            "answer": "The popular climbing seasons are January to March and June to October, when weather conditions are generally more favorable."
+          },
+          {
+            "question": "Is the Machame Route suitable for beginners?",
+            "answer": "The 7-day version may be suitable for beginners with good physical fitness and adequate preparation. The 6-day version is not recommended for beginners."
+          },
+          {
+            "question": "Do I need to bring a sleeping bag?",
+            "answer": "Yes. Sleeping bags are personal trekking gear and are typically not included in the price."
+          },
+          {
+            "question": "Can the Machame Route be combined with a safari?",
+            "answer": "Yes. After descending, you can extend to Serengeti, Ngorongoro Crater, Tarangire, or Lake Manyara for a safari."
+          },
+          {
+            "question": "Is reaching Uhuru Peak guaranteed?",
+            "answer": "No. Summiting depends on weather, physical fitness, and individual response to altitude. Guides will prioritize safety and may recommend descending if necessary."
+          }
+        ]
+      },
+      "status": "draft",
+      "route_map_enabled": false,
+      "is_featured": false
+    }
+  ]
+}
