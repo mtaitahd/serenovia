@@ -14,7 +14,7 @@ class GalleryController extends Controller
 {
     public function index(): View
     {
-        $images = GalleryImage::orderBy('sort_order')->latest()->paginate(30);
+        $images = GalleryImage::orderBy('category')->orderBy('sort_order')->latest()->paginate(30);
 
         $images->getCollection()->each(function (GalleryImage $image): void {
             $sourcePath = $image->source_path ?: PublicImage::sourceFor($image->path);

@@ -27,10 +27,11 @@ class GalleryController extends Controller
         $images = collect($photos)->map(fn (string $caption, string $name) => [
             'path' => SafariPhotography::path($name),
             'caption' => $caption,
+            'category' => match ($name) { 'kilimanjaro' => 'Kilimanjaro', 'zanzibar', 'beach' => 'Zanzibar', 'crater', 'savanna-tree', 'serengeti-sunset' => 'Landscapes', default => 'Wildlife' },
         ]);
 
         $uploaded = \App\Models\GalleryImage::orderBy('sort_order')->orderBy('id')->get();
-        if ($uploaded->isNotEmpty()) $images = $uploaded->map(fn ($photo) => ['path' => $photo->path, 'caption' => $photo->title ?: $photo->alt_text, 'alt' => $photo->alt_text ?: $photo->title]);
+        if ($uploaded->isNotEmpty()) $images = $uploaded->map(fn ($photo) => ['path' => $photo->path, 'caption' => $photo->title ?: $photo->alt_text, 'alt' => $photo->alt_text ?: $photo->title, 'category' => $photo->category ?: 'Other']);
 
         return view('gallery.index', compact('images'));
     }

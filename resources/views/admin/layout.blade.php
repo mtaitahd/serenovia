@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-components.css">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-brand.css">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-package-builder.css?v=3">
-    <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-gallery.css">
+    <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-gallery.css?v=2">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-popups.css?v=2">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-catalogue.css">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-website-content.css?v=3">
