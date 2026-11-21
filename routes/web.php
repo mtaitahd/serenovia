@@ -20,8 +20,18 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
-Route::get('/robots.txt', [\App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+// Discovery documents are public and must not depend on session storage or cookies.
+// Keep SearchVisibility and route bindings; authentication elsewhere is unchanged.
+Route::withoutMiddleware([
+    \Illuminate\Cookie\Middleware\EncryptCookies::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+    \Illuminate\Session\Middleware\StartSession::class,
+    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+    \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+])->group(function () {
+    Route::get('/sitemap.xml', \App\Http\Controllers\SitemapController::class)->name('sitemap');
+    Route::get('/robots.txt', [\App\Http\Controllers\SitemapController::class, 'robots'])->name('robots');
+});
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about-us', [\App\Http\Controllers\TravelPageController::class, 'about'])->name('about');
