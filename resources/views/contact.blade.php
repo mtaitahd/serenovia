@@ -22,4 +22,15 @@
             <p class="form-privacy">Your details are used only to respond to this trip enquiry.</p>
         </form>
     </section>
+    @php
+        $officeMap = ($siteSettings['traveller_map_embed'] ?? '') ?: config('serenova.settings.traveller_map_embed');
+        $mapParts = parse_url($officeMap);
+        $validOfficeMap = ($mapParts['scheme'] ?? '') === 'https' && in_array($mapParts['host'] ?? '', ['www.google.com', 'google.com'], true) && ($mapParts['path'] ?? '') === '/maps/embed';
+    @endphp
+    @if($validOfficeMap)
+        <section class="section-wrap contact-office-map" id="office-map" aria-labelledby="office-map-heading">
+            <h2 id="office-map-heading">Find Serenovia on the map</h2>
+            <iframe src="{{ $officeMap }}" title="Serenovia African Safaris — Google Maps location" width="600" height="450" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </section>
+    @endif
 @endsection

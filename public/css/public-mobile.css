@@ -7,3 +7,8 @@
     main :is(iframe,video) { max-width:100%; }
     .footer-contact-item,.footer-links { min-width:0; overflow-wrap:anywhere; }
 }
+
+.contact-office-map { padding-bottom:60px; }
+.contact-office-map h2 { margin:0 0 22px; }
+.contact-office-map iframe { display:block; width:100%; height:450px; border:2px solid var(--forest); border-radius:0; box-shadow:0 8px 22px #172d2226; }
+@media(max-width:600px) { .contact-office-map iframe { height:340px; } }
