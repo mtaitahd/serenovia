@@ -1,0 +1,20 @@
+Machame and Mweka trail geometry
+===============================
+Copyright OpenStreetMap contributors. Database license: ODbL 1.0.
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Sources (retrieved 2026-11-21):
+https://www.openstreetmap.org/relation/8737224
+https://www.openstreetmap.org/relation/8737225
+https://api.openstreetmap.org/api/0.6/relation/8737224/full
+https://api.openstreetmap.org/api/0.6/relation/8737225/full
+
+The JSON is an adapted route database distributed under ODbL 1.0.
+Relation ways were joined through shared nodes, and shortest paths selected
+between Machame Gate, Machame Camp, Shira Cave Camp, Lava Tower, Barranco,
+Karanga, Barafu, Stella Point, Uhuru Peak, Barafu, Mweka Camp and Mweka Gate.
+Camp coordinates were snapped to the nearest mapped relation node.
+The six-day option combines the Barranco–Karanga and Karanga–Barafu segments.
+For itinerary illustration, not turn-by-turn navigation. Hotel transfers are
+not part of the walking track. No route API is called by website visitors.

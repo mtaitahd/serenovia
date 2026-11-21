@@ -22,19 +22,29 @@ class RouteStops
 
     public static function forTour(TourPackage $tour, array $days): array
     {
-        $destination=self::locate($tour->destination?->name ?? '');
-        $previous=null;$stops=[];
+        $trail=MountainTrail::forTour($tour);
+        $stops=[];
         foreach($days as $index=>$day){
             $label=trim($day['location'] ?? '');
-            $explicit=isset($day['latitude'],$day['longitude']);
+            $explicit=isset($day['latitude'],$day['longitude']) && is_numeric($day['latitude']) && is_numeric($day['longitude']);
             $place=$explicit ? ['label'=>$label ?: ($day['title'] ?: $day['label']),'latitude'=>(float)$day['latitude'],'longitude'=>(float)$day['longitude']] : self::locate($label);
             // A deliberately named, unknown stop must be pinned, never silently substituted.
-            if(!$place && !$label)$place=self::locate(($day['title'] ?? '').' '.strip_tags($day['html'] ?? '')) ?? $destination ?? $previous;
+            if ($trail) {
+                $segment=$trail[$index];$end=$segment['coordinates'][array_key_last($segment['coordinates'])];
+                $place=['label'=>$segment['label'],'latitude'=>$end[0],'longitude'=>$end[1]];
+            } elseif (!$place && !$label) {
+                // Descriptions mention transfers and past locations: never use them as day endpoints.
+                $place=self::locate($day['title'] ?? '');
+            }
             $stops[]=['day'=>$index+1,'label'=>$label ?: ($place['label'] ?? ($day['title'] ?: $day['label'])),'title'=>$day['title'] ?: $day['label'],'latitude'=>$place['latitude'] ?? null,'longitude'=>$place['longitude'] ?? null,'photo'=>!empty($day['images'][0])?asset($day['images'][0]):null];
-            if($place)$previous=$place;
         }
         return $stops;
     }
 
-    public static function start(TourPackage $tour): ?array { return self::locate($tour->starting_point ?? ''); }
+    public static function start(TourPackage $tour): ?array
+    {
+        $trail=MountainTrail::forTour($tour);
+        if ($trail) { $point=$trail[0]['coordinates'][0];return ['label'=>'Machame Gate','latitude'=>$point[0],'longitude'=>$point[1]]; }
+        return self::locate($tour->starting_point ?? '');
+    }
 }
