@@ -1,0 +1,20 @@
+.package-builder{--sans:'Poppins',Arial,sans-serif;--serif:'Poppins',Arial,sans-serif;font-family:var(--sans);font-size:15px}
+.package-builder .field input,.package-builder .field select,.package-builder .field textarea{font-family:var(--sans);font-size:16px;line-height:1.7;padding:12px 14px}
+.package-builder .field label,.package-builder .checkbox-row,.package-builder .checkbox-row b{font-size:13px;line-height:1.6;letter-spacing:.015em}
+.package-builder small,.package-builder .field small,.package-builder .builder-panel-heading p,.package-builder .builder-save-note,.package-builder .itinerary-builder-heading p,.package-builder .cover-picker-actions small,.package-builder .category-choice small{font-size:12px;line-height:1.7}
+.package-builder .button,.package-builder .text-button,.package-builder .builder-steps button,.package-builder .builder-progress-top>span{font-size:12px}
+.package-builder .eyebrow,.package-builder .itinerary-day-card>header span,.package-builder .package-review-card>div:last-child>span:last-child{font-size:11px}
+.package-builder .builder-progress-top strong{font-size:19px}
+.package-builder .builder-panel-heading h2{font-size:28px}
+.package-builder .package-review-card p{font-size:14px;line-height:1.8}
+.package-builder .package-optional>summary,.package-builder .itinerary-media-toggle>summary{font-size:15px}
+.package-builder textarea[data-notepad]{min-height:180px;resize:vertical;background:#fff;border:1px solid #b6c5bb;line-height:1.85}
+.package-builder textarea#description,.package-builder textarea[data-itinerary-details]{min-height:260px}
+.package-notepad-tools{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 0 8px}
+.package-notepad-tools button{font:500 12px var(--sans);padding:7px 10px;min-height:36px;border:1px solid #cad5ce;border-radius:4px;background:#f2f5f1;color:#173426;cursor:pointer}
+.package-notepad-tools button:hover{background:#e2ebe3}
+.package-notepad-tools button:focus-visible{outline:2px solid #173426;outline-offset:2px}
+.package-notepad-tools output{margin-left:auto;font:400 12px var(--sans);color:#54665b}
+.package-builder .field.notepad-expanded{position:fixed;inset:16px;z-index:2000;display:flex;flex-direction:column;gap:8px;padding:22px;background:#fff;box-shadow:0 0 0 100vmax #10291dcc;overflow:auto}
+.package-builder .field.notepad-expanded textarea{flex:1;min-height:45vh;max-height:none}
+@media(max-width:600px){.package-builder .builder-panel{padding:18px}.package-builder .builder-panel-heading h2{font-size:24px}.package-builder .field.notepad-expanded{inset:5px;padding:14px}.package-notepad-tools output{width:100%;margin-left:0}}

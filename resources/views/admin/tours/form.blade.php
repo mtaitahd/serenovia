@@ -64,7 +64,7 @@
         <section class="builder-panel" data-builder-step="3" hidden>
             <div class="builder-panel-heading"><span class="eyebrow">03 / STORY & ROUTE</span><h2>Bring the route to life</h2><p>Explain what makes the journey memorable and what guests can expect each day.</p></div>
             <div class="form-grid">
-                <div class="field full"><label for="description">TOUR OVERVIEW</label><textarea class="tinymce-editor" id="description" name="description" rows="8" placeholder="Tell the story of this experience">{{ old('description', $tour->description) }}</textarea><small>Describe the overall route, its highlights and who it suits. Add daily activities in the day cards below; do not repeat the full itinerary here.</small></div>
+                <div class="field full"><label for="description">TOUR OVERVIEW</label><textarea id="description" name="description" rows="8" placeholder="Tell the story of this experience">{{ old('description', $tour->description) }}</textarea><small>Describe the overall route, its highlights and who it suits. Add daily activities in the day cards below; do not repeat the full itinerary here.</small></div>
                 <div class="field full itinerary-field">
                     <div class="itinerary-builder-heading"><div><label>ADD YOUR TOUR DAYS</label><small>Set the trip length in Basics. Each day gets its own title and activity notes here.</small></div><button type="button" class="button secondary small" id="add-itinerary-day">＋ Add a day</button></div>
                     <div class="itinerary-map-choice"><label class="checkbox-row"><input type="hidden" name="route_map_enabled" value="0"><input type="checkbox" name="route_map_enabled" value="1" @checked(old('route_map_enabled', $tour->route_map_enabled))><span><b>Need a route map?</b><small>Show an animated journey through pinned itinerary stops. Journey type Mountain uses a walking person; Safari uses a moving car.</small></span></label></div>
@@ -122,6 +122,10 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="{{ $publicBasePath }}/css/itinerary-map.css?v=1">
 @endpush
+@push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ $publicBasePath }}/css/admin-package-notepad.css?v=1">
+@endpush
 @push('scripts')
 <dialog class="route-location-dialog" id="route-location-dialog" aria-label="Choose itinerary location"><div class="route-location-heading"><div><h2>Pin this day’s location</h2><p>Move the map and click the destination. You can also enter coordinates in the day form.</p></div><button type="button" class="button secondary small" data-close-route-map>Close</button></div><div id="admin-day-location-map"></div><p data-route-map-status aria-live="polite">Click a place to select it.</p><button type="button" class="button" data-save-route-pin disabled>Use this location</button></dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
@@ -130,5 +134,6 @@
 <script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=3" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-recovery.js?v=1" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-package-notepad.js?v=1" defer></script>
 @endpush
 
