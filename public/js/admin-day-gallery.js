@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pending = new Set([...activeSelect.selectedOptions].map(option => option.value));
         savedCount = trigger.dataset.openDayGallery === 'gallery_ids' ? remainingSaved(activeCard) : 0;
         capacity = Math.max(0, 5 - savedCount);
-        dialog.querySelector('h2').textContent = trigger.dataset.openDayGallery === 'gallery_ids' ? (activeCard.id === 'stay-photo-picker' ? 'Choose stay photographs' : 'Choose day photographs') : 'Choose transport photographs';
+        dialog.querySelector('h2').textContent = trigger.dataset.openDayGallery === 'gallery_ids' ? (activeCard.id === 'stay-photo-picker' ? 'Choose stay photographs' : `${activeCard.querySelector('[data-day-number]')?.textContent || 'Day'} images — select up to 5`) : 'Choose transport photographs';
         category.replaceChildren(new Option('All collections', '')); search.value = ''; grid.replaceChildren();
         const categories = [...new Set([...activeSelect.options].map(option => option.dataset.category).filter(Boolean))].sort();
         categories.forEach(value => category.add(new Option(value,value)));
@@ -86,9 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (card && (event.target.matches('[data-day-field="gallery_ids"], [data-day-field="transport_gallery_ids"], [data-remove-photo]'))) paintCard(card);
     });
     document.querySelectorAll('#stay-photo-picker').forEach(paintCard);
+    const journeyType = document.getElementById('tour_type');
+    function arrangeTransport() {
+        document.querySelectorAll('[data-safari-transport]').forEach(section => { section.hidden = journeyType?.value !== 'safari'; });
+    }
+    journeyType?.addEventListener('change', arrangeTransport);
+    arrangeTransport();
     const list = document.getElementById('itinerary-day-list');
     if (list) {
-        new MutationObserver(() => list.querySelectorAll('.itinerary-day-card').forEach(paintCard)).observe(list, {childList:true});
+        new MutationObserver(() => { list.querySelectorAll('.itinerary-day-card').forEach(paintCard); arrangeTransport(); }).observe(list, {childList:true});
         list.querySelectorAll('.itinerary-day-card').forEach(paintCard);
     }
 });

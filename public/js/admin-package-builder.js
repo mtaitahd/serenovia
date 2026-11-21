@@ -216,6 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const number = index + 1;
             card.querySelectorAll('[data-day-field]').forEach(input => { input.id = "itinerary-day-" + number + "-" + input.dataset.dayField; if(input.previousElementSibling?.tagName === 'LABEL') input.previousElementSibling.htmlFor = input.id; input.name = `itinerary_days[${index}][${input.dataset.dayField}]${input.hasAttribute('data-day-array') ? '[]' : ''}`; });
             card.querySelectorAll('[data-remove-photo]').forEach(input => { input.name = `itinerary_days[${index}][remove_images][]`; });
+            card.querySelector('[data-day-photos-label]').textContent = `DAY ${number} IMAGES — UP TO 5`;
+            card.querySelector('[data-open-day-gallery="gallery_ids"]').textContent = `Day ${number} images — Select from gallery`;
             card.querySelector('[data-day-number]').textContent = `DAY ${String(number).padStart(2, '0')}`;
             card.querySelector('[data-day-title-label]').textContent = `DAY ${number} TITLE / LOCATION`;
             card.querySelector('[data-day-details-label]').textContent = `DAY ${number} ACTIVITIES & NOTES`;

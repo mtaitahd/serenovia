@@ -25,6 +25,18 @@
         @endforeach
     </section>
 @endif
+@if($tour->tour_type === 'safari')
+    @php($transportGallery = collect($itineraryDays)->flatMap(fn ($day) => $day['transport_images'] ?? [])->filter()->unique()->take(5)->values())
+    @if($transportGallery->isNotEmpty())
+        <section class="detail-side-card detail-day-gallery">
+            @foreach($transportGallery as $image)
+                <a href="{{ asset($image) }}" data-photo data-photo-group="sidebar-transport-gallery" data-caption="Safari transport" @unless($loop->first) hidden @endunless>
+                    @if($loop->first)<img src="{{ asset($image) }}" alt="Safari transport" loading="lazy"><span class="detail-gallery-label">Open Transport Photos ({{ $transportGallery->count() }})</span>@endif
+                </a>
+            @endforeach
+        </section>
+    @endif
+@endif
 @if($tour->route_map_enabled && count($itineraryDays))
-    <section class="detail-side-card detail-related-links"><h2>Safari route</h2><a href="{{ strtok($tabUrl('overview'), '#') }}#journey-route-map">View route map</a></section>
+    <section class="detail-side-card detail-related-links"><h2>{{ $tour->tour_type === 'mountain' ? 'Trekking route' : 'Safari route' }}</h2><a href="{{ strtok($tabUrl('overview'), '#') }}#journey-route-map">View route map</a></section>
 @endif

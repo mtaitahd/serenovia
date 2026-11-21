@@ -1,5 +1,5 @@
 <input type="hidden" data-day-field="id">
-<details class="day-media-settings"><summary>Day details, camp &amp; photographs <span aria-hidden="true">＋</span></summary><div class="form-grid itinerary-media-fields">
+<details class="day-media-settings"><summary>Day details &amp; camp <span aria-hidden="true">＋</span></summary><div class="form-grid itinerary-media-fields">
     <div class="field full"><label>MAP STOP / PLACE NAME</label><input type="text" data-day-field="location" maxlength="180" placeholder="For example: Serengeti National Park"><small>This label appears on the animated route.</small></div>
     @foreach(\App\Support\SafariDays::TRAIL_FIELDS as $key => $label)
         <div class="field">
@@ -13,7 +13,9 @@
     <div class="field"><label>LATITUDE (OPTIONAL)</label><input type="number" step="any" min="-90" max="90" data-day-field="latitude" placeholder="Pin a location on the map"></div>
     <div class="field"><label>LONGITUDE (OPTIONAL)</label><input type="number" step="any" min="-180" max="180" data-day-field="longitude"></div>
     <div class="field full"><button type="button" class="button secondary small" data-pin-day>⌖ Pin this stop on the map</button><small>Pin every stop for a geographic map. Without pins, an illustrative route is drawn automatically.</small></div>
-    <div class="field full"><label>THIS DAY’S PHOTOGRAPHS</label>
+</div></details>
+<div class="form-grid itinerary-media-fields">
+    <div class="field full"><label data-day-photos-label>DAY IMAGES — UP TO 5</label><small>Choose up to five photos for this day. They appear below this day’s description on the website.</small>
         <div class="day-saved-photos" data-day-saved-photos></div>
         <button type="button" class="button secondary small" data-open-day-gallery="gallery_ids">Select from gallery</button>
         <small data-gallery-count="gallery_ids">0 of 5 photos selected</small>
@@ -21,7 +23,7 @@
         <input hidden type="file" multiple accept="image/jpeg,image/png,image/webp" data-day-field="uploads" data-day-array>
         <div class="day-upload-previews" data-day-upload-previews></div>
     </div>
-    <div class="field full"><label>TRANSPORT / CAR PHOTOGRAPHS</label>
+    <div class="field full" data-safari-transport><label>TRANSPORT / CAR PHOTOGRAPHS</label>
         <button type="button" class="button secondary small" data-open-day-gallery="transport_gallery_ids">Select from gallery</button>
         <small data-gallery-count="transport_gallery_ids">0 of 5 photos selected</small>
         <select hidden multiple data-day-field="transport_gallery_ids" data-day-array>@foreach($galleryImages as $photo)<option value="{{ $photo->id }}" data-photo-url="{{ asset($photo->path) }}" data-category="{{ \App\Support\GalleryCategory::group($photo->category) }}">{{ $photo->title ?: $photo->alt_text ?: 'Photo '.$photo->id }}</option>@endforeach</select>
@@ -30,4 +32,3 @@
         @if($errors->has('itinerary_days.*.transport_gallery_ids*'))<small class="field-error">{{ $errors->first('itinerary_days.*.transport_gallery_ids*') }}</small>@endif
     </div>
 </div>
-</details>

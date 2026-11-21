@@ -16,14 +16,7 @@
             }
         @endphp
         <article class="itinerary-day" id="tour-day-{{ $index + 1 }}" data-itinerary-day="{{ $index }}">
-            <header class="itinerary-day-heading {{ $photos->isNotEmpty() ? 'has-photos' : '' }}">
-                @if($photos->isNotEmpty())
-                    <div class="itinerary-day-collage itinerary-day-photos collage-count-{{ $photos->count() }}">
-                        @foreach($photos as $image)
-                            <a href="{{ asset($image) }}" data-photo data-photo-group="itinerary-{{ $index }}" data-caption="{{ $day['label'] }} · {{ $day['title'] }}" aria-label="Open {{ $day['label'] }} photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="{{ $day['label'] }} · {{ $day['title'] }}" loading="lazy"></a>
-                        @endforeach
-                    </div>
-                @endif
+            <header class="itinerary-day-heading">
                 <div class="itinerary-day-title"><span>{{ $day['label'] }}</span>@if($day['title'])<h3>{{ $day['title'] }}</h3>@endif</div>
             </header>
             @if($dayStays->isNotEmpty() || !empty($day['overnight_camp']))
@@ -40,6 +33,13 @@
                     </aside>
                 @endif
             </div>
+                @if($photos->isNotEmpty())
+                    <div class="itinerary-photo-row">
+                        @foreach($photos as $image)
+                            <a href="{{ asset($image) }}" data-photo data-photo-group="itinerary-{{ $index }}" data-caption="{{ $day['label'] }} · {{ $day['title'] }}" aria-label="Open {{ $day['label'] }} photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="{{ $day['label'] }} · {{ $day['title'] }}" loading="lazy"></a>
+                        @endforeach
+                    </div>
+                @endif
             @foreach($dayStays as $stay)
                 @php($stayImages = collect($stay->gallery_photo_ids ?? [])->map(fn ($id) => $stayPhotos->get($id))->prepend($stay->image_path)->filter()->unique()->take(5)->values())
                 <section class="itinerary-stay">
@@ -51,8 +51,8 @@
                     @endif
                 </section>
             @endforeach
-            @if(!empty($day['transport_images']))
-                <section class="itinerary-transport"><h4>Transport</h4><div class="itinerary-transport-gallery">@foreach(array_slice($day['transport_images'], 0, 5) as $image)<a href="{{ asset($image) }}" data-photo data-photo-group="transport-{{ $index }}" data-caption="{{ $day['label'] }} · Transport" aria-label="Open transport photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="Transport for {{ $day['label'] }}" loading="lazy"></a>@endforeach</div></section>
+            @if($tour->tour_type === 'safari' && !empty($day['transport_images']))
+                <section class="itinerary-transport"><h4>Transport</h4><div class="itinerary-photo-row">@foreach(array_slice($day['transport_images'], 0, 5) as $image)<a href="{{ asset($image) }}" data-photo data-photo-group="transport-{{ $index }}" data-caption="{{ $day['label'] }} · Transport" aria-label="Open transport photograph {{ $loop->iteration }}"><img src="{{ asset($image) }}" {{ \App\Support\ResponsiveImage::attributes($image) }} alt="Transport for {{ $day['label'] }}" loading="lazy"></a>@endforeach</div></section>
             @endif
         </article>
     @endforeach

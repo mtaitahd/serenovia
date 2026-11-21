@@ -18,3 +18,5 @@
 .package-builder .field.notepad-expanded{position:fixed;inset:16px;z-index:2000;display:flex;flex-direction:column;gap:8px;padding:22px;background:#fff;box-shadow:0 0 0 100vmax #10291dcc;overflow:auto}
 .package-builder .field.notepad-expanded textarea{flex:1;min-height:45vh;max-height:none}
 @media(max-width:600px){.package-builder .builder-panel{padding:18px}.package-builder .builder-panel-heading h2{font-size:24px}.package-builder .field.notepad-expanded{inset:5px;padding:14px}.package-notepad-tools output{width:100%;margin-left:0}}
+
+[data-safari-transport][hidden] { display:none !important; }

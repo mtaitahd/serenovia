@@ -3,7 +3,7 @@
 @section('description', $tour->searchDescription())
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tour-catalogue.css') }}?v=5">
-    <link rel="stylesheet" href="{{ asset('css/tour-detail.css') }}?v=8">
+    <link rel="stylesheet" href="{{ asset('css/tour-detail.css') }}?v=9">
 @endpush
 @section('content')
     @php
