@@ -39,6 +39,22 @@ const script=fs.readFileSync('public/js/admin-package-recovery.js','utf8');
  await page.waitForURL('http://recovery.test/admin/tours/9');
  assert.equal(dialogs,0,'Saving must not show the Leave site warning');
  assert.equal(requests,1,'Only one save request should be sent');
+ await page.goto('http://recovery.test/edit');
+ await page.waitForFunction(()=>!document.querySelector('form').inert);
+ // Simulate browser storage whose write transaction never completes.
+ await page.evaluate(()=>{
+   const original=IDBDatabase.prototype.transaction;
+   IDBDatabase.prototype.transaction=function(names,mode,...rest){
+     if(mode==='readwrite') return {objectStore:()=>({put(){}})};
+     return original.call(this,names,mode,...rest);
+   };
+ });
+ await page.locator('[name=title]').fill('Save despite stalled recovery');
+ await page.getByRole('button',{name:'Save package'}).click();
+ await page.waitForURL('http://recovery.test/admin/tours/9');
+ assert.equal(requests,2,'A stalled backup must not block saving');
+ assert.equal(dialogs,0);
+ console.log('PASS: stalled recovery storage does not block saving.');
  console.log('PASS: submit-time edits save without Leave site warnings or duplicate requests.');
  console.log('PASS: text, gallery selection, day activities, checkboxes, multiple selections and upload files recover; confirmed saves do not restore stale edits.');
  } finally {await browser.close()}

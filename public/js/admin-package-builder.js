@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const panel = event.target.closest('[data-builder-step]');
         if (panel) showStep(panel.dataset.builderStep);
         revealDetails(event.target);
+        const feedback = form.querySelector('[data-package-save-status]');
+        if (feedback) feedback.textContent = `Please check ${event.target.labels?.[0]?.textContent || event.target.name}: ${event.target.validationMessage}`;
     }, true);
     const firstInvalid = form.querySelector('.field-error');
     if (firstInvalid) {

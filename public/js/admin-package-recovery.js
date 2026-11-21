@@ -60,8 +60,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.savePackageRecovery = () => ready ? save() : Promise.reject(new Error('Form recovery is not available yet'));
     form.inert = true;
     try {
-        db = await open();
-        const saved = await read();
+        const saved = await Promise.race([
+            (async () => { db = await open(); return read(); })(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Recovery storage timed out')), 2500)),
+        ]);
         let savedAt = 0;
         try { savedAt = Number(localStorage.getItem('package-saved:' + key)) || 0; } catch {}
         if (saved && saved.version === version && saved.time > savedAt && !form.querySelector('.field-error')) {
@@ -105,25 +107,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Polling also catches gallery selections, map pins and rich editor changes.
     const timer = setInterval(()=>save().catch(()=>{}), 1000);
     form.addEventListener('change',()=>save().catch(()=>{}));
-    let submitting = false, resumingSubmit = false, preparingSubmit = false;
+    let submitting = false;
     form.addEventListener('submit', event => {
         if (event.defaultPrevented) return;
-        if (resumingSubmit) {
-            // Other validators must still be allowed to cancel the submission.
-            queueMicrotask(() => { submitting = !event.defaultPrevented; });
-            return;
-        }
-        event.preventDefault();
-        if (preparingSubmit) return;
-        preparingSubmit = true;
-        const submitter = event.submitter;
-        // Finish the local backup before navigation. Keep it until the server
-        // confirms success, so a failed connection does not discard the edits.
-        save().catch(() => {}).finally(() => {
-            preparingSubmit = false;
-            resumingSubmit = true;
-            try { form.requestSubmit(submitter || undefined); }
-            finally { resumingSubmit = false; }
+        // Recovery must never block the native save request, even if browser
+        // storage is slow, full or unavailable. Existing backups remain intact.
+        submitting = true;
+        save().catch(() => {});
+        queueMicrotask(() => {
+            submitting = !event.defaultPrevented;
+            if (submitting) {
+                const feedback = form.querySelector('[data-package-save-status]');
+                if (feedback) feedback.textContent = 'Saving package…';
+            }
         });
     });
     window.addEventListener('pageshow', () => { submitting = false; });
