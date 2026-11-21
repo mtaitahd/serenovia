@@ -89,6 +89,20 @@ class PublicImageTest extends TestCase
         $path=PublicImage::store(new UploadedFile($this->photo()->getRealPath(),'photo.php',null,null,true),'audit');
         $this->assertStringEndsWith('.jpg',PublicImage::sourceFor($path));
     }
+    public function test_gallery_copy_preserves_custom_compression_and_responsive_files(): void
+    {
+        $path = PublicImage::store($this->photo(), 'gallery', 35);
+        $copy = PublicImage::copy($path, 'itinerary');
+        $this->assertSame(hash_file('sha256', public_path($path)), hash_file('sha256', public_path($copy)));
+        $this->assertSame(hash_file('sha256', public_path(PublicImage::sourceFor($path))), hash_file('sha256', public_path(PublicImage::sourceFor($copy))));
+        foreach ([480, 960, 1440] as $width) {
+            $from = public_path(substr($path, 0, -5).'-'.$width.'w.webp');
+            $to = public_path(substr($copy, 0, -5).'-'.$width.'w.webp');
+            $this->assertSame(is_file($from), is_file($to));
+            if (is_file($from)) $this->assertSame(hash_file('sha256', $from), hash_file('sha256', $to));
+        }
+    }
+
     public function test_copy_and_delete_keep_gallery_original_safe(): void
     {
         $path=PublicImage::store($this->photo(),'gallery');

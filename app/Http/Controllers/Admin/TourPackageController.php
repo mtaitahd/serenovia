@@ -119,15 +119,17 @@ class TourPackageController extends Controller
 
         $data['slug'] = $this->slug($data['slug'] ?? '', $data['title']);
         $data['published_at'] = $data['status'] === 'published' ? ($data['published_at'] ?? $tour->published_at ?? now()) : null;
+        $previousImage = $tour->image_path;
         if ($image) {
-            PublicImage::delete($tour->image_path);
             $data['image_path'] = PublicImage::store($image, 'tours');
         } elseif ($galleryImageId) {
             $galleryImage = GalleryImage::findOrFail($galleryImageId);
-            PublicImage::delete($tour->image_path);
             $data['image_path'] = PublicImage::copy($galleryImage->path, 'tours');
         }
         $tour->update($data);
+        if (isset($data['image_path']) && $previousImage !== $data['image_path']) {
+            PublicImage::delete($previousImage);
+        }
         $this->syncPackageOptions($request, $tour);
 
         return redirect()->route('admin.tours.index')->with('success', 'Safari package updated.');

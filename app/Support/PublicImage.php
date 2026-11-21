@@ -74,13 +74,30 @@ class PublicImage
         }
 
         try {
-            self::encode(public_path($newSource), public_path($newOutput), self::DEFAULT_QUALITY);
+            // Gallery WebPs are already optimized. Re-encoding every selected day photo
+            // here can exhaust a shared host's request timeout and undo custom compression.
+            $info = @getimagesize(public_path($path));
+            if (str_ends_with($path, '.webp') && ($info['mime'] ?? '') === 'image/webp'
+                && max($info[0], $info[1]) <= self::MAX_EDGE) {
+                if (! File::copy(public_path($path), public_path($newOutput))) {
+                    throw new RuntimeException('The selected gallery image could not be copied.');
+                }
+                foreach ([480, 960, 1440] as $width) {
+                    $variant = substr($path, 0, -5).'-'.$width.'w.webp';
+                    if (is_file(public_path($variant)) && ! File::copy(public_path($variant), public_path(substr($newOutput, 0, -5).'-'.$width.'w.webp'))) {
+                        throw new RuntimeException('A gallery image size could not be copied.');
+                    }
+                }
+            } else {
+                self::encode(public_path($newSource), public_path($newOutput), self::DEFAULT_QUALITY);
+                ResponsiveImage::generate($newOutput);
+            }
         } catch (\Throwable $exception) {
-            File::delete(public_path($newSource));
+            File::delete(public_path($newSource), public_path($newOutput));
+            ResponsiveImage::delete($newOutput);
             throw $exception;
         }
 
-        ResponsiveImage::generate($newOutput);
         return $newOutput;
     }
 
