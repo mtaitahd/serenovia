@@ -93,8 +93,11 @@
     </dialog>
     <script src="{{ $publicBasePath }}/vendor/tinymce/tinymce.min.js?v=7.2.1"></script>
     <script src="{{ $publicBasePath }}/js/admin-rich-editor.js?v=1"></script>
-    <script src="{{ $publicBasePath }}/js/admin-form-popups.js?v=4" defer></script>
+    <script src="{{ $publicBasePath }}/js/admin-form-popups.js?v=5" defer></script>
     <script src="{{ $publicBasePath }}/js/admin-sidebar.js?v=1" defer></script>
+    @if(session('package_saved_action'))
+        <script>try { localStorage.setItem('package-saved:' + @json(auth()->id()) + ':' + new URL(@json(session('package_saved_action'))).pathname, String(Date.now())); } catch {}</script>
+    @endif
     @if (request()->boolean('popup') && session()->has('success'))
         <script>window.parent.postMessage({ type: 'admin-form-saved' }, window.location.origin);</script>
     @endif

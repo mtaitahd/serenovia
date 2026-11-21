@@ -5,10 +5,10 @@
     @php($currentGalleryImage = $galleryImages->firstWhere('path', $tour->image_path))
     @php($selectedCategoryIds = old('category_ids', $tour->categories->pluck('id')->all()))
     <div class="page-heading"><div><span class="eyebrow">EXPERIENCE CATALOGUE</span><h1>{{ $tour->exists ? 'Edit package' : 'Create a safari package' }}</h1><p>Build the experience in clear steps, save it as a draft, then publish when it is ready.</p></div><a class="button secondary" href="{{ route('admin.tours.index') }}">← All packages</a></div>
-    <form class="admin-form package-builder" data-max-upload-files="{{ ini_get('max_file_uploads') }}" data-max-post-size="{{ ini_get('post_max_size') }}" method="POST" enctype="multipart/form-data" action="{{ $tour->exists ? route('admin.tours.update', $tour) : route('admin.tours.store') }}">
+    <form class="admin-form package-builder" data-recovery-user="{{ auth()->id() }}" data-recovery-version="{{ $tour->updated_at?->toISOString() ?? 'new' }}" data-max-upload-files="{{ ini_get('max_file_uploads') }}" data-max-post-size="{{ ini_get('post_max_size') }}" method="POST" enctype="multipart/form-data" action="{{ $tour->exists ? route('admin.tours.update', $tour) : route('admin.tours.store') }}">
         @csrf @if($tour->exists) @method('PUT') @endif
         <input type="hidden" id="gallery_image_id" name="gallery_image_id" value="{{ old('gallery_image_id', $currentGalleryImage?->id) }}">
-        <div class="builder-progress">
+        <div class="builder-progress"><p data-recovery-status role="status" style="font-size:12px">Preparing form recovery…</p>
             <div class="builder-progress-top"><div><span class="eyebrow">SAFARI BUILDER</span><strong id="builder-step-title">Step 1 of 4 · Package basics</strong></div><span id="builder-progress-label">25% complete</span></div>
             <div class="builder-progress-track"><span id="builder-progress-fill"></span></div>
             <nav class="builder-steps" aria-label="Package setup steps">
@@ -126,8 +126,9 @@
 <dialog class="route-location-dialog" id="route-location-dialog" aria-label="Choose itinerary location"><div class="route-location-heading"><div><h2>Pin this day’s location</h2><p>Move the map and click the destination. You can also enter coordinates in the day form.</p></div><button type="button" class="button secondary small" data-close-route-map>Close</button></div><div id="admin-day-location-map"></div><p data-route-map-status aria-live="polite">Click a place to select it.</p><button type="button" class="button" data-save-route-pin disabled>Use this location</button></dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-itinerary-media.js?v=6" defer></script>
-<script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=5" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=6" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=3" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-package-recovery.js?v=1" defer></script>
 @endpush
 

@@ -81,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewCover.replaceChildren(image.cloneNode());
     }
 
+    // Validation redirects retain the gallery ID even before a cover file is saved.
+    if (hiddenImageId.value) {
+        const chosen = [...document.querySelectorAll('.gallery-picker-item')].find(item => item.dataset.imageId === hiddenImageId.value);
+        if (chosen) paintPreview(chosen.dataset.imageUrl, chosen.dataset.imageName);
+    }
+
     document.querySelector('[data-open-gallery-picker]')?.addEventListener('click', () => {
         pendingImage = null;
         document.querySelectorAll('.gallery-picker-item').forEach(item => item.classList.toggle('is-selected', item.dataset.imageId === hiddenImageId.value));
@@ -267,6 +273,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }).filter(Boolean).join('\n');
     }
 
+    form.addEventListener('restore-package-days', event => {
+        itineraryList.replaceChildren();
+        event.detail.forEach(addItineraryDay);
+    });
+    form.addEventListener('restore-package-cover', event => { paintPreview(event.detail, 'Selected package cover'); updateReview(); });
     const initialDays = readInitialItinerary();
     const initialCount = Math.max(currentDayCount(), initialDays.length, 1);
     dayCountInput.value = initialCount;

@@ -71,10 +71,12 @@ class TourPackageController extends Controller
             $galleryImage = GalleryImage::findOrFail($galleryImageId);
             $data['image_path'] = PublicImage::copy($galleryImage->path, 'tours');
         }
-        $tour = TourPackage::create($data);
-        $this->syncPackageOptions($request, $tour);
+        DB::transaction(function () use ($data, $request): void {
+            $tour = TourPackage::create($data);
+            $this->syncPackageOptions($request, $tour);
+        });
 
-        return redirect()->route('admin.tours.index')->with('success', 'Safari package created.');
+        return redirect()->route('admin.tours.index')->with('success', 'Safari package created.')->with('package_saved_action', $request->url());
     }
 
     public function edit(Request $request, TourPackage $tour): View
@@ -126,13 +128,16 @@ class TourPackageController extends Controller
             $galleryImage = GalleryImage::findOrFail($galleryImageId);
             $data['image_path'] = PublicImage::copy($galleryImage->path, 'tours');
         }
-        $tour->update($data);
-        if (isset($data['image_path']) && $previousImage !== $data['image_path']) {
+        DB::transaction(function () use ($tour, $data, $request): void {
+            $tour->update($data);
+            $this->syncPackageOptions($request, $tour);
+        });
+        if (isset($data['image_path']) && $previousImage !== $data['image_path']
+            && ! GalleryImage::where('path', $previousImage)->exists()) {
             PublicImage::delete($previousImage);
         }
-        $this->syncPackageOptions($request, $tour);
 
-        return redirect()->route('admin.tours.index')->with('success', 'Safari package updated.');
+        return redirect()->route('admin.tours.index')->with('success', 'Safari package updated.')->with('package_saved_action', $request->url());
     }
 
     public function destroy(TourPackage $tour): RedirectResponse

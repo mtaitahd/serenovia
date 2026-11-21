@@ -37,8 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         openPopup(url, link.textContent.trim());
     }, true);
 
-    document.querySelectorAll('[data-close-admin-popup]').forEach(button => button.addEventListener('click', () => dialog.close()));
-    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    async function closeForm() {
+        try { await frame.contentWindow.savePackageRecovery?.(); }
+        catch { if (!confirm('The latest changes could not be backed up. Close without saving?')) return; }
+        dialog.close();
+    }
+    document.querySelectorAll('[data-close-admin-popup]').forEach(button => button.addEventListener('click', closeForm));
+    dialog.addEventListener('click', event => { if (event.target === dialog) closeForm(); });
+    dialog.addEventListener('cancel', event => { event.preventDefault(); closeForm(); });
     dialog.addEventListener('close', () => {
         frame.src = 'about:blank';
         expectedIndexPath = null;
