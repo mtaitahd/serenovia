@@ -168,7 +168,7 @@
 .itinerary-stay-gallery:has(> a:only-child) { grid-template-columns:1fr; max-width:560px; }
 
 .itinerary-photo-row { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; padding:0 28px 28px; }
-.itinerary-photo-row a { display:block; min-width:0; aspect-ratio:4/3; overflow:hidden; border-radius:8px; background:var(--sand); }
-.itinerary-photo-row img { display:block; width:100%; height:100%; object-fit:cover; }
+.itinerary-photo-row a { display:block; min-width:0; aspect-ratio:1; box-sizing:border-box; overflow:hidden; border-radius:0; border:3px solid var(--forest, #203d2e); box-shadow:0 6px 12px rgba(32,61,46,.24); background:var(--sand); }
+.itinerary-photo-row img { display:block; width:100%; height:100%; object-fit:cover; border-radius:0; }
 .itinerary-transport .itinerary-photo-row { padding:0; }
 @media(max-width:600px) { .itinerary-photo-row { display:flex; overflow-x:auto; gap:8px; padding:0 18px 18px; scroll-snap-type:x proximity; } .itinerary-photo-row a { flex:0 0 135px; scroll-snap-align:start; } }
