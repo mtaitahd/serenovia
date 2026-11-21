@@ -133,7 +133,7 @@
 <script src="{{ $publicBasePath }}/js/admin-package-builder.js?v=6" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-content.js?v=1" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-day-gallery.js?v=3" defer></script>
-<script src="{{ $publicBasePath }}/js/admin-package-recovery.js?v=1" defer></script>
+<script src="{{ $publicBasePath }}/js/admin-package-recovery.js?v=2" defer></script>
 <script src="{{ $publicBasePath }}/js/admin-package-notepad.js?v=1" defer></script>
 @endpush
 

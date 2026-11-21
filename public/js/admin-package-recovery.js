@@ -105,9 +105,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Polling also catches gallery selections, map pins and rich editor changes.
     const timer = setInterval(()=>save().catch(()=>{}), 1000);
     form.addEventListener('change',()=>save().catch(()=>{}));
-    form.addEventListener('submit',()=>{ save().catch(()=>{}); });
+    let submitting = false, resumingSubmit = false, preparingSubmit = false;
+    form.addEventListener('submit', event => {
+        if (event.defaultPrevented) return;
+        if (resumingSubmit) {
+            // Other validators must still be allowed to cancel the submission.
+            queueMicrotask(() => { submitting = !event.defaultPrevented; });
+            return;
+        }
+        event.preventDefault();
+        if (preparingSubmit) return;
+        preparingSubmit = true;
+        const submitter = event.submitter;
+        // Finish the local backup before navigation. Keep it until the server
+        // confirms success, so a failed connection does not discard the edits.
+        save().catch(() => {}).finally(() => {
+            preparingSubmit = false;
+            resumingSubmit = true;
+            try { form.requestSubmit(submitter || undefined); }
+            finally { resumingSubmit = false; }
+        });
+    });
+    window.addEventListener('pageshow', () => { submitting = false; });
     window.addEventListener('pagehide',()=>{ clearInterval(timer); save().catch(()=>{}); });
     window.addEventListener('beforeunload',event=>{
-        if (!ready || signature(snapshot()) !== lastSignature) { event.preventDefault(); event.returnValue=''; }
+        if (!submitting && (!ready || signature(snapshot()) !== lastSignature)) { event.preventDefault(); event.returnValue=''; }
     });
 });
