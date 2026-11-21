@@ -11,5 +11,5 @@
     <p class="route-map-note" data-route-note>Itinerary connections show the travel sequence, not driving directions.</p>@if($mountainTrail)<p class="route-map-note">Trail: © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> · <a href="{{ asset('js/data/machame-trail.json') }}">Route data</a> (<a href="{{ asset('js/data/machame-trail-LICENSE.txt') }}">ODbL</a>). Walking trail only; hotel transfers are excluded.</p>@endif<span class="visually-hidden" aria-live="polite" data-route-status></span>
 </div>
 @push('styles')<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">@endpush
-@push('scripts')<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script><script src="{{ asset('js/itinerary-route.js') }}?v=4" defer></script>@endpush
+@push('scripts')<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script><script src="{{ asset('js/itinerary-route.js') }}?v=5" defer></script>@endpush
 @endif

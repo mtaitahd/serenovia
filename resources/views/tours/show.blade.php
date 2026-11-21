@@ -121,6 +121,6 @@
     <div class="mobile-safari-enquiry"><div><small>{{ $tour->duration_days }} DAYS · {{ $tour->duration_nights }} NIGHTS</small><strong>{{ $tour->price_from ? 'From '.$tour->currency.' '.number_format((float)$tour->price_from) : 'Your tailor-made safari' }}</strong></div><a class="button button-coral" href="{{ $enquiryUrl }}">Enquire </a></div>
 @endsection
 
-@push('styles')<link rel="stylesheet" href="{{ asset('css/itinerary-map.css') }}?v=3">@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/itinerary-map.css') }}?v=4">@endpush
 
 @push('scripts')<script src="{{ asset('js/tour-tabs.js') }}" defer></script>@endpush

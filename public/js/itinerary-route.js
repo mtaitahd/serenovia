@@ -29,11 +29,11 @@
    let low=0,high=path.length-1;while(low+1<high){const mid=(low+high)>>1;if(distances[mid]<=target)low=mid;else high=mid}
    const index=Math.min(path.length-2,low),a=path[index],b=path[index+1],span=distances[index+1]-distances[index],fraction=span?(target-distances[index])/span:0;
    const position=[a[0]+(b[0]-a[0])*fraction,a[1]+(b[1]-a[1])*fraction];
-   traveler.setLatLng(position);line.setLatLngs([...path.slice(0,index+1),position]);
+   traveler.setLatLng(position);map.panInside(position,{paddingTopLeft:[70,80],paddingBottomRight:[70,60],animate:false});line.setLatLngs([...path.slice(0,index+1),position]);
    const icon=traveler.getElement()?.querySelector('.route-traveler-facing');if(icon&&b[1]!==a[1])icon.style.transform=b[1]<a[1]?'scaleX(-1)':'scaleX(1)';
   }
   function tick(time){if(!playing)return;if(!startedAt)startedAt=time-elapsed;elapsed=time-startedAt;const progress=Math.min(1,elapsed/duration);paint(progress);const index=Math.max(0,dayProgress.findIndex(end=>end>=progress));if(index!==selected)select(index);if(progress===1){select(stops.length-1);pause();elapsed=duration;startedAt=0;return}frame=requestAnimationFrame(tick)}
-  function begin(){if(playing){pause();return}if(elapsed>=duration){elapsed=0;select(0)}playing=true;root.classList.add('route-is-playing');startedAt=0;play.textContent='Ⅱ Pause journey';play.setAttribute('aria-pressed','true');frame=requestAnimationFrame(tick)}
+  function begin(){if(playing){pause();return}if(elapsed>=duration){elapsed=0;select(0)}playing=true;map.panTo(traveler.getLatLng(),{animate:false});root.classList.add('route-is-playing');startedAt=0;play.textContent='Ⅱ Pause journey';play.setAttribute('aria-pressed','true');frame=requestAnimationFrame(tick)}
   select(0);
   if(!window.L){canvas.classList.add('route-map-unavailable');canvas.textContent='The map could not load. Check your internet connection and reload this page.';root.querySelector('[data-route-mode]').textContent='Route map unavailable';return;}
   map=L.map(canvas,{scrollWheelZoom:false,zoomControl:false});L.control.zoom({position:'topright'}).addTo(map);
@@ -45,9 +45,16 @@
   grouped.forEach(indices=>{const first=stops[indices[0]],numbers=indices.map(i=>stops[i].day).join('·');const marker=L.marker([first.latitude,first.longitude],{icon:L.divIcon({className:'route-stop-icon',html:`<span>${numbers}</span>`,iconSize:[36,33],iconAnchor:[18,30]}),title:`Days ${numbers}: ${first.label}`}).addTo(map);const label=document.createElement('span');label.textContent=`Day ${numbers}: ${first.label}`;marker.bindTooltip(label,{direction:'top',offset:[0,-25]});marker.on('click',()=>{pause();select(indices[0],true)});});
   if(hasStart){const label=document.createElement('span');label.textContent=`Journey starts: ${startStop.label}`;L.circleMarker([startStop.latitude,startStop.longitude],{radius:6,color:'#203d2e',fillColor:'#fff',fillOpacity:1,weight:2}).addTo(map).bindTooltip(label);}
   root.querySelector('[data-route-mode]').textContent=walking?'Mountain trekking route':'Safari route map';root.querySelector('[data-route-note]').textContent=traced?'Follow the mapped Machame and Mweka walking trails. This illustration is not a navigation guide.':allPinned?'Place markers show itinerary areas. Connecting lines indicate the journey, not exact walking or driving directions.':'Some day locations are not pinned yet. The map shows the known locations.';
-  tabs.forEach((tab,index)=>tab.addEventListener('click',()=>{pause();select(index,true);if(allPinned){elapsed=dayProgress[index]*duration;paint(elapsed/duration)}else if(valid(stops[index]))map.panTo([stops[index].latitude,stops[index].longitude],{animate:!reduced})}));
+  tabs.forEach((tab,index)=>tab.addEventListener('click',()=>{pause();select(index,true);if(allPinned){elapsed=dayProgress[index]*duration;paint(elapsed/duration);map.panTo(traveler.getLatLng(),{animate:!reduced})}else if(valid(stops[index]))map.panTo([stops[index].latitude,stops[index].longitude],{animate:!reduced})}));
   play.hidden=!allPinned||!length;reset.hidden=play.hidden;play.addEventListener('click',begin);reset.addEventListener('click',()=>{pause();elapsed=0;startedAt=0;select(0);paint(0);if(positions.length)map.fitBounds(L.latLngBounds(positions),{padding:[50,55],maxZoom:traced?13:10})});paint(0);
+  function refreshViewport(){
+   if(!canvas.clientWidth||!canvas.clientHeight)return;
+   map.invalidateSize({pan:false});
+   if(playing&&traveler)map.panTo(traveler.getLatLng(),{animate:false});
+   else if(positions.length)map.fitBounds(L.latLngBounds(positions),{padding:[60,65],maxZoom:traced?13:10,animate:false});
+  }
+  if('ResizeObserver'in window)new ResizeObserver(refreshViewport).observe(canvas);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
-  if('IntersectionObserver'in window){let started=false;new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){map.invalidateSize();if(!started){started=true;if(allPinned&&!reduced&&length>0)begin()}}else pause()}),{threshold:.3}).observe(root)}
+  if('IntersectionObserver'in window){let started=false;new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){refreshViewport();if(!started){started=true;if(allPinned&&!reduced&&length>0)begin()}}else pause()}),{threshold:.3}).observe(root)}
  });
 })();
