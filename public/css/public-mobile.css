@@ -1,0 +1,9 @@
+/* Shared phone controls: readable text without input-focus zoom. */
+@media(max-width:600px) {
+    main .form-grid { grid-template-columns:minmax(0,1fr); }
+    main .form-grid > *,main .field { min-width:0; max-width:100%; }
+    main :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]),select,textarea) { min-width:0; max-width:100%; font-size:16px; }
+    main :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]),select,button.button,a.button) { min-height:44px; }
+    main :is(iframe,video) { max-width:100%; }
+    .footer-contact-item,.footer-links { min-width:0; overflow-wrap:anywhere; }
+}

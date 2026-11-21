@@ -45,6 +45,7 @@
     @stack('styles')
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/public-navigation.css?v=2">
     <link rel="stylesheet" href="{{ $publicBasePath }}/css/page-hero-consistency.css?v=1">
+    <link rel="stylesheet" href="{{ $publicBasePath }}/css/public-mobile.css?v=1">
 </head>
 <body class="premium-type {{ request()->routeIs('home') ? 'page-home' : '' }} {{ request()->routeIs('tours.show') ? 'page-tour' : '' }}">
     <a class="skip-content" href="#main-content">Skip to content</a>

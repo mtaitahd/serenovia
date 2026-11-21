@@ -172,3 +172,20 @@
 .itinerary-photo-row img { display:block; width:100%; height:100%; object-fit:cover; border-radius:0; }
 .itinerary-transport .itinerary-photo-row { padding:0; }
 @media(max-width:600px) { .itinerary-photo-row { display:flex; overflow-x:auto; gap:8px; padding:0 18px 18px; scroll-snap-type:x proximity; } .itinerary-photo-row a { flex:0 0 135px; scroll-snap-align:start; } }
+
+/* Let tab panels shrink to the phone viewport instead of their photo row's content width. */
+.detail-layout .safari-story { grid-template-columns:minmax(0,1fr); }
+.detail-layout .safari-story > *, .itinerary-day, .itinerary-day-body > * { min-width:0; max-width:100%; }
+.itinerary-photo-row { min-width:0; max-width:100%; }
+@media(max-width:780px) {
+    .tour-detail-shell .detail-layout > * { width:100%; min-width:0; }
+    .detail-layout .detail-stay-table { display:block; overflow-x:auto; }
+    .detail-tabs { max-width:100%; overscroll-behavior-x:contain; }
+    .detail-operator { flex-wrap:wrap; }
+}
+@media(max-width:600px) {
+    .detail-layout .safari-story .prose { font-size:16px; line-height:1.8; }
+    .detail-layout .itinerary-day-title h3 { font-size:24px; overflow-wrap:anywhere; }
+    .itinerary-photo-row { overscroll-behavior-x:contain; }
+    .detail-quote label,.detail-related-links,.detail-gallery-label { font-size:14px; }
+}
